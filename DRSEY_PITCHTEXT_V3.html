@@ -8,11 +8,11 @@
     /* Background video */
     .bg-video {
       position: fixed;
-      top: 50%;
-      left: 60%;
-      transform: translate(-50%, -50%) scaleX(0.8);
-      width: calc(50vw - 2rem);
-      height: calc(60vh - 2rem);
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0.8);
+      width: calc(60vw - 2rem);
+      height: calc(70vh - 2rem);
       object-fit: cover;
       object-position: center center;
       z-index: 100000;
@@ -26,8 +26,8 @@
     /* Mobile video - 15% bigger */
     @media (max-width: 768px) {
       .bg-video {
-        width: calc(57.5vw - 2rem); /* 50vw * 1.15 = 57.5vw */
-        height: calc(69vh - 2rem);  /* 60vh * 1.15 = 69vh */
+        width: calc(69vw - 2rem); /* 60vw * 1.15 = 69vw */
+        height: calc(80.5vh - 2rem);  /* 70vh * 1.15 = 80.5vh */
       }
     }
     
@@ -171,9 +171,10 @@ transparent 4px
       
       /* Special handling for timeline content on mobile */
       #text-wrap.timeline-mode {
-        height: calc(100vh - 6rem) !important; /* More height for timeline */
+        height: calc(100vh - 10rem) !important; /* More height for timeline with navbar space */
         padding: 0.5rem 1vw !important; /* Reduced padding for timeline */
         overflow-y: visible !important; /* Allow content to flow */
+        margin-bottom: 4rem !important; /* Extra bottom margin to prevent going under navbar */
       }
       #unscramble {
         font-size: 0.85rem; /* Slightly larger for better readability */
@@ -221,9 +222,9 @@ transparent 4px
       
       /* Mobile video sizing - optimized for mobile */
       .bg-video {
-        top: 50%;
+        top: 10vh;
         left: 50%;
-        transform: translate(-50%, -50%) scaleX(0.9);
+        transform: translateX(-50%) scaleX(0.9);
         width: calc(90vw - 2rem);
         height: calc(60vh - 2rem);
         object-fit: contain;
@@ -275,10 +276,13 @@ transparent 4px
       #unscramble[data-timeline="true"] {
         font-size: 0.7rem !important; /* Even smaller for timeline on mobile */
         line-height: 1.2 !important; /* Tighter line spacing */
-        padding: 0.5rem 1vw !important; /* Reduced padding */
-        height: calc(100vh - 8rem) !important; /* More height for timeline */
+        padding-left: 2rem !important; /* Keep left padding */
+        padding-right: 2rem !important; /* Keep right padding */
+        /* Keep container top padding - don't override it */
+        height: calc(100vh - 12rem) !important; /* More space for navbar - increased from 8rem to 12rem */
         overflow-y: auto !important; /* Allow scrolling if needed */
         -webkit-overflow-scrolling: touch !important; /* Smooth scrolling on iOS */
+        margin-bottom: 4rem !important; /* Extra bottom margin to prevent going under navbar */
       }
       
       /* Better mobile navigation */
@@ -418,6 +422,13 @@ z-index: 1;
       mix-blend-mode: difference;
       display: none;
     }
+    
+    /* Hide cursor on mobile */
+    @media (max-width: 768px) {
+      #custom-cursor {
+        display: none !important;
+      }
+    }
 
     /* Year styling - make years and year ranges larger */
     .year-text {
@@ -426,6 +437,14 @@ z-index: 1;
       color: #66FF66;
       text-shadow: 0 0 2px #66FF66, 0 0 12px #66FF66;
     }
+    
+    /* Slide 2 and 3 text 10% bigger */
+    #page[data-page="2"] #unscramble,
+    #page[data-page="3"] #unscramble {
+      font-size: 1.1em !important;
+    }
+    
+    
     
     /* Video loading status */
     #video-loading {
@@ -498,7 +517,7 @@ z-index: 1;
        box-sizing: border-box;
        overflow: hidden;
        max-width: 100vw;
-       padding: 2rem 2rem 6rem 4rem;
+       padding: 4rem 2rem 6rem 4rem; /* Consistent top padding for all slides */
      }
      
     /* Mobile-specific text-wrap overrides */
@@ -533,6 +552,14 @@ z-index: 1;
       text-indent: 0;
       word-break: normal;
       hyphens: none;
+    }
+    
+    /* Desktop timeline optimizations */
+    #unscramble[data-timeline="true"] {
+      height: calc(100vh - 8rem) !important; /* Account for navbar on desktop */
+      overflow-y: auto !important; /* Allow scrolling for timeline */
+      margin-bottom: 2rem !important; /* Extra bottom margin to prevent going under navbar */
+      /* Keep container padding - don't override it */
     }
      
      /* Handle indented line wrapping - preserve indentation for continuation lines */
@@ -656,28 +683,41 @@ z-index: 2 !important;
       padding-right: 2rem !important;
     }
     
-    /* Collateral Murder video slide animation */
-    #unscramble.collateral-murder-slide {
-      animation: moveUpwards 3s ease-out forwards;
-      position: relative;
-      z-index: 10;
-      padding-left: 2rem !important;
-      padding-right: 2rem !important;
-    }
+    /* Collateral Murder animation removed - no more scrolling */
     
-    /* Ensure all unscramble elements have padding */
+    /* Ensure all unscramble elements have consistent padding */
     #unscramble {
       padding-left: 2rem !important;
       padding-right: 2rem !important;
+      padding-top: 0 !important; /* No top padding - container handles it */
     }
     
-    @keyframes moveUpwards {
-      0% {
-        transform: translateY(0);
-      }
-      100% {
-        transform: translateY(-50vh);
-      }
+    /* Add top padding specifically for slide 5 */
+    #page[data-page="5"] #unscramble {
+      padding-top: 1rem !important;
+    }
+    
+    /* Add top padding specifically for slide 6 */
+    #page[data-page="6"] #unscramble {
+      padding-top: 1rem !important;
+    }
+    
+    /* Add top padding for slides 2 and 3 */
+    #page[data-page="2"] #unscramble,
+    #page[data-page="3"] #unscramble {
+      padding-top: 1rem !important;
+    }
+    
+    /* Add top padding specifically for slide 4 (timeline) without breaking scroll */
+    #page[data-page="4"] #unscramble {
+      padding-top: 1rem !important;
+    }
+    
+    /* Ensure timeline padding persists during scrolling - multiple selectors for maximum specificity */
+    #unscramble[data-timeline="true"],
+    #page[data-page="4"] #unscramble[data-timeline="true"],
+    #unscramble[data-timeline="true"][data-timeline="true"] {
+      padding-top: 1rem !important;
     }
     
     /* Scanline movement animation */
@@ -768,8 +808,7 @@ z-index: 2 !important;
     muted
     playsinline
     loop
-    preload="none"
-    poster="./assets/bg-poster.jpg"
+    preload="metadata"
     aria-hidden="true"
     tabindex="-1"
     disablepictureinpicture
@@ -781,24 +820,7 @@ z-index: 2 !important;
     <source src="VIDEOS/video15.webm" type="video/webm" />
   </video>
 
-  <video
-    id="bg-video2"
-    class="bg-video"
-    muted
-    playsinline
-    loop
-    preload="none"
-    poster="./assets/bg-poster.jpg"
-    aria-hidden="true"
-    tabindex="-1"
-    disablepictureinpicture
-    controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
-    volume="0"
-    defaultMuted
-    style="display: none;"
-  >
-    <source src="VIDEOS/video2.mp4" type="video/mp4" />
-  </video>
+  <!-- video2 removed - defunct -->
 
   <video
     id="bg-video3"
@@ -814,13 +836,7 @@ z-index: 2 !important;
     <source src="C:\Users\atlas\Desktop\FINALPUSH\hologram2.mp4" type="video/mp4" />
   </video>
   
-  <audio
-    id="obiwan-audio"
-    preload="metadata"
-    style="display: none;"
-  >
-    <source src="OBIWAN_REAL.mp4" type="audio/mp4" />
-  </audio>
+  <!-- OBIWAN_REAL audio removed - defunct -->
 
   <div class="bg-overlay" id="bg-overlay" style="display: none;"></div>
 
@@ -975,9 +991,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
 
     // Video preloading system
     const videoPreloadState = {
-      video15: false,
-      video2: false,
-      video3: false
+      'bg-video': false,
+      'bg-video3': false
     };
 
     function preloadVideo(videoId) {
@@ -1004,10 +1019,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         preloadVideo('bg-video');
       }
       
-      // Preload video2 if we're approaching slide 2
-      if (pageNumber <= 3) {
-        preloadVideo('bg-video2');
-      }
+      // video2 preloading removed - defunct
       
       // Preload video3 if we're approaching 6BDM slide
       if (pageNumber >= 14) {
@@ -1024,7 +1036,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         console.log('✅ Video element found, showing...');
         
         // Preload if not already done
-        if (!videoPreloadState.bg-video) {
+        if (!videoPreloadState['bg-video']) {
           video.preload = 'metadata';
           video.load();
         }
@@ -1079,63 +1091,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       }
     }
 
-    // Video2 background functions
-    function showVideo2Background() {
-      console.log('🎬 Showing video2...');
-      const video = document.getElementById('bg-video2');
-      
-      if (video) {
-        console.log('✅ Video2 element found, showing...');
-        
-        video.style.setProperty('display', 'block', 'important');
-        console.log('🎬 Video2 display set to block with !important');
-        console.log('🎬 Video2 computed style:', window.getComputedStyle(video).display);
-        
-        // Ensure video is completely muted
-        video.muted = true;
-        video.volume = 0;
-        video.defaultMuted = true;
-        
-        // Reset video to beginning for sync
-        video.currentTime = 0;
-        
-        // Set up video event listeners
-        const onCanPlay = () => {
-          console.log('✅ Video2 ready to play');
-          video.removeEventListener('canplay', onCanPlay);
-          video.removeEventListener('error', onError);
-        };
-        
-        const onError = (e) => {
-          console.log('❌ Video2 failed to load:', e);
-          video.removeEventListener('canplay', onCanPlay);
-          video.removeEventListener('error', onError);
-        };
-        
-        video.addEventListener('canplay', onCanPlay);
-        video.addEventListener('error', onError);
-        
-        video.play().then(() => {
-          console.log('✅ Video2 playing from start (muted)');
-          console.log('🎬 Video2 dimensions:', video.videoWidth, 'x', video.videoHeight);
-          console.log('🎬 Video2 position:', video.getBoundingClientRect());
-        }).catch(err => {
-          console.log('❌ Video2 play failed:', err.message);
-        });
-      } else {
-        console.error('❌ Video2 element not found!');
-      }
-    }
-
-    function hideVideo2Background() {
-      console.log('🛑 Hiding video2...');
-      const video = document.getElementById('bg-video2');
-      
-      if (video) {
-        video.pause();
-        video.style.setProperty('display', 'none', 'important');
-      }
-    }
+    // Video2 functions removed - defunct
 
     // Unlock audio context on user interaction
     function unlockAudioContext() {
@@ -1151,19 +1107,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Initialize audio context first
         initAudioContext();
         
-        // Create a silent audio to unlock the context
-        const audio = document.getElementById('obiwan-audio');
-        if (audio) {
-          audio.muted = true;
-          audio.play().then(() => {
-            audio.pause();
-            audio.muted = false;
-            audio.currentTime = 0;
-            audioContextUnlocked = true;
-            console.log('✅ Audio context unlocked');
-          }).catch(err => {
-            console.log('❌ Audio unlock failed:', err.message);
-            // Fallback: try to unlock with Web Audio API
+        // OBIWAN audio removed - use Web Audio API only
             if (audioContext && audioContext.state === 'suspended') {
               audioContext.resume().then(() => {
                 audioContextUnlocked = true;
@@ -1171,26 +1115,13 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
               }).catch(resumeErr => {
                 console.log('❌ Audio context resume failed:', resumeErr.message);
               });
-            }
-          });
-        } else {
-          // Fallback: try to unlock with Web Audio API only
-          if (audioContext && audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-              audioContextUnlocked = true;
-              console.log('✅ Audio context unlocked via resume (no audio element)');
-            }).catch(resumeErr => {
-              console.log('❌ Audio context resume failed:', resumeErr.message);
-            });
-          }
         }
       }
     }
 
 
-    // Video3 (JA_OBIWAN) functions - with audio that stops when slide changes
+    // Video3 functions - with audio that stops when slide changes
     function showVideo3Background() {
-      console.log('🎬 Showing JA_OBIWAN hologram video with audio...');
       const video = document.getElementById('bg-video3');
       
       if (video) {
@@ -1243,18 +1174,11 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     }
 
     function hideVideo3Background() {
-      console.log('🛑 Hiding JA_OBIWAN video and stopping audio...');
       const video = document.getElementById('bg-video3');
-      const audio = document.getElementById('obiwan-audio');
       
       if (video) {
         video.pause();
         video.style.setProperty('display', 'none', 'important');
-      }
-      
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0; // Reset to beginning
       }
     }
     
@@ -1431,97 +1355,16 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     console.log('📄 Pages:', pages.map((p, i) => `Page ${i + 1}: ${p.substring(0, 50)}...`));
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
 
- // Image modes
-     const IMG_OFF = 0;
-     const IMG_BG = 1;
-     const IMG_BELOW = 2;
-     const IMG_SIDE = 3;
-     const IMG_SMALL_SIDE = 4;
+    // Image mode constants and functions removed - no more image mode switching
     
-    // Helper functions for cycling through image modes
-    function getNextImageMode(currentMode) {
-      const modes = [IMG_OFF, IMG_BG, IMG_BELOW, IMG_SIDE, IMG_SMALL_SIDE];
-      const currentIndex = modes.indexOf(currentMode);
-      return modes[(currentIndex + 1) % modes.length];
-    }
+    // Image mode functions removed - no more image mode switching
     
-    function getPreviousImageMode(currentMode) {
-      const modes = [IMG_OFF, IMG_BG, IMG_BELOW, IMG_SIDE, IMG_SMALL_SIDE];
-      const currentIndex = modes.indexOf(currentMode);
-      return modes[(currentIndex - 1 + modes.length) % modes.length];
-    }
-    
-    function markUserSetMode(pageIndex) {
-      const pageNumber = pageIndex + 1;
-      const imgEl = document.getElementById(`img-${pageNumber}`);
-      if (imgEl) {
-imgEl.setAttribute('data-user-set', 'true');
-      }
-      // Save to localStorage for persistence across refreshes
-      savePageModeToStorage(pageIndex, pageModes[pageIndex]);
-    }
-    
-    function savePageModeToStorage(pageIndex, mode) {
-      try {
-const storedModes = JSON.parse(localStorage.getItem('pitchDeckImageModes') || '{}');
-storedModes[pageIndex] = mode;
-localStorage.setItem('pitchDeckImageModes', JSON.stringify(storedModes));
-      } catch (e) {
-console.warn('Could not save image mode to localStorage:', e);
-      }
-    }
-    
-    function loadPageModesFromStorage() {
-      try {
-const storedModes = JSON.parse(localStorage.getItem('pitchDeckImageModes') || '{}');
-Object.keys(storedModes).forEach(pageIndex => {
-  const index = parseInt(pageIndex);
-  if (index >= 0 && index < pageModes.length) {
-    pageModes[index] = storedModes[pageIndex];
-    // Mark as user-set so auto-detection doesn't override
-    setTimeout(() => {
-      const imgEl = document.getElementById(`img-${index + 1}`);
-      if (imgEl) {
-imgEl.setAttribute('data-user-set', 'true');
-      }
-    }, 100);
-  }
-});
-      } catch (e) {
-console.warn('Could not load image modes from localStorage:', e);
-      }
-    }
-    
- const pageModes = new Array(pages.length).fill(IMG_BG); // Default to background image mode for all pages
+    // pageModes array removed - no more image mode switching
     
     
-    // Load saved image modes from localStorage
-    loadPageModesFromStorage();
+    // Image mode loading removed
     
-    // Enable keyword scanning with fallbacks
-    console.log('Image keyword scanning enabled - scanning for available images');
-    
-    // Scan for available images on startup
-    scanAvailableKeywords().then(() => {
-      console.log('Image scanning complete. Available keywords:', Array.from(availableKeywords));
-    }).catch(err => {
-      console.warn('Image scanning failed, continuing without images:', err);
-    });
-    
-    // Debug function - call from browser console: testImage('ignorant')
-    window.testImage = function(keyword) {
-      console.log(`Testing image for keyword: ${keyword}`);
-      const img = document.createElement('img');
-      img.src = `photos/photo_${keyword}.webp`;
-      img.onload = () => {
-        console.log(`✅ Image loaded: photos/photo_${keyword}.webp`);
-        availableKeywords.add(keyword);
-        console.log('Available keywords:', Array.from(availableKeywords));
-      };
-      img.onerror = () => {
-        console.log(`❌ Image failed: photos/photo_${keyword}.webp`);
-      };
-    };
+    // Keyword scanning removed - no more image searches
     
     // Debug function - test audio 8
     window.testAudio8 = function() {
@@ -1573,7 +1416,7 @@ console.warn('Could not load image modes from localStorage:', e);
     let isAnimating = false;
     let currentInterval = null;
     let currentAnimationFrame = null;
-    let availableKeywords = new Set(); // Store available photo keywords
+    // availableKeywords removed - no more keyword searches
     let audioTimeout = null; // Track audio timeout
     let lineRevealTimeouts = []; // Track line reveal timeouts
     let isInLineRevealMode = false;
@@ -1715,437 +1558,112 @@ console.warn('Could not load image modes from localStorage:', e);
       };
     }
 
-    // Test if a specific photo file exists
-    function testPhotoExists(keyword, format) {
-      return new Promise((resolve) => {
-        const testImg = new Image();
-        const timeout = setTimeout(() => {
-          resolve(false);
-        }, 1000);
-        
-        testImg.onload = () => {
-          clearTimeout(timeout);
-          resolve(true);
-        };
-        testImg.onerror = () => {
-          clearTimeout(timeout);
-          resolve(false);
-        };
-        testImg.src = `photos/photo_${keyword}.${format}`;
-      });
-    }
-
-    // Scan photos folder to find available photo_keyword files
-    async function scanAvailableKeywords() {
-      const formats = ['webp', 'jpg', 'jpeg', 'png', 'gif'];
-      const keywords = new Set();
+    // Simple image functions for slides 5 and 6 only
+    function addCannesPhoto() {
+      // Remove any existing images first
+      removeAllImages();
       
-      // Common keywords to test based on the content
-      const testKeywords = [
-        'ignorant', 'assange', 'wikileaks', 'bitcoin', 'crypto', 'cryptocurrency', 'blockchain',
-        'surveillance', 'privacy', 'freedom', 'journalism', 'truth', 'transparency',
-        'government', 'state', 'power', 'control', 'censorship', 'propaganda',
-        'war', 'military', 'diplomacy', 'leaks', 'documents', 'secrets',
-        'collateral', 'murder', 'video', 'footage', 'evidence',
-        'prosecution', 'trial', 'prison', 'embassy', 'asylum', 'extradition',
-        'moreno', 'ecuador', 'britain', 'america', 'cia', 'fbi', 'nsa',
-        'cypherpunk', 'anonymity', 'encryption', 'decentralization', 'resistance',
-        'activist', 'whistleblower', 'expose', 'revelation', 'scandal', 'corruption'
-      ];
-      
-      console.log('Scanning for available photo keywords...');
-      
-      // First, test photo_ignorant.webp specifically
-      console.log('🔍 Testing photo_ignorant.webp specifically...');
-      const ignorantExists = await testPhotoExists('ignorant', 'webp');
-      console.log(`photo_ignorant.webp exists: ${ignorantExists}`);
-      
-      // Test each keyword with each format
-      for (const keyword of testKeywords) {
-        let found = false;
-        for (const format of formats) {
-          const exists = await testPhotoExists(keyword, format);
-          if (exists) {
-            keywords.add(keyword);
-            console.log(`✅ Found: photo_${keyword}.${format}`);
-            found = true;
-            break; // Found this keyword, move to next
-          } else {
-            console.log(`❌ Not found: photo_${keyword}.${format}`);
-          }
-        }
-        if (!found) {
-          console.log(`❌ No photo found for keyword: ${keyword}`);
-        }
-      }
-      
-      availableKeywords = keywords;
-      
-      // Manual override for testing - force add "ignorant" if it exists
-      const ignorantTest = await testPhotoExists('ignorant', 'webp');
-      if (ignorantTest) {
-        availableKeywords.add('ignorant');
-        console.log('✅ Manually added "ignorant" to available keywords');
-      }
-      
-      console.log(`Available photo keywords:`, Array.from(keywords));
-      return keywords;
-    }
-
-    // Extract keywords from page text that have corresponding photo files
-    function extractKeywords(pageText) {
-      // Convert to lowercase and extract meaningful words
-      const words = pageText.toLowerCase()
-        .replace(/[^\w\s]/g, ' ') // Remove punctuation
-        .split(/\s+/)
-        .filter(word => word.length > 3) // Only words longer than 3 characters
-        .filter(word => !['that', 'this', 'with', 'from', 'they', 'have', 'been', 'were', 'said', 'will', 'would', 'could', 'should', 'about', 'above', 'below', 'under', 'over', 'through', 'during', 'before', 'after', 'while', 'since', 'until', 'unless', 'because', 'although', 'though', 'however', 'therefore', 'moreover', 'furthermore', 'nevertheless', 'nonetheless'].includes(word)) // Filter out common words
-        .filter(word => availableKeywords.has(word)); // Only return words that have corresponding photo files
-      
-      return [...new Set(words)]; // Remove duplicates
-    }
-
-    // Load images for current and adjacent pages (preload strategy)
-    function loadImagesForPage(pageIndex) {
-      const pageNumber = pageIndex + 1;
-      
-      // Load current page image
-      let imgEl = document.getElementById(`img-${pageNumber}`);
-      if (!imgEl) {
-        imgEl = createImageForPage(pageNumber);
-      } else if (imgEl.dataset.needsLoading === 'true') {
-        findImageForPage(imgEl, pageNumber);
-        imgEl.dataset.needsLoading = 'false';
-      }
-      
-      // Preload next page image
-      const nextPageNumber = pageNumber + 1;
-      if (nextPageNumber <= pages.length) {
-        let nextImgEl = document.getElementById(`img-${nextPageNumber}`);
-        if (!nextImgEl) {
-          nextImgEl = createImageForPage(nextPageNumber);
-        } else if (nextImgEl.dataset.needsLoading === 'true') {
-          findImageForPage(nextImgEl, nextPageNumber);
-          nextImgEl.dataset.needsLoading = 'false';
-        }
-      }
-    }
-
-    // Enhanced image function with fallbacks and lazy loading
-    function showImage(pageIndex) {
-      // Hide all existing images first
-      document.querySelectorAll('#page img').forEach(img => {
-        img.className = '';
-      });
-      
-      const pageContent = pages[pageIndex];
-      if (!pageContent) {
-        console.log(`📷 No content for page ${pageIndex + 1}`);
-        adjustTextContainerWidth(IMG_OFF);
-        return;
-      }
-      
-      // Load images for current and next page
-      loadImagesForPage(pageIndex);
-      
-      // Try to find an image for this page
-      const pageNumber = pageIndex + 1;
-      let imgEl = document.getElementById(`img-${pageNumber}`);
-      
-      // If we have an image element, try to show it based on current mode
-      if (imgEl && imgEl.src) {
-        const currentMode = pageModes[pageIndex] || IMG_BG;
-        console.log(`📷 Showing image for page ${pageNumber} in mode ${currentMode}`);
-        
-        // Apply the appropriate CSS class based on mode
-        imgEl.className = '';
-        switch (currentMode) {
-          case IMG_BG:
-            imgEl.classList.add('show-bg');
-            break;
-          case IMG_BELOW:
-            imgEl.classList.add('show-below');
-            break;
-          case IMG_SIDE:
-            imgEl.classList.add('show-side');
-            break;
-          case IMG_SMALL_SIDE:
-            imgEl.classList.add('show-small-side');
-            break;
-          case IMG_OFF:
-          default:
-            // Image stays hidden
-            break;
-        }
-        
-        // Adjust text container width based on image mode
-        adjustTextContainerWidth(currentMode);
-      } else {
-        // No image available, use text-only layout
-        console.log(`📷 No image available for page ${pageNumber}, using text-only layout`);
-        adjustTextContainerWidth(IMG_OFF);
-      }
-    }
-    
-    
-    // Adjust text container when side image is active
-    function adjustTextForSideImage() {
-      adjustTextContainerWidth(IMG_SIDE);
-    }
-    
-    // Reset text container when image is turned off
-    function resetTextContainer() {
-      adjustTextContainerWidth(IMG_OFF);
-    }
-    
-    // Adjust text container width based on image mode
-    function adjustTextContainerWidth(imageMode) {
-      const textWrap = document.getElementById('text-wrap');
-      if (!textWrap) return;
-      
-   if (imageMode === IMG_SIDE) {
-  // Side mode: text on left, image on right
-  textWrap.style.setProperty('width', '50%', 'important');
-  textWrap.style.setProperty('max-width', '50%', 'important');
-  textWrap.style.setProperty('position', 'relative', 'important');
-  textWrap.style.setProperty('z-index', '2', 'important');
-  textWrap.classList.add('side-mode');
-  textWrap.classList.remove('small-side-mode');
- } else if (imageMode === IMG_SMALL_SIDE) {
-   // Small side mode: text on left, smaller image on right
-   textWrap.style.setProperty('width', '75%', 'important');
-   textWrap.style.setProperty('max-width', '75%', 'important');
-   textWrap.style.setProperty('position', 'relative', 'important');
-   textWrap.style.setProperty('z-index', '2', 'important');
-   textWrap.classList.add('small-side-mode');
-   textWrap.classList.remove('side-mode');
- } else {
-  // All other modes: text uses full width
-  textWrap.style.setProperty('width', '100%', 'important');
-  textWrap.style.setProperty('max-width', '100%', 'important');
-  textWrap.style.setProperty('position', '', 'important');
-  textWrap.style.setProperty('z-index', '', 'important');
-  textWrap.classList.remove('side-mode');
-  textWrap.classList.remove('small-side-mode');
-}
-    }
-    
-    
-    // Create image for a page number - tries multiple formats and naming patterns with lazy loading
-    function createImageForPage(pageNumber) {
-      const img = document.createElement('img');
-      img.id = `img-${pageNumber}`;
-      img.alt = `Page ${pageNumber} Image`;
-      
-      // Lazy loading attributes
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      
-      // Start invisible - only show when successfully loaded
-      img.style.opacity = '0';
-      img.style.transition = 'opacity 0.2s ease-in-out';
-      
-      // Add to page first (invisible)
-      document.getElementById('page').appendChild(img);
-      
-      // Only load image if it's the current page or next page (preload strategy)
-      const pageIndex = pageNumber - 1;
-      if (pageIndex === currentPage || pageIndex === currentPage + 1) {
-        findImageForPage(img, pageNumber);
-      } else {
-        // Store the page number for later loading
-        img.dataset.pageNumber = pageNumber;
-        img.dataset.needsLoading = 'true';
-      }
-      
-      // Only show image when it loads successfully
-      img.addEventListener('load', () => {
-        console.log(`Image loaded successfully for page ${pageNumber}`);
-        img.style.opacity = '0.765';
-
-        // Update page mode and layout if this is the current page
-        if (pageIndex === currentPage) {
-          adjustTextContainerWidth(pageModes[pageIndex]);
-        }
-
-        // Apply current overlay mode to new image
-        applyOverlayToImage(img, currentOverlayMode);
-      });
-      
-      // Handle image loading errors gracefully
-      img.addEventListener('error', () => {
-        console.log(`Failed to load image for page ${pageNumber}`);
-        img.style.display = 'none';
-      });
-      
-      return img;
-    }
-    
-    // Find any image that starts with the page number
-    function findImageForPage(img, pageNumber) {
-      const formats = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'tif', 'avif', 'jfif', 'pjpeg'];
-      
-      // Try different naming patterns for this page number
-      const namingPatterns = [
-        `photo${pageNumber}`,           // photo10.jpg
-        `picture${pageNumber}`,         // picture10.jpg
-        `photo${pageNumber}_collateral`, // photo10_collateral.jpg
-        `picture${pageNumber}_collateral`, // picture10_collateral.jpg
-        `photo${pageNumber}_`,          // photo10_anything.jpg
-        `picture${pageNumber}_`         // picture10_anything.jpg
-      ];
-      
-      // Try each naming pattern with each format
-      for (const pattern of namingPatterns) {
-        for (const format of formats) {
-          const testSrc = `photos/${pattern}.${format}`;
-          const testImg = new Image();
-          
-          testImg.onload = function() {
-            console.log(`✅ Found working image: ${testSrc}`);
-            img.src = testSrc;
-            return; // Stop trying once we find one
-          };
-          
-          testImg.onerror = function() {
-            // Continue trying other patterns/formats
-          };
-          
-          testImg.src = testSrc;
-        }
-      }
-      
-      // If no specific pattern worked, try a more general approach
-      // This will try to find any file that starts with the page number
-      setTimeout(() => {
-        if (!img.src) {
-          console.log(`Trying general search for page ${pageNumber}...`);
-          tryGeneralImageSearch(img, pageNumber, formats);
-        }
-      }, 100);
-    }
-    
-    // Try to find any image file that starts with the page number
-    function tryGeneralImageSearch(img, pageNumber, formats) {
-      // Common prefixes to try
-      const prefixes = ['photo', 'picture', 'img', 'image'];
-      
-      for (const prefix of prefixes) {
-        for (const format of formats) {
-          // Try exact match first
-          const exactSrc = `photos/${prefix}${pageNumber}.${format}`;
-          const testImg = new Image();
-          
-          testImg.onload = function() {
-            console.log(`✅ Found working image (exact): ${exactSrc}`);
-            img.src = exactSrc;
-            return;
-          };
-          
-          testImg.onerror = function() {
-            // Try with underscore and common suffixes
-            const suffixes = ['_collateral', '_murder', '_video', '_footage', '_evidence'];
-            for (const suffix of suffixes) {
-              const suffixSrc = `photos/${prefix}${pageNumber}${suffix}.${format}`;
-              const suffixTestImg = new Image();
-              
-              suffixTestImg.onload = function() {
-                console.log(`✅ Found working image (with suffix): ${suffixSrc}`);
-                img.src = suffixSrc;
-                return;
-              };
-              
-              suffixTestImg.onerror = function() {
-                // Continue trying
-              };
-              
-              suffixTestImg.src = suffixSrc;
-            }
-          };
-          
-          testImg.src = exactSrc;
-        }
-      }
-    }
-
-    // Create image for keyword-based matching
-    function createImageForKeyword(keyword) {
-      const img = document.createElement('img');
-      img.id = `img-${keyword}`;
-      img.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-height: 100%;
-        object-fit: cover;
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
+      // Create container for Cannes photo
+      const imageContainer = document.createElement('div');
+      imageContainer.id = 'cannes-photo-container';
+      imageContainer.style.cssText = `
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-width: 75vw !important;
+        max-height: 75vh !important;
+        width: 75vw !important;
+        height: 75vh !important;
+        z-index: 1 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
       `;
+      document.body.appendChild(imageContainer);
       
-      // Try different image formats for the keyword
-      tryImageFormats(img, keyword, 0);
+      // Add Cannes photo
+      const img = document.createElement('img');
+      img.id = 'cannes-photo';
+      img.src = 'PHOTOS/photo_cannes.webp';
+      img.style.cssText = `
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        display: block !important;
+      `;
+      imageContainer.appendChild(img);
       
-      // Only show image when it loads successfully
-      img.addEventListener('load', () => {
-        console.log(`Image loaded successfully for keyword: ${keyword}`);
-        img.style.opacity = '0.765';
-
-        // Update page mode and layout if this is the current page
-        const pageIndex = currentPage;
-        if (pageIndex === currentPage) {
-          adjustTextContainerWidth(pageModes[pageIndex]);
-        }
-
-        // Apply current overlay mode to new image
-        applyOverlayToImage(img, currentOverlayMode);
-      });
-
-      // Handle image loading errors gracefully
-      img.addEventListener('error', () => {
-        console.log(`Failed to load image for keyword: ${keyword}`);
-        img.style.display = 'none';
-      });
-
-      return img;
+      console.log('Cannes photo added to slide 5');
     }
-
-
-         // Universal image support - tries all possible formats
-     function tryImageFormats(img, keyword, formatIndex) {
-       
-       // Start with most compatible formats, then try everything else
-       const formats = [
- 'jpg', 'jpeg', 'png', 'gif',  // Universal support
- 'webp', 'svg',// Modern browsers
- 'bmp', 'tiff', 'tif', // Desktop browsers
- 'avif', 'jfif', 'pjpeg'       // Newer formats
-       ];
-       
-       if (formatIndex >= formats.length) {
- // All formats failed, remove the image
- console.log(`No image found for keyword '${keyword}'`);
- img.remove();
- return;
-       }
-       
-       const format = formats[formatIndex];
-       const testSrc = `photos/photo_${keyword}.${format}`;
-       
-       // Test if this format file exists by creating a test image
-       const testImg = new Image();
-       testImg.onload = function() {
- // File exists and format is supported - use it!
- console.log(`✅ Found working image: ${testSrc}`);
- img.src = testSrc;
-       };
-       testImg.onerror = function() {
- // This format/file doesn't work, try next
- tryImageFormats(img, keyword, formatIndex + 1);
-       };
-       testImg.src = testSrc;
-     }
+    
+    function addCollateralPhoto() {
+      // Remove any existing images first
+      removeAllImages();
+      
+      // Create container for Collateral photo
+      const imageContainer = document.createElement('div');
+      imageContainer.id = 'collateral-photo-container';
+      imageContainer.style.cssText = `
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-width: 75vw !important;
+        max-height: 75vh !important;
+        width: 75vw !important;
+        height: 75vh !important;
+        z-index: 1 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
+      `;
+      document.body.appendChild(imageContainer);
+      
+      // Add Collateral photo
+      const img = document.createElement('img');
+      img.id = 'collateral-photo';
+      img.src = 'PHOTOS/photo_collateral.jpg';
+      img.style.cssText = `
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        display: block !important;
+      `;
+      imageContainer.appendChild(img);
+      
+      console.log('Collateral photo added to slide 6');
+    }
+    
+    
+    function removeAllImages() {
+      // Remove Cannes photo
+      const cannesContainer = document.getElementById('cannes-photo-container');
+      if (cannesContainer) {
+        cannesContainer.remove();
+      }
+      
+      // Remove Collateral photo
+      const collateralContainer = document.getElementById('collateral-photo-container');
+      if (collateralContainer) {
+        collateralContainer.remove();
+      }
+      
+      // Remove any other images
+      document.querySelectorAll('#page img').forEach(img => {
+        img.remove();
+      });
+    }
+    
+    
+    // Image mode functions removed - no more text container adjustments
+    
+    
+    // Complex image search functions removed
 
     
       function truncateTextToFit(element, text) {
@@ -2323,8 +1841,8 @@ height: 100%;
         currentAnimationFrame = null;
       }
       
-      // Apply mobile text wrapping before processing (skip for timeline content)
-      if (!element.hasAttribute('data-timeline')) {
+      // Apply mobile text wrapping before processing (skip for timeline content and slides 5-6)
+      if (!element.hasAttribute('data-timeline') && currentPage !== 4 && currentPage !== 5) {
         text = wrapTextForMobile(text);
       }
       
@@ -2370,18 +1888,26 @@ height: 100%;
             
             // Split the text to separate FILM BY line from 6BDM line
             const lines = text.split('\n');
+            console.log('All lines:', lines);
             const filmByLine = lines.find(line => line.includes('A FILM BY EUGENE JARECKI'));
             const sixBdmLine = lines.find(line => line.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH'));
+            console.log('Film by line:', filmByLine);
+            console.log('6BDM line:', sixBdmLine);
             
             // Show only the FILM BY line immediately
             element.textContent = filmByLine;
             
             // After 20 seconds, type 6BDM and continue to next slide
             const filmByTimeout = setTimeout(() => {
+              if (sixBdmLine) {
               const subtitleText = '\n\n' + sixBdmLine;
               decodeSubtitle(element, filmByLine, subtitleText, () => {
                 onComplete && onComplete();
               });
+              } else {
+                console.log('6BDM line not found, skipping subtitle animation');
+                onComplete && onComplete();
+              }
             }, 20000); // 20 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
@@ -2405,8 +1931,8 @@ height: 100%;
         currentAnimationFrame = null;
       }
       
-      // Apply mobile text wrapping before processing (skip for timeline content)
-      if (!element.hasAttribute('data-timeline')) {
+      // Apply mobile text wrapping before processing (skip for timeline content and slides 5-6)
+      if (!element.hasAttribute('data-timeline') && currentPage !== 4 && currentPage !== 5) {
         text = wrapTextForMobile(text);
       }
       
@@ -2528,6 +2054,25 @@ height: 100%;
         if (timelineRevealState.currentIndex === 0) {
           // First section (2006): decode with ultra-fast scrambling animation
           scrambleUltraFastChunks(timelineRevealState.element, currentSection, () => {
+            // Wrap years in spans for styling
+            wrapYearsInSpans(timelineRevealState.element);
+            
+            // Scrolling disabled for slide 5
+            if (currentPage === 3) { // Only allow scrolling on slide 4 (timeline slide)
+            // Smart auto-scroll for first section too
+            smartTimelineScroll(timelineRevealState.element, 1);
+            
+            // Fallback: Force scroll if smart scroll didn't work
+            setTimeout(() => {
+              forceTimelineScroll(timelineRevealState.element, 1);
+            }, 300);
+            
+            // Additional fallback: Direct scroll manipulation
+            setTimeout(() => {
+              directTimelineScroll(timelineRevealState.element, 1);
+            }, 500);
+            }
+            
             timelineRevealState.currentIndex++;
             // Show navigation message for next section
             if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
@@ -2544,8 +2089,27 @@ height: 100%;
           const currentContent = timelineRevealState.element.textContent;
           timelineRevealState.element.textContent = currentContent + '\n' + currentSection;
           
+          // Reapply padding after content change
+          timelineRevealState.element.style.paddingTop = '1rem';
+          
           // Wrap years in spans for styling
           wrapYearsInSpans(timelineRevealState.element);
+          
+          // Scrolling disabled for slide 5
+          if (currentPage === 3) { // Only allow scrolling on slide 4 (timeline slide)
+          // Smart auto-scroll: scroll up to show new content while pushing old content up
+          smartTimelineScroll(timelineRevealState.element, sectionNumber);
+          
+          // Fallback: Force scroll if smart scroll didn't work
+          setTimeout(() => {
+            forceTimelineScroll(timelineRevealState.element, sectionNumber);
+          }, 300);
+          
+          // Additional fallback: Direct scroll manipulation
+          setTimeout(() => {
+            directTimelineScroll(timelineRevealState.element, sectionNumber);
+          }, 500);
+          }
           
           console.log(`Timeline section ${sectionNumber} displayed. Current index: ${timelineRevealState.currentIndex}, Total sections: ${timelineRevealState.sections.length}`);
           
@@ -2579,6 +2143,215 @@ height: 100%;
       isInTimelineRevealMode = false;
       navMsg.style.visibility = 'hidden';
       timelineRevealState.onComplete && timelineRevealState.onComplete();
+    }
+    
+    // Smart timeline scrolling function
+    function smartTimelineScroll(element, sectionNumber) {
+      if (!element) {
+        console.log('smartTimelineScroll: No element provided');
+        return;
+      }
+      
+      // Only work on slide 4 (timeline slide) - block all other slides
+      if (currentPage !== 3) {
+        console.log(`Timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
+        return;
+      }
+      
+      // Only start scrolling from section 3 onwards (2011-2012 and later)
+      if (sectionNumber < 3) {
+        console.log(`Timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
+        return;
+      }
+      
+      // Find the scrollable container - try multiple approaches
+      let scrollContainer = null;
+      
+      // First, check if the element itself is scrollable
+      if (element.scrollHeight > element.clientHeight) {
+        scrollContainer = element;
+        console.log('Using element as scroll container');
+      } else {
+        // Look for parent containers that might be scrollable
+        const textWrap = element.closest('#text-wrap');
+        const unscramble = element.closest('#unscramble');
+        
+        if (textWrap && textWrap.scrollHeight > textWrap.clientHeight) {
+          scrollContainer = textWrap;
+          console.log('Using #text-wrap as scroll container');
+        } else if (unscramble && unscramble.scrollHeight > unscramble.clientHeight) {
+          scrollContainer = unscramble;
+          console.log('Using #unscramble as scroll container');
+        } else {
+          // Fallback to the element itself
+          scrollContainer = element;
+          console.log('Using element as fallback scroll container');
+        }
+      }
+      
+      if (!scrollContainer) {
+        console.log('smartTimelineScroll: No scrollable container found');
+        return;
+      }
+      
+      // Calculate optimal scroll behavior based on content length and screen size
+      const isMobile = window.innerWidth <= 768;
+      const containerHeight = scrollContainer.clientHeight;
+      const contentHeight = element.scrollHeight;
+      const currentScrollTop = scrollContainer.scrollTop;
+      
+      console.log(`Timeline scroll debug - Section: ${sectionNumber}, Container: ${scrollContainer.id || 'unknown'}, Content height: ${contentHeight}, Container height: ${containerHeight}, Current scroll: ${currentScrollTop}`);
+      
+      // Determine how much content should remain visible
+      // On mobile: show more recent content (scroll more aggressively)
+      // On desktop: show a good balance of recent and older content
+      const visibleRatio = isMobile ? 0.7 : 0.6; // Show 70% recent content on mobile, 60% on desktop
+      const targetScrollTop = Math.max(0, contentHeight - (containerHeight * visibleRatio));
+      
+      // Only scroll if we have enough content to warrant scrolling
+      const shouldScroll = contentHeight > containerHeight * 1.2; // Scroll when content is 120% of container height
+      
+      console.log(`Should scroll: ${shouldScroll}, Target scroll: ${targetScrollTop}, Current scroll: ${currentScrollTop}`);
+      
+      // Always try to scroll if we have a target position, regardless of content height
+      if (targetScrollTop > currentScrollTop) {
+        // Smooth scroll to the target position
+        const scrollDistance = targetScrollTop - currentScrollTop;
+        const scrollDuration = Math.min(600, scrollDistance * 1.5); // Faster, shorter duration
+        const startTime = performance.now();
+        
+        function animateScroll(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / scrollDuration, 1);
+          
+          // Use easeOutCubic for smooth deceleration
+          const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+          const currentScroll = currentScrollTop + (scrollDistance * easeOutCubic);
+          
+          scrollContainer.scrollTop = currentScroll;
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+          } else {
+            console.log(`Timeline scroll completed - Final position: ${scrollContainer.scrollTop}`);
+          }
+        }
+        
+        requestAnimationFrame(animateScroll);
+        
+        console.log(`Timeline auto-scroll started: section ${sectionNumber}, target: ${Math.round(targetScrollTop)}, current: ${Math.round(currentScrollTop)}, distance: ${Math.round(scrollDistance)}`);
+      } else {
+        console.log(`Timeline scroll skipped - shouldScroll: ${shouldScroll}, targetScrollTop: ${targetScrollTop}, currentScrollTop: ${currentScrollTop}`);
+      }
+    }
+    
+    // Force timeline scroll - simpler, more direct approach
+    function forceTimelineScroll(element, sectionNumber) {
+      if (!element) return;
+      
+      // Only work on slide 4 (timeline slide) - block all other slides
+      if (currentPage !== 3) {
+        console.log(`Force timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
+        return;
+      }
+      
+      // Only start scrolling from section 3 onwards (2011-2012 and later)
+      if (sectionNumber < 3) {
+        console.log(`Force timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
+        return;
+      }
+      
+      console.log(`Force timeline scroll - Section: ${sectionNumber}`);
+      
+      // Try multiple containers in order of preference
+      const containers = [
+        element,
+        document.getElementById('unscramble'),
+        document.getElementById('text-wrap'),
+        element.parentElement
+      ];
+      
+      for (const container of containers) {
+        if (container) {
+          const isMobile = window.innerWidth <= 768;
+          const visibleRatio = isMobile ? 0.6 : 0.5; // Show more historical content - less aggressive
+          const targetScroll = Math.max(0, element.scrollHeight - (container.clientHeight * visibleRatio));
+          
+          console.log(`Force scrolling container ${container.id || 'unknown'} to ${targetScroll} (scrollHeight: ${container.scrollHeight}, clientHeight: ${container.clientHeight})`);
+          
+          // Always try to scroll, even if container doesn't seem scrollable
+          container.scrollTop = targetScroll;
+          
+          // Also try smooth scroll as backup
+          container.scrollTo({
+            top: targetScroll,
+            behavior: 'smooth'
+          });
+          
+          // If this container worked, break
+          if (container.scrollHeight > container.clientHeight) {
+            break;
+          }
+        }
+      }
+    }
+    
+    // Direct timeline scroll - most aggressive approach
+    function directTimelineScroll(element, sectionNumber) {
+      if (!element) return;
+      
+      // Only work on slide 4 (timeline slide) - block all other slides
+      if (currentPage !== 3) {
+        console.log(`Direct timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
+        return;
+      }
+      
+      // Only start scrolling from section 3 onwards (2011-2012 and later)
+      if (sectionNumber < 3) {
+        console.log(`Direct timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
+        return;
+      }
+      
+      console.log(`Direct timeline scroll - Section: ${sectionNumber}`);
+      
+      // Find the actual scrollable element by checking computed styles
+      const candidates = [
+        element,
+        document.getElementById('unscramble'),
+        document.getElementById('text-wrap'),
+        document.querySelector('#page'),
+        document.body
+      ];
+      
+      for (const candidate of candidates) {
+        if (!candidate) continue;
+        
+        const computedStyle = window.getComputedStyle(candidate);
+        const hasOverflow = computedStyle.overflowY === 'auto' || 
+                           computedStyle.overflowY === 'scroll' || 
+                           computedStyle.overflow === 'auto' || 
+                           computedStyle.overflow === 'scroll';
+        
+        console.log(`Checking ${candidate.id || candidate.tagName}: overflow-y=${computedStyle.overflowY}, scrollHeight=${candidate.scrollHeight}, clientHeight=${candidate.clientHeight}`);
+        
+        if (hasOverflow && candidate.scrollHeight > candidate.clientHeight) {
+          const isMobile = window.innerWidth <= 768;
+          const visibleRatio = isMobile ? 0.7 : 0.6; // Show more historical content - less aggressive
+          const targetScroll = Math.max(0, element.scrollHeight - (candidate.clientHeight * visibleRatio));
+          
+          console.log(`Direct scrolling ${candidate.id || candidate.tagName} to ${targetScroll}`);
+          
+          // Try multiple scroll methods
+          candidate.scrollTop = targetScroll;
+          candidate.scrollTo(0, targetScroll);
+          
+          // Force a reflow to ensure the scroll takes effect
+          candidate.offsetHeight;
+          
+          console.log(`Direct scroll result: ${candidate.scrollTop}`);
+          break;
+        }
+      }
     }
 
     /* ================== LINE BY LINE REVEAL ================== */
@@ -2723,20 +2496,10 @@ height: 100%;
       // Use simple, consistent font sizing - smaller on mobile
         const isMobile = window.innerWidth <= 768;
         
-        // Check if this is timeline content first
+        // Check if this is timeline content - ONLY slide 4 (index 3)
         const pageContent = pages[pageIndex];
         console.log(`🔍 Page ${pageIndex + 1} content preview:`, pageContent.substring(0, 100));
-        console.log(`🔍 Page ${pageIndex + 1} full content:`, pageContent);
-        const isTimelineContent = pageContent.includes('2006:') || 
-                                 pageContent.includes('2010:') || 
-                                 pageContent.includes('2011-2012:') || 
-                                 pageContent.includes('2017:') || 
-                                 pageContent.includes('2017-2024:') || 
-                                 pageContent.includes('2024:') || 
-                                 pageContent.includes('RETURNED TO AUSTRALIA') ||
-                                 pageContent.includes('CANNES FILM FESTIVAL') ||
-                                 pageContent.includes('LEADING INFLUENCER') ||
-                                 pageContent.includes('GLOBAL AUDIENCE');
+        const isTimelineContent = pageIndex === 3; // Only slide 4 (index 3) is timeline content
         console.log(`🔍 Page ${pageIndex + 1} is timeline content:`, isTimelineContent);
         
         if (isTimelineContent) {
@@ -2796,11 +2559,9 @@ height: 100%;
          el.textContent='';
          isAnimating = false;
          
-         // Remove any existing animation classes
-         el.classList.remove('collateral-murder-slide');
+         // Animation classes removed
          
-         // Check if this is the Collateral Murder video slide
-         const isCollateralMurderSlide = pages[pageIndex].includes('It published the infamous Collateral Murder video in 2010');
+        // Collateral Murder slide detection removed
          
          if (isTimelineContent) {
           // For timeline content, use year-by-year reveal system
@@ -2818,82 +2579,36 @@ height: 100%;
             el.textContent = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
             // Wrap years in spans for styling
             wrapYearsInSpans(el);
-             // Call the callback immediately
-             if (isCollateralMurderSlide) {
-               console.log('Collateral Murder slide detected, starting animation...');
-               setTimeout(() => {
-                 el.classList.add('collateral-murder-slide');
-                 console.log('Animation class added');
-                 setTimeout(() => {
-                   createPersistentText();
-                   console.log('Persistent text created');
-                 }, 3000);
-               }, 1000);
-             }
+             // Collateral Murder slide animation removed
          } else {
            scrambleFastChunks(el, pages[pageIndex], () => {
            // Text displayed
-           if (isCollateralMurderSlide) {
-             console.log('Collateral Murder slide detected, starting animation...');
-             // Add animation class after text is fully displayed
-             setTimeout(() => {
-               el.classList.add('collateral-murder-slide');
-               console.log('Animation class added');
-               
-               // After animation completes, create a persistent copy
-               setTimeout(() => {
-                 createPersistentText();
-                 console.log('Persistent text created');
-               }, 3000); // After 3 second animation
-             }, 1000); // Wait 1 second after text is displayed
-           }
+           // Collateral Murder slide animation removed
          });
            }
          }
        }
        
-       showImage(pageIndex);
+      // Handle specific images for slides 5 and 6
+      if (pageIndex === 4) { // Slide 5 - Cannes photo
+        addCannesPhoto();
+      } else if (pageIndex === 5) { // Slide 6 - Collateral photo
+        addCollateralPhoto();
+      } else {
+        // Remove any existing images for other slides
+        removeAllImages();
+      }
        
        // Preload videos for current and upcoming pages
        preloadVideosForPage(pageIndex);
        
-       // Handle last slide - add collateral image and audio
+      // Handle last slide - add audio only
        if (pageIndex === pages.length - 1) {
-         console.log('Last slide detected - adding collateral image and audio');
+        console.log('Last slide detected - adding audio');
          
          // Clear any existing last slide elements
-         const existingContainer = document.getElementById('last-slide-image-container');
          const existingAudio = document.getElementById('last-slide-audio');
-         if (existingContainer) existingContainer.remove();
          if (existingAudio) existingAudio.remove();
-         
-         // Create container for image with effects
-         const imageContainer = document.createElement('div');
-         imageContainer.id = 'last-slide-image-container';
-         imageContainer.style.cssText = `
-           position: fixed;
-           top: 50%;
-           left: 50%;
-           transform: translate(-50%, -50%);
-           max-width: 80vw;
-           max-height: 80vh;
-           z-index: 1;
-           pointer-events: none;
-           overflow: hidden;
-         `;
-         document.body.appendChild(imageContainer);
-         
-         // Add image with proper visual effects (matching lorem_new.html)
-         const img = document.createElement('img');
-         img.id = 'last-slide-image';
-         img.src = 'PHOTOS/photo_collateral.jpg';
-         img.style.cssText = `
-           width: 100%;
-           height: 100%;
-           object-fit: contain;
-           filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(1.5);
-         `;
-         imageContainer.appendChild(img);
          
          // Add audio to body (more persistent)
          const audio = document.createElement('audio');
@@ -2910,9 +2625,7 @@ height: 100%;
          });
        } else {
          // Clean up when not on last slide
-         const existingContainer = document.getElementById('last-slide-image-container');
          const existingAudio = document.getElementById('last-slide-audio');
-         if (existingContainer) existingContainer.remove();
          if (existingAudio) existingAudio.remove();
        }
        
@@ -2946,24 +2659,14 @@ height: 100%;
        if (pageIndex + 1 === 15) {
          console.log('🎬 SLIDE 15 - Showing video...');
          showVideoBackground();
-         // Hide video2 when showing video15
-         hideVideo2Background();
+         // video2 hiding removed - defunct
        } else {
          console.log(`🎬 Not slide 15 (current: ${pageIndex + 1}), hiding video...`);
          // Hide video on other pages
          hideVideoBackground();
        }
        
-       // Show video2 on slide 2
-       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video2 on slide 2...`);
-       if (pageIndex + 1 === 2) {
-         console.log('🎬 SLIDE 2 - Showing video2...');
-         showVideo2Background();
-       } else {
-         console.log(`🎬 Not slide 2 (current: ${pageIndex + 1}), hiding video2...`);
-         // Hide video2 on other pages
-         hideVideo2Background();
-       }
+       // video2 handling removed - defunct
        
        // Show video3 on 6BDM slide (only the main 6BDM slide with timeline content)
        if (pageContent.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH')) {
@@ -2975,25 +2678,7 @@ height: 100%;
        }
      }
 
-    // Create persistent text that stays on screen
-    function createPersistentText() {
-      // Remove any existing persistent text
-      const existing = document.getElementById('persistent-text');
-      if (existing) {
-        existing.remove();
-      }
-      
-      // Create new persistent text element
-      const persistentDiv = document.createElement('div');
-      persistentDiv.id = 'persistent-text';
-      
-      const textContent = document.createElement('div');
-      textContent.className = 'text-content';
-      textContent.textContent = 'It published the infamous Collateral Murder video in 2010';
-      
-      persistentDiv.appendChild(textContent);
-      document.body.appendChild(persistentDiv);
-     }
+    // createPersistentText function removed - no more duplicate text
 
     /* ================== NAV ================== */
     let lastAdvance = 0;
@@ -3186,41 +2871,7 @@ document.addEventListener('click', (e)=>{
       else if (e.code==='ArrowLeft'){ unlockAudioContext(); startPage(currentPage-1); }
 
       const k = e.key;
-     if (k==='ArrowUp'){ 
- pageModes[currentPage]=getNextImageMode(pageModes[currentPage]); 
- markUserSetMode(currentPage); 
- showImage(currentPage); 
-       }
-       else if (k==='ArrowDown'){ 
- pageModes[currentPage]=getPreviousImageMode(pageModes[currentPage]); 
- markUserSetMode(currentPage); 
- showImage(currentPage); 
-       }
-      // Font cycling removed - using fixed font system
-      else if (k==='l'||k==='L'){ 
-pageModes[currentPage]=IMG_BELOW; 
-markUserSetMode(currentPage); 
-showImage(currentPage); 
-      }
-     else if (k==='s'||k==='S'){ 
-pageModes[currentPage]=IMG_SIDE; 
-markUserSetMode(currentPage); 
-showImage(currentPage); 
-adjustTextForSideImage(); 
-      }
-       else if (k==='a'||k==='A'){ 
-pageModes[currentPage]=IMG_SMALL_SIDE; 
-markUserSetMode(currentPage); 
-showImage(currentPage); 
-adjustTextForSideImage(); 
-      }
-       else if (k==='o'||k==='O'){ 
-pageModes[currentPage]=IMG_OFF; 
-markUserSetMode(currentPage); 
-showImage(currentPage); 
-resetTextContainer(); 
-      }
-      else if (k==='z'||k==='Z'){ toggleGreenOverlay('full'); }
+      if (k==='z'||k==='Z'){ toggleGreenOverlay('full'); }
       else if (k==='x'||k==='X'){ toggleGreenOverlay('half'); }
       else if (k==='c'||k==='C'){ toggleGreenOverlay('off'); }
       else if (k==='f'||k==='F'){ toggleFullscreen(); }
@@ -3236,14 +2887,7 @@ resetTextContainer();
         console.log('🧪 H key pressed - hiding video...');
         hideVideoBackground();
       }
-      else if (k==='2'||k==='2'){ 
-        console.log('🧪 2 key pressed - testing video2...');
-        showVideo2Background();
-      }
-      else if (k==='j'||k==='J'){ 
-        console.log('🧪 J key pressed - hiding video2...');
-        hideVideo2Background();
-      }
+      // video2 keyboard shortcuts removed - defunct
     });
     
     // Fullscreen functionality
@@ -3330,6 +2974,12 @@ customCursor.style.display = 'none';
       // Apply the default font (Crisp) on page load
       applyCurrentFont();
     };
+    
+    // Mobile text wrapping function
+    function wrapTextForMobile(text) {
+      // For now, just return the text as-is since we don't need special mobile wrapping
+      return text;
+    }
     
     // Global green overlay toggle function
     let currentOverlayMode = 'full'; // Track current overlay mode - default to full green
