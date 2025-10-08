@@ -1125,8 +1125,13 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        // Show video immediately
+        console.log('🎬 showVideo3Background called - showing hologram2 video');
+        
+        // Show video immediately with multiple methods
         video.style.setProperty('display', 'block', 'important');
+        video.style.display = 'block';
+        video.removeAttribute('style');
+        video.style.cssText = 'display: block !important; position: fixed; top: 50px; left: 50%; transform: translateX(-50%) scaleX(0.8); width: calc(60vw - 2rem); height: calc(70vh - 2rem); object-fit: cover; z-index: 100000; pointer-events: none;';
         
         // Ensure video audio is enabled
         video.muted = false;
@@ -2662,6 +2667,15 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
        if (pageIndex + 1 === 3) {
          console.log('🎬 SLIDE 3 - Showing video...');
          showVideo3Background();
+         
+         // Fallback: Force show video after a delay
+         setTimeout(() => {
+           const video = document.getElementById('bg-video3');
+           if (video) {
+             console.log('🎬 Fallback: Forcing video display');
+             video.style.cssText = 'display: block !important; position: fixed; top: 50px; left: 50%; transform: translateX(-50%) scaleX(0.8); width: calc(60vw - 2rem); height: calc(70vh - 2rem); object-fit: cover; z-index: 100000; pointer-events: none;';
+           }
+         }, 500);
        } else {
          console.log(`🎬 Not slide 3 (current: ${pageIndex + 1}), hiding video...`);
          // Hide video on other pages
