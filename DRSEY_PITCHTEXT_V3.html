@@ -15,11 +15,11 @@
       height: calc(60vh - 2rem);
       object-fit: cover;
       object-position: center center;
-      z-index: -1;
+      z-index: 100000;
       pointer-events: none;
       display: none;
-      filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
-      animation: videoFlicker 0.06s steps(1, end) infinite, hologramRoll 3s linear infinite, hologramGlitch 0.8s infinite;
+      filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2.5);
+      animation: none;
       overflow: hidden;
     }
     
@@ -31,98 +31,9 @@
       }
     }
     
-    /* Add hologram container for better effect control */
-    .bg-video::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        0deg,
-        transparent 0%,
-        rgba(0, 255, 0, 0.1) 25%,
-        rgba(0, 255, 0, 0.2) 50%,
-        rgba(0, 255, 0, 0.1) 75%,
-        transparent 100%
-      );
-      animation: verticalRoll 2s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
+    /* Hologram overlay removed */
     
-    /* Video flicker animation */
-    @keyframes videoFlicker {
-      0% { filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2); }
-      8% { filter: grayscale(1) brightness(0.58) contrast(1.25) sepia(1) hue-rotate(59deg) saturate(2.1); }
-      15% { filter: grayscale(1) brightness(0.71) contrast(1.15) sepia(1) hue-rotate(61deg) saturate(1.9); }
-      23% { filter: grayscale(1) brightness(0.55) contrast(1.28) sepia(1) hue-rotate(58deg) saturate(2.2); }
-      31% { filter: grayscale(1) brightness(0.68) contrast(1.18) sepia(1) hue-rotate(62deg) saturate(1.8); }
-      38% { filter: grayscale(1) brightness(0.61) contrast(1.22) sepia(1) hue-rotate(60deg) saturate(2.0); }
-      46% { filter: grayscale(1) brightness(0.73) contrast(1.16) sepia(1) hue-rotate(61deg) saturate(1.9); }
-      54% { filter: grayscale(1) brightness(0.57) contrast(1.26) sepia(1) hue-rotate(59deg) saturate(2.1); }
-      62% { filter: grayscale(1) brightness(0.66) contrast(1.19) sepia(1) hue-rotate(60deg) saturate(2.0); }
-      69% { filter: grayscale(1) brightness(0.59) contrast(1.24) sepia(1) hue-rotate(58deg) saturate(2.2); }
-      77% { filter: grayscale(1) brightness(0.72) contrast(1.17) sepia(1) hue-rotate(62deg) saturate(1.8); }
-      85% { filter: grayscale(1) brightness(0.62) contrast(1.21) sepia(1) hue-rotate(60deg) saturate(2.0); }
-      92% { filter: grayscale(1) brightness(0.67) contrast(1.18) sepia(1) hue-rotate(61deg) saturate(1.9); }
-      100% { filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2); }
-    }
-    
-    /* Vertical roll displacement effect */
-    @keyframes verticalRoll {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-    
-    /* Hologram rolling wave effect */
-    @keyframes hologramRoll {
-      0% { 
-        transform: translate(-50%, -50%) scaleX(0.8) scaleY(1);
-        filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
-      }
-      25% { 
-        transform: translate(-50%, -50%) scaleX(0.8) scaleY(1.02);
-        filter: grayscale(1) brightness(0.68) contrast(1.15) sepia(1) hue-rotate(62deg) saturate(2.1);
-      }
-      50% { 
-        transform: translate(-50%, -50%) scaleX(0.8) scaleY(0.98);
-        filter: grayscale(1) brightness(0.6) contrast(1.25) sepia(1) hue-rotate(58deg) saturate(1.9);
-      }
-      75% { 
-        transform: translate(-50%, -50%) scaleX(0.8) scaleY(1.01);
-        filter: grayscale(1) brightness(0.66) contrast(1.18) sepia(1) hue-rotate(61deg) saturate(2.05);
-      }
-      100% { 
-        transform: translate(-50%, -50%) scaleX(0.8) scaleY(1);
-        filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
-      }
-    }
-    
-    /* Hologram glitch effect */
-    @keyframes hologramGlitch {
-      0%, 90%, 100% { 
-        transform: translate(-50%, -50%) scaleX(0.8);
-        opacity: 1;
-      }
-      92% { 
-        transform: translate(-50.1%, -50%) scaleX(0.8);
-        opacity: 0.95;
-      }
-      94% { 
-        transform: translate(-49.9%, -50.05%) scaleX(0.8);
-        opacity: 0.98;
-      }
-      96% { 
-        transform: translate(-50.05%, -49.95%) scaleX(0.8);
-        opacity: 0.96;
-      }
-      98% { 
-        transform: translate(-49.95%, -50%) scaleX(0.8);
-        opacity: 0.97;
-      }
-    }
+    /* Video effects removed - clean video display */
     
     
     
@@ -140,41 +51,13 @@
     }
     html,body { height:100%; margin:0; background:#000; }
 
-    /* Font Definitions */
-    @font-face {
-      font-family: 'IBM3270';
-      src: url('fonts/fonts/3270-Regular.ttf') format('truetype'),
-           url('fonts/fonts/3270-Regular.otf') format('opentype');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
-    @font-face {
-      font-family: 'PixelCarnageMono';
-      src: url('fonts/fonts/PixelCarnageMono.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
+    /* Font Definition - Crisp Only */
     @font-face {
       font-family: 'Crisp';
       src: url('fonts/fonts/Crisp.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
-    }
-    
-    @font-face {
-      font-family: 'ProggyCleanCE';
-      src: url('fonts/fonts/ProggyCleanCE.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
-    @font-face {
-      font-family: 'ProggySquare';
-      src: url('fonts/fonts/ProggySquare.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
+      font-display: swap;
     }
     
     :root { 
@@ -182,7 +65,7 @@
       --bg:#000; 
       --accent:#00FF00; 
       --soft:#66FF66;
-      --font-family: 'Crisp', 'IBM3270', 'Courier New', monospace;
+      --font-family: 'Crisp', 'Courier New', monospace;
     }
     html, body { height:100%; }
     
@@ -254,18 +137,20 @@ transparent 4px
       body {
         padding: 0 !important;
         margin: 0 !important;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         padding-left: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
         left: 0 !important;
         right: 0 !important;
         overflow-x: hidden !important;
+        -webkit-text-size-adjust: 100%; /* Prevent iOS text scaling */
+        -webkit-tap-highlight-color: transparent; /* Remove tap highlights */
       }
       #page {
-        padding: 1vh 2vw; /* Reduced horizontal padding */
-        height: 70vh; /* Increased height for mobile */
-        min-height: 25em;
+        padding: 1vh 3vw; /* Slightly more padding for better readability */
+        height: 75vh; /* Better height for mobile */
+        min-height: 30em;
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
@@ -278,14 +163,21 @@ transparent 4px
         width: 100% !important; /* Force full width on mobile */
         max-width: 100% !important;
         margin-top: 0; /* Remove negative margin that was causing issues */
-        height: calc(100% - 1rem); /* Adjust height calculation */
-        padding: 1rem 1vw !important; /* Reduced padding to prevent overflow */
+        height: calc(100% - 2rem); /* Better height calculation */
+        padding: 1.5rem 2vw !important; /* Better padding for mobile */
         box-sizing: border-box !important;
         overflow-x: hidden !important;
       }
+      
+      /* Special handling for timeline content on mobile */
+      #text-wrap.timeline-mode {
+        height: calc(100vh - 6rem) !important; /* More height for timeline */
+        padding: 0.5rem 1vw !important; /* Reduced padding for timeline */
+        overflow-y: visible !important; /* Allow content to flow */
+      }
       #unscramble {
-        font-size: 0.8rem;
-        line-height: 1.3;
+        font-size: 0.85rem; /* Slightly larger for better readability */
+        line-height: 1.4; /* Better line spacing */
         width: 100% !important; /* Force full width */
         max-width: 100% !important;
         padding: 0 !important;
@@ -297,31 +189,47 @@ transparent 4px
         overflow-x: hidden !important;
         word-break: break-word !important; /* Force word breaking on mobile */
         hyphens: auto !important; /* Enable hyphenation on mobile */
+        -webkit-hyphens: auto; /* Safari hyphenation */
+        -ms-hyphens: auto; /* IE hyphenation */
       }
       #nav {
-font-size: 0.9rem;
-        margin: 0.3vh 0 0.3vh;
+        font-size: 1rem; /* Larger for better touch targets */
+        margin: 0.5vh 0;
+        padding: 0.5rem 0; /* Better touch area */
+      }
+      #nav span {
+        padding: 0.5rem 1rem; /* Larger touch targets */
+        min-height: 44px; /* iOS recommended touch target size */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
       #nav-msg {
-font-size: 0.6rem;
+        font-size: 0.7rem; /* Slightly larger */
+        line-height: 1.2;
+        padding: 0.5rem;
       }
       #slide-counter {
-        font-size: 0.5rem;
-        margin: 0.3vh 0;
+        font-size: 0.6rem; /* Slightly larger */
+        margin: 0.5vh 0;
+        padding: 0.25rem;
       }
       #prompt {
-        font-size: 0.7rem;
+        font-size: 0.75rem; /* Slightly larger */
+        line-height: 1.3;
       }
       
-      /* Mobile video sizing - much smaller on mobile */
+      /* Mobile video sizing - optimized for mobile */
       .bg-video {
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) scaleX(0.85);
-        width: calc(95vw - 1rem);
-        height: calc(70vh - 1rem);
+        transform: translate(-50%, -50%) scaleX(0.9);
+        width: calc(90vw - 2rem);
+        height: calc(60vh - 2rem);
         object-fit: contain;
         object-position: center center;
+        max-width: 100%;
+        max-height: 100%;
       }
       
       /* Force full width on mobile regardless of image mode */
@@ -361,6 +269,51 @@ font-size: 0.6rem;
       html, body, #page, #text-wrap, #unscramble {
         overflow-x: hidden !important;
         max-width: 100vw !important;
+      }
+      
+      /* Mobile-specific timeline optimizations */
+      #unscramble[data-timeline="true"] {
+        font-size: 0.7rem !important; /* Even smaller for timeline on mobile */
+        line-height: 1.2 !important; /* Tighter line spacing */
+        padding: 0.5rem 1vw !important; /* Reduced padding */
+        height: calc(100vh - 8rem) !important; /* More height for timeline */
+        overflow-y: auto !important; /* Allow scrolling if needed */
+        -webkit-overflow-scrolling: touch !important; /* Smooth scrolling on iOS */
+      }
+      
+      /* Better mobile navigation */
+      #nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 0.5rem 0;
+      }
+      
+      /* Mobile slide counter positioning */
+      #slide-counter {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 0.5rem;
+        border-radius: 4px;
+        z-index: 1000;
+      }
+      
+      /* Mobile nav message improvements */
+      #nav-msg {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin: 0 1rem;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
       }
     }
     
@@ -548,13 +501,23 @@ z-index: 1;
        padding: 2rem 2rem 6rem 4rem;
      }
      
-     /* Mobile-specific text-wrap overrides */
-     @media (max-width: 768px) {
-       #text-wrap {
-         margin-top: 0; /* Remove negative margin on mobile */
-         height: calc(100% - 1rem); /* Better height calculation for mobile */
-       }
-     }
+    /* Mobile-specific text-wrap overrides */
+    @media (max-width: 768px) {
+      #text-wrap {
+        margin-top: 0; /* Remove negative margin on mobile */
+        height: calc(100% - 1rem); /* Better height calculation for mobile */
+        padding: 1vh 2vw; /* Reduced horizontal padding */
+        height: 70vh; /* Increased height for mobile */
+        min-height: 25em;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+      }
+    }
                     #unscramble { 
       white-space: pre-wrap; 
       font-size: 0.99rem;
@@ -599,6 +562,13 @@ z-index: 1;
       min-height: 5vh;
       position: relative;
       gap: 4vw;
+    }
+    
+    /* Desktop - add padding to bring arrows in from edges */
+    @media (min-width: 769px) {
+      #nav {
+        padding: 0 4rem;
+      }
     }
     #nav span { cursor:pointer; user-select:none; padding:0 1em; }
           #nav-msg { 
@@ -738,6 +708,30 @@ z-index: 2 !important;
       }
     }
     
+    /* Common utility classes for better CSS organization */
+    .full-screen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    
+    .centered-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 2rem;
+    }
+    
+    .accent-text {
+      color: var(--accent);
+      font-family: var(--font-family);
+      text-shadow: 0 0 10px var(--accent);
+    }
+    
     /* Persistent text that stays on screen */
     #persistent-text {
       position: fixed;
@@ -756,10 +750,10 @@ z-index: 2 !important;
     #persistent-text .text-content {
       color: var(--accent);
       font-family: var(--font-family);
+      text-shadow: 0 0 10px var(--accent);
       font-size: 2rem;
       text-align: center;
       font-weight: bold;
-      text-shadow: 0 0 10px var(--accent);
     }
     
      
@@ -771,11 +765,10 @@ z-index: 2 !important;
   <video
     id="bg-video"
     class="bg-video"
-    autoplay
     muted
     playsinline
     loop
-    preload="metadata"
+    preload="none"
     poster="./assets/bg-poster.jpg"
     aria-hidden="true"
     tabindex="-1"
@@ -791,11 +784,10 @@ z-index: 2 !important;
   <video
     id="bg-video2"
     class="bg-video"
-    autoplay
     muted
     playsinline
     loop
-    preload="metadata"
+    preload="none"
     poster="./assets/bg-poster.jpg"
     aria-hidden="true"
     tabindex="-1"
@@ -811,19 +803,15 @@ z-index: 2 !important;
   <video
     id="bg-video3"
     class="bg-video"
-    autoplay
-    muted
     playsinline
     preload="metadata"
     aria-hidden="true"
     tabindex="-1"
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
-    volume="0"
-    defaultMuted
     style="display: none;"
   >
-    <source src="HOLOGRAMJ.mp4" type="video/mp4" />
+    <source src="C:\Users\atlas\Desktop\FINALPUSH\hologram2.mp4" type="video/mp4" />
   </video>
   
   <audio
@@ -900,9 +888,9 @@ A FILM BY EUGENE JARECKI
 2011-2012: 
   > WL PUBLISHES 6 OF THE 10 LARGEST RELEASES OF SENSITIVE MATERIAL IN U.S. HISTORY.
   > UK AUTHORITIES CARRY OUT INTERPOL ARREST WARRANT. JA TAKES REFUGE IN ECUADORIAN EMBASSY, LONDON.
-2017: 
+2019: 
   > JA FORCIBLY REMOVED FROM EMBASSY.
-2017-2024: 
+2019-2024: 
   > JA IS INMATE #A9379AY AT HMP BELMARSH, MAX. SEC. 
 2024: 
   > US. DROPS 17/18 COUNTS AGAINST JA, DISMISSES CASE. 
@@ -946,8 +934,6 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         currentAudio = null;
       }
       
-      // Stop any visualizers (disabled)
-      stop3DVisualizer();
       
       // Also stop any other audio elements that might be playing
       const allAudioElements = document.querySelectorAll('audio');
@@ -963,45 +949,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     
     
     
-    // Visualizer variables (disabled)
-    let visualizerScene = null;
-    let visualizerCamera = null;
-    let visualizerRenderer = null;
-    let visualizerMesh = null;
-    let visualizerUniforms = null;
-    let visualizerAnalyser = null;
-    let visualizerDataArray = null;
-    let visualizerRunning = false;
-    let visualizerComposer = null;
 
-    // Visualizer functions (disabled)
-    function init3DVisualizer() {
-      // Disabled
-    }
-
-    function start3DVisualizer(audioElement) {
-      // Disabled
-    }
-
-    function stop3DVisualizer() {
-      // Disabled
-    }
-
-    function animate3DVisualizer() {
-      // Disabled
-    }
-
-    // Mouse tracking for camera movement
-    let mouseX = 0;
-    let mouseY = 0;
-    document.addEventListener('mousemove', function (e) {
-      const windowHalfX = window.innerWidth / 2;
-      const windowHalfY = window.innerHeight / 2;
-      mouseX = (e.clientX - windowHalfX) / 100;
-      mouseY = (e.clientY - windowHalfY) / 100;
-      window.mouseX = mouseX;
-      window.mouseY = mouseY;
-    });
 
     // Test audio function
     function testAudio() {
@@ -1025,13 +973,61 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       });
     }
 
-    // Video background functions
+    // Video preloading system
+    const videoPreloadState = {
+      video15: false,
+      video2: false,
+      video3: false
+    };
+
+    function preloadVideo(videoId) {
+      const video = document.getElementById(videoId);
+      if (!video || videoPreloadState[videoId]) return;
+      
+      console.log(`🎬 Preloading ${videoId}...`);
+      video.preload = 'metadata';
+      video.load();
+      
+      video.addEventListener('canplay', () => {
+        console.log(`✅ ${videoId} preloaded successfully`);
+        videoPreloadState[videoId] = true;
+        video.removeEventListener('canplay', arguments.callee);
+      }, { once: true });
+    }
+
+    // Intelligent video preloading based on page proximity
+    function preloadVideosForPage(pageIndex) {
+      const pageNumber = pageIndex + 1;
+      
+      // Preload video15 if we're approaching slide 15
+      if (pageNumber >= 13) {
+        preloadVideo('bg-video');
+      }
+      
+      // Preload video2 if we're approaching slide 2
+      if (pageNumber <= 3) {
+        preloadVideo('bg-video2');
+      }
+      
+      // Preload video3 if we're approaching 6BDM slide
+      if (pageNumber >= 14) {
+        preloadVideo('bg-video3');
+      }
+    }
+
+    // Video background functions with optimized loading
     function showVideoBackground() {
       console.log('🎬 Showing video15...');
       const video = document.getElementById('bg-video');
       
       if (video) {
         console.log('✅ Video element found, showing...');
+        
+        // Preload if not already done
+        if (!videoPreloadState.bg-video) {
+          video.preload = 'metadata';
+          video.load();
+        }
         
         video.style.setProperty('display', 'block', 'important');
         console.log('🎬 Video display set to block with !important');
@@ -1196,14 +1192,19 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     function showVideo3Background() {
       console.log('🎬 Showing JA_OBIWAN hologram video with audio...');
       const video = document.getElementById('bg-video3');
-      const audio = document.getElementById('obiwan-audio');
       
       if (video) {
         // Show video immediately
         video.style.setProperty('display', 'block', 'important');
-        video.muted = true;   // Keep video muted
-        video.loop = true;    // Video loops visually
+        
+        // Ensure video audio is enabled
+        video.muted = false;
+        video.volume = 0.7;
+        video.loop = true;
         video.currentTime = 0;
+        
+        // Unlock audio context first
+        unlockAudioContext();
         
         // Set up video event listeners
         const onCanPlay = () => {
@@ -1221,23 +1222,22 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
         
-        video.play().catch(err => {
-          console.log('Video3 play failed:', err.message);
-        });
-      }
-      
-      if (audio) {
-        audio.volume = 0.7;   // Set audio volume
-        audio.muted = false;  // Ensure not muted
-        audio.currentTime = 0;
-        
-        // Try to play with better error handling
-        console.log('🔊 Attempting to play audio...');
-        audio.play().then(() => {
-          console.log('✅ Audio playing successfully');
+        // Try to play video with audio
+        console.log('🔊 Attempting to play video with audio...');
+        video.play().then(() => {
+          console.log('✅ Video3 playing with audio successfully');
         }).catch(err => {
-          console.log('❌ Audio play failed:', err.message);
+          console.log('❌ Video3 play failed:', err.message);
           console.log('🔧 This might require user interaction first');
+          
+          // Try again after a short delay
+          setTimeout(() => {
+            video.play().then(() => {
+              console.log('✅ Video3 playing with audio on retry');
+            }).catch(retryErr => {
+              console.log('❌ Video3 retry failed:', retryErr.message);
+            });
+          }, 1000);
         });
       }
     }
@@ -1498,11 +1498,15 @@ console.warn('Could not load image modes from localStorage:', e);
     // Load saved image modes from localStorage
     loadPageModesFromStorage();
     
-    // Disable keyword scanning completely for faster loading
-    console.log('Image keyword scanning disabled - no images available');
+    // Enable keyword scanning with fallbacks
+    console.log('Image keyword scanning enabled - scanning for available images');
     
-    // Skip all image scanning since no images are available
-    // This prevents the slow startup delay
+    // Scan for available images on startup
+    scanAvailableKeywords().then(() => {
+      console.log('Image scanning complete. Available keywords:', Array.from(availableKeywords));
+    }).catch(err => {
+      console.warn('Image scanning failed, continuing without images:', err);
+    });
     
     // Debug function - call from browser console: testImage('ignorant')
     window.testImage = function(keyword) {
@@ -1555,20 +1559,6 @@ console.warn('Could not load image modes from localStorage:', e);
       });
     };
     
-    // Test visualizer function
-    window.testVisualizer = function() {
-      console.log('🎨 Testing visualizer...');
-      const canvas = document.getElementById('audio-visualizer');
-      if (canvas) {
-        canvas.style.display = 'block';
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'red';
-        ctx.fillRect(100, 100, 200, 200);
-        console.log('✅ Visualizer test - red square should appear');
-      } else {
-        console.error('❌ Canvas not found');
-      }
-    };
     
 
     // DOM
@@ -1582,18 +1572,148 @@ console.warn('Could not load image modes from localStorage:', e);
     let currentPage = 0;
     let isAnimating = false;
     let currentInterval = null;
+    let currentAnimationFrame = null;
     let availableKeywords = new Set(); // Store available photo keywords
     let audioTimeout = null; // Track audio timeout
     let lineRevealTimeouts = []; // Track line reveal timeouts
     let isInLineRevealMode = false;
     let lineRevealState = { lines: [], currentIndex: 0, element: null, onComplete: null };
     let lastTouchTime = 0; // Track last touch time to prevent double-firing
+    let lastTimelineAdvance = 0; // Track last timeline advance to prevent double-firing
     let filmByTimeouts = []; // Track 6BDM animation timeouts
     let currentTypingInterval = null; // Track the current subtitle typing interval
     let shouldContinueTyping = true; // Flag to control if typing should continue
     let timelineRevealState = { sections: [], currentIndex: 0, element: null, onComplete: null };
     let isInTimelineRevealMode = false;
     let audioContextUnlocked = false; // Track if audio context is unlocked
+    
+    // Memory management
+    let activeEventListeners = new Map(); // Track active event listeners
+    let createdElements = new Set(); // Track created DOM elements
+    
+    // Memory management functions
+    function addEventTracker(element, event, handler) {
+      const key = `${element.id || element.tagName}-${event}`;
+      if (!activeEventListeners.has(key)) {
+        activeEventListeners.set(key, []);
+      }
+      activeEventListeners.get(key).push({ element, event, handler });
+      element.addEventListener(event, handler);
+    }
+    
+    function removeEventTracker(element, event, handler) {
+      const key = `${element.id || element.tagName}-${event}`;
+      if (activeEventListeners.has(key)) {
+        const listeners = activeEventListeners.get(key);
+        const index = listeners.findIndex(l => l.element === element && l.handler === handler);
+        if (index > -1) {
+          listeners.splice(index, 1);
+          element.removeEventListener(event, handler);
+          if (listeners.length === 0) {
+            activeEventListeners.delete(key);
+          }
+        }
+      }
+    }
+    
+    function cleanupElement(element) {
+      if (!element) return;
+      
+      // Remove all tracked event listeners
+      const elementId = element.id || element.tagName;
+      for (const [key, listeners] of activeEventListeners.entries()) {
+        if (key.startsWith(elementId)) {
+          listeners.forEach(({ element: el, event, handler }) => {
+            if (el === element) {
+              el.removeEventListener(event, handler);
+            }
+          });
+          activeEventListeners.delete(key);
+        }
+      }
+      
+      // Remove from created elements set
+      createdElements.delete(element);
+      
+      // Remove from DOM
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+    }
+    
+    function cleanupUnusedElements() {
+      // Clean up images that are not for current or next page
+      const currentPageNumber = currentPage + 1;
+      const nextPageNumber = currentPage + 2;
+      
+      document.querySelectorAll('#page img').forEach(img => {
+        const imgId = img.id;
+        if (imgId) {
+          const pageNumber = parseInt(imgId.replace('img-', ''));
+          if (pageNumber < currentPageNumber - 1 || pageNumber > nextPageNumber) {
+            console.log(`🧹 Cleaning up unused image for page ${pageNumber}`);
+            cleanupElement(img);
+          }
+        }
+      });
+      
+      // Clean up old persistent text elements
+      const oldPersistentText = document.getElementById('persistent-text');
+      if (oldPersistentText && currentPage !== 4) { // Only keep on page 5 (index 4)
+        cleanupElement(oldPersistentText);
+      }
+    }
+    
+    function clearAllTimeouts() {
+      // Clear all tracked timeouts
+      lineRevealTimeouts.forEach(timeout => clearTimeout(timeout));
+      lineRevealTimeouts = [];
+      
+      filmByTimeouts.forEach(timeout => clearTimeout(timeout));
+      filmByTimeouts = [];
+      
+      if (audioTimeout) {
+        clearTimeout(audioTimeout);
+        audioTimeout = null;
+      }
+      
+      // Clear animation frames
+      if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
+        currentAnimationFrame = null;
+      }
+    }
+    
+    // Optimized animation functions using requestAnimationFrame
+    function createRAFAnimation(callback, interval = 100) {
+      let lastTime = 0;
+      let animationId = null;
+      
+      function animate(currentTime) {
+        if (currentTime - lastTime >= interval) {
+          const shouldContinue = callback(currentTime - lastTime);
+          lastTime = currentTime;
+          
+          if (shouldContinue === false) {
+            currentAnimationFrame = null;
+            return;
+          }
+        }
+        
+        animationId = requestAnimationFrame(animate);
+        currentAnimationFrame = animationId;
+      }
+      
+      animationId = requestAnimationFrame(animate);
+      currentAnimationFrame = animationId;
+      
+      return () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+          currentAnimationFrame = null;
+        }
+      };
+    }
 
     // Test if a specific photo file exists
     function testPhotoExists(keyword, format) {
@@ -1685,20 +1805,86 @@ console.warn('Could not load image modes from localStorage:', e);
       return [...new Set(words)]; // Remove duplicates
     }
 
-    // Simple image function - disabled for performance (no images available)
+    // Load images for current and adjacent pages (preload strategy)
+    function loadImagesForPage(pageIndex) {
+      const pageNumber = pageIndex + 1;
+      
+      // Load current page image
+      let imgEl = document.getElementById(`img-${pageNumber}`);
+      if (!imgEl) {
+        imgEl = createImageForPage(pageNumber);
+      } else if (imgEl.dataset.needsLoading === 'true') {
+        findImageForPage(imgEl, pageNumber);
+        imgEl.dataset.needsLoading = 'false';
+      }
+      
+      // Preload next page image
+      const nextPageNumber = pageNumber + 1;
+      if (nextPageNumber <= pages.length) {
+        let nextImgEl = document.getElementById(`img-${nextPageNumber}`);
+        if (!nextImgEl) {
+          nextImgEl = createImageForPage(nextPageNumber);
+        } else if (nextImgEl.dataset.needsLoading === 'true') {
+          findImageForPage(nextImgEl, nextPageNumber);
+          nextImgEl.dataset.needsLoading = 'false';
+        }
+      }
+    }
+
+    // Enhanced image function with fallbacks and lazy loading
     function showImage(pageIndex) {
       // Hide all existing images first
       document.querySelectorAll('#page img').forEach(img => {
-img.className = '';
+        img.className = '';
       });
       
-      // Skip image loading entirely since no images are available
-      console.log(`📷 Image loading skipped for page ${pageIndex + 1} - no images available`);
+      const pageContent = pages[pageIndex];
+      if (!pageContent) {
+        console.log(`📷 No content for page ${pageIndex + 1}`);
+        adjustTextContainerWidth(IMG_OFF);
+        return;
+      }
       
-      let imgEl = null; // No image element since none exist
+      // Load images for current and next page
+      loadImagesForPage(pageIndex);
       
-      // Since no images exist, always use IMG_OFF mode for text layout
-adjustTextContainerWidth(IMG_OFF);
+      // Try to find an image for this page
+      const pageNumber = pageIndex + 1;
+      let imgEl = document.getElementById(`img-${pageNumber}`);
+      
+      // If we have an image element, try to show it based on current mode
+      if (imgEl && imgEl.src) {
+        const currentMode = pageModes[pageIndex] || IMG_BG;
+        console.log(`📷 Showing image for page ${pageNumber} in mode ${currentMode}`);
+        
+        // Apply the appropriate CSS class based on mode
+        imgEl.className = '';
+        switch (currentMode) {
+          case IMG_BG:
+            imgEl.classList.add('show-bg');
+            break;
+          case IMG_BELOW:
+            imgEl.classList.add('show-below');
+            break;
+          case IMG_SIDE:
+            imgEl.classList.add('show-side');
+            break;
+          case IMG_SMALL_SIDE:
+            imgEl.classList.add('show-small-side');
+            break;
+          case IMG_OFF:
+          default:
+            // Image stays hidden
+            break;
+        }
+        
+        // Adjust text container width based on image mode
+        adjustTextContainerWidth(currentMode);
+      } else {
+        // No image available, use text-only layout
+        console.log(`📷 No image available for page ${pageNumber}, using text-only layout`);
+        adjustTextContainerWidth(IMG_OFF);
+      }
     }
     
     
@@ -1745,11 +1931,15 @@ adjustTextContainerWidth(IMG_OFF);
     }
     
     
-    // Create image for a page number - tries multiple formats and naming patterns
+    // Create image for a page number - tries multiple formats and naming patterns with lazy loading
     function createImageForPage(pageNumber) {
       const img = document.createElement('img');
       img.id = `img-${pageNumber}`;
       img.alt = `Page ${pageNumber} Image`;
+      
+      // Lazy loading attributes
+      img.loading = 'lazy';
+      img.decoding = 'async';
       
       // Start invisible - only show when successfully loaded
       img.style.opacity = '0';
@@ -1758,8 +1948,15 @@ adjustTextContainerWidth(IMG_OFF);
       // Add to page first (invisible)
       document.getElementById('page').appendChild(img);
       
-      // Try to find any image that starts with the page number
-      findImageForPage(img, pageNumber);
+      // Only load image if it's the current page or next page (preload strategy)
+      const pageIndex = pageNumber - 1;
+      if (pageIndex === currentPage || pageIndex === currentPage + 1) {
+        findImageForPage(img, pageNumber);
+      } else {
+        // Store the page number for later loading
+        img.dataset.pageNumber = pageNumber;
+        img.dataset.needsLoading = 'true';
+      }
       
       // Only show image when it loads successfully
       img.addEventListener('load', () => {
@@ -1767,7 +1964,6 @@ adjustTextContainerWidth(IMG_OFF);
         img.style.opacity = '0.765';
 
         // Update page mode and layout if this is the current page
-        const pageIndex = pageNumber - 1;
         if (pageIndex === currentPage) {
           adjustTextContainerWidth(pageModes[pageIndex]);
         }
@@ -2052,9 +2248,10 @@ height: 100%;
       
       const lines = text.split('\n');
       const wrappedLines = [];
+      const maxLineLength = 40; // Shorter for better mobile readability
       
       for (const line of lines) {
-        if (line.length <= 50) {
+        if (line.length <= maxLineLength) {
           // Short lines stay as-is
           wrappedLines.push(line);
         } else {
@@ -2063,7 +2260,7 @@ height: 100%;
           const hasBullet = line.match(/^(\s*>\s*)/)?.[1] || '';
           const content = line.replace(/^(\s*>\s*)/, '');
           
-          if (content.length <= 50) {
+          if (content.length <= maxLineLength) {
             wrappedLines.push(line);
           } else {
             // Break at natural points (spaces, punctuation)
@@ -2072,7 +2269,9 @@ height: 100%;
             let isFirstLine = true;
             
             for (const word of words) {
-              if ((currentLine + word).length > 45) {
+              const testLine = currentLine + (currentLine.endsWith(indent + hasBullet) ? '' : ' ') + word;
+              
+              if (testLine.length > maxLineLength) {
                 if (currentLine.trim() !== (indent + hasBullet).trim()) {
                   wrappedLines.push(currentLine);
                   // For continuation lines, only add spaces, not the bullet
@@ -2115,8 +2314,13 @@ height: 100%;
 
     function scrambleFastChunks(element, text, onComplete) {
       if (currentInterval) {
-clearInterval(currentInterval);
-currentInterval = null;
+        clearInterval(currentInterval);
+        currentInterval = null;
+      }
+      
+      if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
+        currentAnimationFrame = null;
       }
       
       // Apply mobile text wrapping before processing (skip for timeline content)
@@ -2128,65 +2332,65 @@ currentInterval = null;
       for (let i=0;i<len;i++) scrambled[i] = /\s/.test(text[i]) ? text[i] : chars[Math.floor(Math.random()*chars.length)];
       isAnimating = true; promptElem.style.visibility='hidden'; navMsg.style.visibility='hidden';
 
+      // Use requestAnimationFrame for better performance
+      const stopAnimation = createRAFAnimation(() => {
+        const display = scrambled.slice();
+        for (let i=0;i<index;i++){
+          let s=i*chunkSize, e=Math.min(s+chunkSize,len);
+          for (let j=s;j<e;j++) display[j]=text[j];
+        }
+        for (let k=index*chunkSize;k<len;k++) display[k] = /\s/.test(text[k]) ? text[k] : chars[Math.floor(Math.random()*chars.length)];
+        element.textContent = display.join('');
 
-      currentInterval = setInterval(() => {
-const display = scrambled.slice();
-for (let i=0;i<index;i++){
-  let s=i*chunkSize, e=Math.min(s+chunkSize,len);
-  for (let j=s;j<e;j++) display[j]=text[j];
-}
-for (let k=index*chunkSize;k<len;k++) display[k] = /\s/.test(text[k]) ? text[k] : chars[Math.floor(Math.random()*chars.length)];
-element.textContent = display.join('');
-
-
-index++;
-if ((index*chunkSize)>=len){
-  clearInterval(currentInterval);
-  currentInterval = null;
-  truncateTextToFit(element, text);
-  isAnimating=false;
-  
-  // Wrap years in spans for styling
-  wrapYearsInSpans(element);
-  
-  // Only show "PRESS SPACEBAR TO CONTINUE" for first 2 pages
-  if (currentPage < 2) {
-  navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
-  navMsg.style.fontSize = '0.9rem';
-  navMsg.style.visibility='visible';
-  }
-  
-  // Check if this text contains "A FILM BY" and add delayed subtitle
-  if (text.includes('A FILM BY EUGENE JARECKI')) {
-    console.log('A FILM BY detected - showing video and adding delay...');
-    
-    // Show JA_OBIWAN video
-    showVideo3Background();
-    
-    // Enable typing for this specific animation
-    shouldContinueTyping = true;
-    
-    // Split the text to separate FILM BY line from 6BDM line
-    const lines = text.split('\n');
-    const filmByLine = lines.find(line => line.includes('A FILM BY EUGENE JARECKI'));
-    const sixBdmLine = lines.find(line => line.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH'));
-    
-    // Show only the FILM BY line immediately
-    element.textContent = filmByLine;
-    
-    // After 20 seconds, type 6BDM and continue to next slide
-    const filmByTimeout = setTimeout(() => {
-      const subtitleText = '\n\n' + sixBdmLine;
-      decodeSubtitle(element, filmByLine, subtitleText, () => {
-        onComplete && onComplete();
-      });
-    }, 20000); // 20 second delay
-    filmByTimeouts.push(filmByTimeout);
-  } else {
-    onComplete && onComplete();
-  }
-}
-      },100);
+        index++;
+        if ((index*chunkSize)>=len){
+          stopAnimation();
+          truncateTextToFit(element, text);
+          isAnimating=false;
+          
+          // Wrap years in spans for styling
+          wrapYearsInSpans(element);
+          
+          // Only show "PRESS SPACEBAR TO CONTINUE" for first 2 pages
+          if (currentPage < 2) {
+          navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
+          navMsg.style.fontSize = '0.9rem';
+          navMsg.style.visibility='visible';
+          }
+          
+          // Check if this text contains "A FILM BY" and add delayed subtitle
+          if (text.includes('A FILM BY EUGENE JARECKI')) {
+            console.log('A FILM BY detected - showing video and adding delay...');
+            
+            // Show JA_OBIWAN video
+            showVideo3Background();
+            
+            // Enable typing for this specific animation
+            shouldContinueTyping = true;
+            
+            // Split the text to separate FILM BY line from 6BDM line
+            const lines = text.split('\n');
+            const filmByLine = lines.find(line => line.includes('A FILM BY EUGENE JARECKI'));
+            const sixBdmLine = lines.find(line => line.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH'));
+            
+            // Show only the FILM BY line immediately
+            element.textContent = filmByLine;
+            
+            // After 20 seconds, type 6BDM and continue to next slide
+            const filmByTimeout = setTimeout(() => {
+              const subtitleText = '\n\n' + sixBdmLine;
+              decodeSubtitle(element, filmByLine, subtitleText, () => {
+                onComplete && onComplete();
+              });
+            }, 20000); // 20 second delay
+            filmByTimeouts.push(filmByTimeout);
+          } else {
+            onComplete && onComplete();
+          }
+          return false; // Stop animation
+        }
+        return true; // Continue animation
+      }, 100);
     }
 
     // Ultra-fast scrambling specifically for 2006 text - much faster interval
@@ -2196,6 +2400,11 @@ if ((index*chunkSize)>=len){
         currentInterval = null;
       }
       
+      if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
+        currentAnimationFrame = null;
+      }
+      
       // Apply mobile text wrapping before processing (skip for timeline content)
       if (!element.hasAttribute('data-timeline')) {
         text = wrapTextForMobile(text);
@@ -2205,8 +2414,8 @@ if ((index*chunkSize)>=len){
       for (let i=0;i<len;i++) scrambled[i] = /\s/.test(text[i]) ? text[i] : chars[Math.floor(Math.random()*chars.length)];
       isAnimating = true; promptElem.style.visibility='hidden'; navMsg.style.visibility='hidden';
 
-
-      currentInterval = setInterval(() => {
+      // Use requestAnimationFrame for better performance with ultra-fast timing
+      const stopAnimation = createRAFAnimation(() => {
         const display = scrambled.slice();
         for (let i=0;i<index;i++){
           let s=i*chunkSize, e=Math.min(s+chunkSize,len);
@@ -2215,11 +2424,9 @@ if ((index*chunkSize)>=len){
         for (let k=index*chunkSize;k<len;k++) display[k] = /\s/.test(text[k]) ? text[k] : chars[Math.floor(Math.random()*chars.length)];
         element.textContent = display.join('');
 
-
         index++;
         if ((index*chunkSize)>=len){
-          clearInterval(currentInterval);
-          currentInterval = null;
+          stopAnimation();
           truncateTextToFit(element, text);
           isAnimating=false;
           
@@ -2234,7 +2441,9 @@ if ((index*chunkSize)>=len){
           }
           
           onComplete && onComplete();
+          return false; // Stop animation
         }
+        return true; // Continue animation
       }, 25); // Ultra-fast: 25ms interval instead of 100ms (4x faster)
     }
 
@@ -2282,21 +2491,34 @@ if ((index*chunkSize)>=len){
         return [text];
       }
       
+      console.log('Found year markers:', matches.map(m => m[0].trim()));
+      
       // Split text at each year marker, including the year marker in each section
       matches.forEach((match, i) => {
         const startIndex = match.index;
         const endIndex = i < matches.length - 1 ? matches[i + 1].index : text.length;
         const sectionText = text.substring(startIndex, endIndex).trim();
-        if (sectionText) {
+        
+        // Only add if section is not empty and contains actual content
+        if (sectionText && sectionText.length > 10) {
           sections.push(sectionText);
+          console.log(`Section ${i + 1}:`, sectionText.substring(0, 100) + '...');
         }
       });
       
-      console.log('Parsed timeline sections:', sections.map(s => s.substring(0, 50) + '...'));
+      console.log(`Total parsed timeline sections: ${sections.length}`);
       return sections;
     }
     
     function showNextTimelineSection() {
+      const now = Date.now();
+      // Debounce timeline advances to prevent double-firing from multiple events
+      if (now - lastTimelineAdvance < 500) {
+        console.log('Timeline advance debounced - too soon');
+        return;
+      }
+      lastTimelineAdvance = now;
+      
       if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
         const currentSection = timelineRevealState.sections[timelineRevealState.currentIndex];
         const sectionNumber = timelineRevealState.currentIndex + 1;
@@ -2329,11 +2551,12 @@ if ((index*chunkSize)>=len){
           
           timelineRevealState.currentIndex++;
           
-          // Show navigation message for next section
+          // Show navigation message for next section - wait for user input
           if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
             navMsg.innerHTML = 'PRESS SPACEBAR<br>TO CONTINUE';
             navMsg.style.fontSize = '0.9rem';
             navMsg.style.visibility = 'visible';
+            // Don't automatically advance - wait for user to press spacebar
           } else {
             // All sections revealed - show final navigation message
             console.log('All timeline sections have been displayed');
@@ -2460,13 +2683,8 @@ if ((index*chunkSize)>=len){
         
         console.log(`🔍 Starting page ${pageIndex + 1}, content:`, pages[pageIndex] ? pages[pageIndex].substring(0, 100) : 'UNDEFINED');
         
-        // Clear any ongoing line reveal timeouts when changing pages
-        lineRevealTimeouts.forEach(timeout => clearTimeout(timeout));
-        lineRevealTimeouts = [];
-        
-        // Clear any ongoing 6BDM animation timeouts
-        filmByTimeouts.forEach(timeout => clearTimeout(timeout));
-        filmByTimeouts = [];
+        // Clear all timeouts and intervals
+        clearAllTimeouts();
         
         // Clear any ongoing typing animation
         if (currentTypingInterval) {
@@ -2482,6 +2700,9 @@ if ((index*chunkSize)>=len){
           clearInterval(currentInterval);
           currentInterval = null;
         }
+        
+        // Clean up unused DOM elements and event listeners
+        cleanupUnusedElements();
         
         // Reset animation state
         isAnimating = false;
@@ -2525,6 +2746,12 @@ if ((index*chunkSize)>=len){
           // Mark as timeline content for CSS protection
           el.setAttribute('data-timeline', 'true');
           
+          // Add timeline-mode class to text-wrap for mobile optimization
+          const textWrap = document.getElementById('text-wrap');
+          if (textWrap) {
+            textWrap.classList.add('timeline-mode');
+          }
+          
           // Preserve exact formatting for timeline content - prevent any text modifications
           el.style.whiteSpace = 'pre-wrap';
           el.style.wordWrap = 'normal';
@@ -2540,6 +2767,12 @@ if ((index*chunkSize)>=len){
           
           // Remove timeline marker
           el.removeAttribute('data-timeline');
+          
+          // Remove timeline-mode class from text-wrap
+          const textWrap = document.getElementById('text-wrap');
+          if (textWrap) {
+            textWrap.classList.remove('timeline-mode');
+          }
           
           // Reset any timeline-specific formatting
           el.style.whiteSpace = '';
@@ -2620,6 +2853,9 @@ if ((index*chunkSize)>=len){
        }
        
        showImage(pageIndex);
+       
+       // Preload videos for current and upcoming pages
+       preloadVideosForPage(pageIndex);
        
        // Handle last slide - add collateral image and audio
        if (pageIndex === pages.length - 1) {
@@ -2892,25 +3128,20 @@ document.addEventListener('click', (e)=>{
       }
     });
 
-    // Simplified font system
-    let currentFontIndex = 3; // Start with Crisp (index 3) as default
+    // Font system - Crisp only
+    let currentFontIndex = 0; // Start with Crisp (index 0) as default
     let currentFontSize = 1.0; // Size multiplier (1.0 = 100% of base size)
     const fonts = [
-      { family: 'Courier New', size: '1.2rem' },
-      { family: 'IBM3270', size: '1.2rem' },
-      { family: 'PixelCarnageMono', size: '1.2rem' },
-      { family: 'Crisp', size: '1.2rem' },
-      { family: 'ProggyCleanCE', size: '1.2rem' },
-      { family: 'ProggySquare', size: '1.2rem' }
+      { family: 'Crisp, "Courier New", monospace', size: '1.2rem' }
     ];
     
     function cycleFontForward() {
-      currentFontIndex = (currentFontIndex + 1) % fonts.length;
+      // Only one font available, no cycling needed
       applyCurrentFont();
     }
     
     function cycleFontBackward() {
-      currentFontIndex = (currentFontIndex - 1 + fonts.length) % fonts.length;
+      // Only one font available, no cycling needed
       applyCurrentFont();
     }
     
@@ -3096,7 +3327,7 @@ customCursor.style.top = e.clientY - 10 + 'px';
 customCursor.style.display = 'none';
       });
       
-      // Apply the default font (IBM3270) on page load
+      // Apply the default font (Crisp) on page load
       applyCurrentFont();
     };
     
@@ -3132,126 +3363,7 @@ if (mode === 'full') {
      
   </script>
   
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://threejs.org/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://threejs.org/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://threejs.org/examples/js/postprocessing/UnrealBloomPass.js"></script>
-  <script src="https://threejs.org/examples/js/postprocessing/OutputPass.js"></script>
   
-  <!-- Shaders for 3D Audio Visualizer -->
-  <script id="vertexshader" type="vertex">
-    vec3 mod289(vec3 x) {
-      return x - floor(x * (1.0 / 289.0)) * 289.0;
-    }
-
-    vec4 mod289(vec4 x) {
-      return x - floor(x * (1.0 / 289.0)) * 289.0;
-    }
-
-    vec4 permute(vec4 x) {
-      return mod289(((x*34.0)+10.0)*x);
-    }
-
-    vec4 taylorInvSqrt(vec4 r) {
-      return 1.79284291400159 - 0.85373472095314 * r;
-    }
-
-    vec3 fade(vec3 t) {
-      return t*t*t*(t*(t*6.0-15.0)+10.0);
-    }
-
-    float pnoise(vec3 P, vec3 rep) {
-      vec3 Pi0 = mod(floor(P), rep);
-      vec3 Pi1 = mod(floor(P) + vec3(1.0), rep);
-      Pi0 = mod289(Pi0);
-      Pi1 = mod289(Pi1);
-      vec3 Pf0 = fract(P);
-      vec3 Pf1 = Pf0 - vec3(1.0);
-      vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);
-      vec4 iy = vec4(Pi0.yy, Pi1.yy);
-      vec4 iz0 = vec4(Pi0.z);
-      vec4 iz1 = vec4(Pi1.z);
-
-      vec4 ixy = permute(permute(ix) + iy);
-      vec4 ixy0 = permute(ixy + iz0);
-      vec4 ixy1 = permute(ixy + iz1);
-
-      vec4 gx0 = ixy0 * (1.0 / 7.0);
-      vec4 gy0 = fract(floor(gx0) * (1.0 / 7.0)) - 0.5;
-      gx0 = fract(gx0);
-      vec4 gz0 = vec4(0.5) - abs(gx0) - abs(gy0);
-      vec4 sz0 = step(gz0, vec4(0.0));
-      gx0 -= sz0 * (step(0.0, gx0) - 0.5);
-      gy0 -= sz0 * (step(0.0, gy0) - 0.5);
-
-      vec4 gx1 = ixy1 * (1.0 / 7.0);
-      vec4 gy1 = fract(floor(gx1) * (1.0 / 7.0)) - 0.5;
-      gx1 = fract(gx1);
-      vec4 gz1 = vec4(0.5) - abs(gx1) - abs(gy1);
-      vec4 sz1 = step(gz1, vec4(0.0));
-      gx1 -= sz1 * (step(0.0, gx1) - 0.5);
-      gy1 -= sz1 * (step(0.0, gy1) - 0.5);
-
-      vec3 g000 = vec3(gx0.x,gy0.x,gz0.x);
-      vec3 g100 = vec3(gx0.y,gy0.y,gz0.y);
-      vec3 g010 = vec3(gx0.z,gy0.z,gz0.z);
-      vec3 g110 = vec3(gx0.w,gy0.w,gz0.w);
-      vec3 g001 = vec3(gx1.x,gy1.x,gz1.x);
-      vec3 g101 = vec3(gx1.y,gy1.y,gz1.y);
-      vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);
-      vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);
-
-      vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));
-      g000 *= norm0.x;
-      g010 *= norm0.y;
-      g100 *= norm0.z;
-      g110 *= norm0.w;
-      vec4 norm1 = taylorInvSqrt(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));
-      g001 *= norm1.x;
-      g011 *= norm1.y;
-      g101 *= norm1.z;
-      g111 *= norm1.w;
-
-      float n000 = dot(g000, Pf0);
-      float n100 = dot(g100, vec3(Pf1.x, Pf0.yz));
-      float n010 = dot(g010, vec3(Pf0.x, Pf1.y, Pf0.z));
-      float n110 = dot(g110, vec3(Pf1.xy, Pf0.z));
-      float n001 = dot(g001, vec3(Pf0.xy, Pf1.z));
-      float n101 = dot(g101, vec3(Pf1.x, Pf0.y, Pf1.z));
-      float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));
-      float n111 = dot(g111, Pf1);
-
-      vec3 fade_xyz = fade(Pf0);
-      vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
-      vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
-      float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
-      return 2.2 * n_xyz;
-    }
-
-    uniform float u_time;
-    uniform float u_frequency;
-    uniform float u_red;
-    uniform float u_green;
-    uniform float u_blue;
-
-    void main() {
-      float noise = 3.0 * pnoise(position + u_time, vec3(10.0));
-      float displacement = (u_frequency / 30.0) * (noise / 10.0);
-      vec3 newPosition = position + normal * displacement;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-    }
-  </script>
-
-  <script id="fragmentshader" type="fragment">
-    uniform float u_red;
-    uniform float u_green;
-    uniform float u_blue;
-    
-    void main() {
-      gl_FragColor = vec4(vec3(u_red, u_green, u_blue), 1.0);
-    }
-  </script>
   
 </body>
 </html>
