@@ -2006,12 +2006,17 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             console.log('🎬 2010 section detected - showing collateral photo and playing audio');
             addCollateralPhoto();
             
-            // Play collateral audio
+            // Play collateral audio with 3-second delay
             stopCurrentAudio(); // Stop any existing audio first
             const audio = new Audio('AUDIO/COLLATERAL_AUDIO.mp4');
             audio.volume = 0.7;
             audio.loop = true;
             currentAudio = audio;
+            
+            // Skip first 3 seconds of audio
+            audio.addEventListener('loadedmetadata', () => {
+              audio.currentTime = 3;
+            });
             
             audio.play().catch(err => {
               console.log('Collateral audio play failed:', err);
