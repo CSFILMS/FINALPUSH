@@ -2726,6 +2726,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       if (isInTimelineRevealMode) {
         console.log('Mobile touchstart: Timeline reveal mode detected, advancing timeline');
         e.preventDefault(); // Prevent default touch behavior
+        e.stopPropagation(); // Stop event bubbling
         showNextTimelineSection();
         return;
       }
@@ -2761,6 +2762,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       if (isInTimelineRevealMode) {
         console.log('Mobile touchend: Timeline reveal mode detected, advancing timeline');
         e.preventDefault(); // Prevent default touch behavior
+        e.stopPropagation(); // Stop event bubbling
         showNextTimelineSection();
         return;
       }
@@ -2779,12 +2781,12 @@ document.addEventListener('click', (e)=>{
       // Prevent click events that follow touch events too closely
       if (now - lastTouchTime < 300) return;
       
-      // If in timeline reveal mode, only right side advances to next year section
+      // If in timeline reveal mode, allow clicking anywhere to advance (mobile-friendly)
       if (isInTimelineRevealMode) {
+        console.log('Click: Timeline reveal mode detected, advancing timeline');
         e.preventDefault(); // Prevent any default click behavior
-        if (e.clientX >= window.innerWidth / 2) {
-          showNextTimelineSection();
-        }
+        e.stopPropagation(); // Stop event bubbling
+        showNextTimelineSection();
         return;
       }
       
@@ -2917,10 +2919,48 @@ if (e.key==='1'||e.key==='2'||e.key==='3'){ colorIndex=parseInt(e.key,10)-1; app
       apply();
     })();
 
+    /* ================== MOBILE TIMELINE HANDLER ================== */
+    // Dedicated mobile handler for timeline reveal - works on all mobile devices
+    function addMobileTimelineHandler() {
+      // Add multiple event listeners for maximum mobile compatibility
+      const events = ['touchstart', 'touchend', 'click', 'tap'];
+      
+      events.forEach(eventType => {
+        document.addEventListener(eventType, (e) => {
+          // Only handle if in timeline reveal mode
+          if (!isInTimelineRevealMode) return;
+          
+          // Skip navigation buttons
+          if (e.target && (e.target.id === 'nav-prev' || e.target.id === 'nav-next')) return;
+          
+          console.log(`Mobile ${eventType}: Timeline advance triggered`);
+          e.preventDefault();
+          e.stopPropagation();
+          showNextTimelineSection();
+        }, { passive: false });
+      });
+      
+      // Also add a specific handler for the text area itself
+      const textArea = document.getElementById('unscramble');
+      if (textArea) {
+        textArea.addEventListener('touchstart', (e) => {
+          if (isInTimelineRevealMode) {
+            console.log('Text area touch: Timeline advance triggered');
+            e.preventDefault();
+            e.stopPropagation();
+            showNextTimelineSection();
+          }
+        }, { passive: false });
+      }
+    }
+
     /* ================== INIT ================== */
     window.onload = () => {
       // Start presentation immediately when DOM is loaded
       startPage(0);
+      
+      // Add mobile timeline handler
+      addMobileTimelineHandler();
       
       // Initialize audio context for mobile devices
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
