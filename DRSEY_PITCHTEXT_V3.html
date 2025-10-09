@@ -1034,7 +1034,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Ensure video audio is enabled
         video.muted = false;
         video.volume = 0.7;
-        video.loop = true;
+        video.loop = false; // Don't loop - freeze on last frame
         video.currentTime = 0;
         
         // Unlock audio context first
@@ -1053,8 +1053,14 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
           video.removeEventListener('error', onError);
         };
         
+        const onEnded = () => {
+          console.log('🎬 Video3 ended - freezing on last frame');
+          // Video will automatically freeze on the last frame when ended
+        };
+        
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
+        video.addEventListener('ended', onEnded);
         
         // Try to play video with audio
         console.log('🔊 Attempting to play video with audio...');
