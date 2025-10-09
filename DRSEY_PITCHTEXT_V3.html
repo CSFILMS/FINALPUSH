@@ -1070,31 +1070,33 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         video.addEventListener('error', onError);
         video.addEventListener('ended', onEnded);
         
-        // Try to play video with audio
+        // Try to play video with audio after a small delay to avoid pause conflicts
         console.log('🔊 Attempting to play video with audio...');
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
-        video.play().then(() => {
-          console.log('✅ Video3 playing with audio successfully');
-          console.log('✅ Video current time:', video.currentTime);
-          console.log('✅ Video duration:', video.duration);
-        }).catch(err => {
-          console.log('❌ Video3 play failed:', err.message);
-          console.log('❌ Error details:', err);
-          console.log('🔧 This might require user interaction first');
-          
-          // Try again after a short delay
-          setTimeout(() => {
-            console.log('🔄 Retrying video play...');
-            video.play().then(() => {
-              console.log('✅ Video3 playing with audio on retry');
-            }).catch(retryErr => {
-              console.log('❌ Video3 retry failed:', retryErr.message);
-              console.log('❌ Retry error details:', retryErr);
-            });
-          }, 1000);
-        });
+        setTimeout(() => {
+          video.play().then(() => {
+            console.log('✅ Video3 playing with audio successfully');
+            console.log('✅ Video current time:', video.currentTime);
+            console.log('✅ Video duration:', video.duration);
+          }).catch(err => {
+            console.log('❌ Video3 play failed:', err.message);
+            console.log('❌ Error details:', err);
+            console.log('🔧 This might require user interaction first');
+            
+            // Try again after a short delay
+            setTimeout(() => {
+              console.log('🔄 Retrying video play...');
+              video.play().then(() => {
+                console.log('✅ Video3 playing with audio on retry');
+              }).catch(retryErr => {
+                console.log('❌ Video3 retry failed:', retryErr.message);
+                console.log('❌ Retry error details:', retryErr);
+              });
+            }, 1000);
+          });
+        }, 100); // Small delay to avoid pause conflicts
       }
     }
 
