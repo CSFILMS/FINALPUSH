@@ -1806,7 +1806,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             // Show only the FILM BY line immediately
             element.textContent = filmByLine;
             
-            // After 20 seconds, type 6BDM and continue to next slide
+            // After 25 seconds, type 6BDM and continue to next slide
             const filmByTimeout = setTimeout(() => {
               if (sixBdmLine) {
               const subtitleText = '\n\n' + sixBdmLine;
@@ -1817,7 +1817,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 20000); // 20 second delay
+            }, 25000); // 25 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
