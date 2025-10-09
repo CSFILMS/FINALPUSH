@@ -1026,10 +1026,18 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        console.log('🎬 showVideo3Background called - showing hologram2 video');
+        console.log('🎬 showVideo3Background called - showing holofreeze video');
         
         // Show video - now that inline style is removed, this should work
         video.style.setProperty('display', 'block', 'important');
+        
+        // Debug video source
+        console.log('🎬 Video src:', video.querySelector('source')?.src);
+        console.log('🎬 Video current src:', video.currentSrc);
+        console.log('🎬 Video ready state:', video.readyState);
+        console.log('🎬 Video network state:', video.networkState);
+        console.log('🎬 Video duration:', video.duration);
+        console.log('🎬 Video paused:', video.paused);
         
         // Ensure video audio is enabled
         video.muted = false;
@@ -1064,18 +1072,26 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         
         // Try to play video with audio
         console.log('🔊 Attempting to play video with audio...');
+        console.log('🔊 Video element:', video);
+        console.log('🔊 Video source element:', video.querySelector('source'));
+        
         video.play().then(() => {
           console.log('✅ Video3 playing with audio successfully');
+          console.log('✅ Video current time:', video.currentTime);
+          console.log('✅ Video duration:', video.duration);
         }).catch(err => {
           console.log('❌ Video3 play failed:', err.message);
+          console.log('❌ Error details:', err);
           console.log('🔧 This might require user interaction first');
           
           // Try again after a short delay
           setTimeout(() => {
+            console.log('🔄 Retrying video play...');
             video.play().then(() => {
               console.log('✅ Video3 playing with audio on retry');
             }).catch(retryErr => {
               console.log('❌ Video3 retry failed:', retryErr.message);
+              console.log('❌ Retry error details:', retryErr);
             });
           }, 1000);
         });
