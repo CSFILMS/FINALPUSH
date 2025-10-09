@@ -1573,6 +1573,28 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         pointer-events: none !important;
         overflow: hidden !important;
       `;
+      
+      // Add desktop-only styling
+      const style = document.createElement('style');
+      style.textContent = `
+        @media (min-width: 769px) {
+          #collateral-photo-container {
+            z-index: 0 !important;
+          }
+          #collateral-photo {
+            filter: brightness(0.75) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+          }
+        }
+        @media (max-width: 768px) {
+          #collateral-photo-container {
+            z-index: 1 !important;
+          }
+          #collateral-photo {
+            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
       document.body.appendChild(imageContainer);
       
       // Add Collateral photo
