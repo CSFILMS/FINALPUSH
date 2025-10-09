@@ -1057,6 +1057,10 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         
         const onError = (e) => {
           console.log('❌ Video3 failed to load:', e);
+          console.log('❌ Video error code:', video.error ? video.error.code : 'unknown');
+          console.log('❌ Video error message:', video.error ? video.error.message : 'unknown');
+          console.log('❌ Video network state:', video.networkState);
+          console.log('❌ Video ready state:', video.readyState);
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
@@ -1069,6 +1073,12 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
         video.addEventListener('ended', onEnded);
+        video.addEventListener('loadstart', () => {
+          console.log('🔄 Video load started');
+        });
+        video.addEventListener('loadeddata', () => {
+          console.log('📊 Video data loaded');
+        });
         
         // Try to play video with audio after a small delay to avoid pause conflicts
         console.log('🔊 Attempting to play video with audio...');
