@@ -1039,8 +1039,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         console.log('🎬 Video duration:', video.duration);
         console.log('🎬 Video paused:', video.paused);
         
-        // Ensure video audio is enabled
-        video.muted = false;
+        // Start muted to avoid autoplay restrictions, then unmute on user interaction
+        video.muted = true; // Start muted
         video.volume = 0.7;
         video.loop = false; // Don't loop - freeze on last frame
         video.currentTime = 0;
@@ -1083,6 +1083,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         });
         video.addEventListener('loadeddata', () => {
           console.log('📊 Video data loaded');
+          console.log('🔊 Video audio tracks:', video.audioTracks ? video.audioTracks.length : 'not supported');
+          console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
         });
         
         // Try to play video with audio after a small delay to avoid pause conflicts
@@ -1119,10 +1121,14 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
           console.log('🔊 User interaction detected - enabling video audio');
           video.muted = false;
           video.volume = 0.7;
+          console.log('🔊 Video unmuted, volume set to:', video.volume);
+          console.log('🔊 Video muted after unmute:', video.muted);
           document.removeEventListener('click', enableAudio);
           document.removeEventListener('touchstart', enableAudio);
         };
         
+        // Add immediate click handler for this video
+        video.addEventListener('click', enableAudio);
         document.addEventListener('click', enableAudio);
         document.addEventListener('touchstart', enableAudio);
       }
