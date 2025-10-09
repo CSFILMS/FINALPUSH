@@ -1383,6 +1383,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     let timelineRevealState = { sections: [], currentIndex: 0, element: null, onComplete: null };
     let isInTimelineRevealMode = false;
     let audioContextUnlocked = false; // Track if audio context is unlocked
+    let scramblingDisabled = false; // Track if scrambling should be disabled after timeline
     
     // Memory management
     let activeEventListeners = new Map(); // Track active event listeners
@@ -1807,6 +1808,15 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     }
 
     function scrambleFastChunks(element, text, onComplete) {
+      // Check if scrambling is disabled
+      if (scramblingDisabled) {
+        console.log('🔒 Scrambling disabled - displaying text instantly');
+        element.textContent = text;
+        wrapYearsInSpans(element);
+        onComplete && onComplete();
+        return;
+      }
+      
       if (currentInterval) {
         clearInterval(currentInterval);
         currentInterval = null;
@@ -1897,6 +1907,15 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
 
     // Ultra-fast scrambling specifically for 2006 text - much faster interval
     function scrambleUltraFastChunks(element, text, onComplete) {
+      // Check if scrambling is disabled
+      if (scramblingDisabled) {
+        console.log('🔒 Scrambling disabled - displaying text instantly');
+        element.textContent = text;
+        wrapYearsInSpans(element);
+        onComplete && onComplete();
+        return;
+      }
+      
       if (currentInterval) {
         clearInterval(currentInterval);
         currentInterval = null;
@@ -2153,6 +2172,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       console.log('All timeline sections revealed, finishing...');
       isAnimating = false;
       isInTimelineRevealMode = false;
+      scramblingDisabled = true; // Disable scrambling for all subsequent slides
+      console.log('🔒 Scrambling disabled for all subsequent slides');
       navMsg.style.visibility = 'hidden';
       timelineRevealState.onComplete && timelineRevealState.onComplete();
     }
