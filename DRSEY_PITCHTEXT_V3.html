@@ -8,7 +8,7 @@
     /* Background video */
     .bg-video {
       position: fixed;
-      top: 50px;
+      top: 30px;
       left: 50%;
       transform: translateX(-50%) scaleX(0.8);
       width: calc(60vw - 2rem);
@@ -438,6 +438,14 @@ z-index: 1;
       text-shadow: 0 0 2px #66FF66, 0 0 12px #66FF66;
     }
     
+    /* Ensure text content appears above collateral photo on desktop */
+    @media (min-width: 769px) {
+      #text-wrap, #unscramble, #page {
+        position: relative;
+        z-index: 1 !important;
+      }
+    }
+    
     /* Slide 2 and 3 text 10% bigger */
     #page[data-page="2"] #unscramble,
     #page[data-page="3"] #unscramble {
@@ -814,7 +822,7 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-    <source src="VIDEOS/holofreezeaudio.mp4" type="video/mp4" />
+    <source src="VIDEOS/ZOOM.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
@@ -869,6 +877,20 @@ PRESS [F] FOR FULL SCREEN
 
 
 A FILM BY EUGENE JARECKI
+
+ 
+ 
+ 
+ 
+              
+ 
+      
+ 
+         
+ 
+ 
+ 
+     
 
 
 6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH
@@ -1548,8 +1570,22 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         object-fit: contain !important;
         filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
         display: block !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease-in-out !important;
       `;
       imageContainer.appendChild(img);
+      
+      // CRT-style fade-in effect with brightness flash
+      setTimeout(() => {
+        img.style.opacity = '1';
+        // Add brightness flash effect with intense glow
+        img.style.filter = 'brightness(1.2) sepia(1) hue-rotate(60deg) saturate(2.0)';
+        img.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.4)';
+        setTimeout(() => {
+          img.style.filter = 'brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0)';
+          img.style.boxShadow = 'none';
+        }, 200);
+      }, 50);
       
       console.log('Cannes photo added to slide 5');
     }
@@ -1575,7 +1611,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         overflow: hidden !important;
       `;
       
-      // Add desktop-only styling
+      // Add desktop-only styling with higher specificity
       const style = document.createElement('style');
       style.textContent = `
         @media (min-width: 769px) {
@@ -1583,7 +1619,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             z-index: 0 !important;
           }
           #collateral-photo {
-            filter: brightness(0.75) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            display: block !important;
+            filter: brightness(0.4) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
           }
         }
         @media (max-width: 768px) {
@@ -1591,8 +1628,13 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             z-index: 1 !important;
           }
           #collateral-photo {
-            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            display: block !important;
+            filter: brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
           }
+        }
+        /* Override any conflicting CSS rules */
+        #collateral-photo-container #collateral-photo {
+          display: block !important;
         }
       `;
       document.head.appendChild(style);
@@ -1608,12 +1650,28 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
         display: block !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease-in-out !important;
       `;
       imageContainer.appendChild(img);
       
-      console.log('Collateral photo added to slide 6');
+      // CRT-style fade-in effect with brightness flash
+      setTimeout(() => {
+        img.style.opacity = '1';
+        // Add brightness flash effect with intense glow
+        img.style.filter = 'brightness(0.6) sepia(1) hue-rotate(60deg) saturate(2.0)';
+        img.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.4)';
+        setTimeout(() => {
+          img.style.filter = 'brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0)';
+          img.style.boxShadow = 'none';
+        }, 200);
+      }, 50);
+      
+      console.log('Collateral photo added - should be behind text and dimmed on desktop');
+      console.log('Desktop z-index: collateral=0, text=1');
+      console.log('Mobile z-index: collateral=1, text=1');
     }
     
     
@@ -1628,6 +1686,12 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       const collateralContainer = document.getElementById('collateral-photo-container');
       if (collateralContainer) {
         collateralContainer.remove();
+      }
+      
+      // Remove 6BDM subtitle element
+      const bdmSubtitle = document.getElementById('bdm-subtitle');
+      if (bdmSubtitle) {
+        bdmSubtitle.remove();
       }
       
       // Remove any other images
@@ -1883,18 +1947,50 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             // Show only the FILM BY line immediately
             element.textContent = filmByLine;
             
-            // After 22 seconds, type 6BDM and continue to next slide
+            // Create a separate element positioned in the middle of the screen for 6BDM
+            const bdmElement = document.createElement('div');
+            bdmElement.id = 'bdm-subtitle';
+            bdmElement.style.cssText = `
+              position: fixed;
+              top: 55%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 80vw;
+              z-index: 99997;
+              color: var(--soft);
+              font-family: var(--font-family);
+              font-size: 1.2em;
+              text-align: left;
+              padding-left: 2rem;
+              padding-right: 2rem;
+              opacity: 0.9;
+              pointer-events: none;
+              display: block;
+              white-space: pre-wrap;
+              text-shadow: 0 0 2px var(--soft), 0 0 12px var(--soft);
+            `;
+            
+            // Add mobile responsiveness
+            if (window.innerWidth <= 768) {
+              bdmElement.style.fontSize = '1em';
+              bdmElement.style.width = '90vw';
+            }
+            document.body.appendChild(bdmElement);
+            
+            // After 5 seconds, type 6BDM in the center of the screen
             const filmByTimeout = setTimeout(() => {
               if (sixBdmLine) {
-              const subtitleText = '\n\n' + sixBdmLine;
-              decodeSubtitle(element, filmByLine, subtitleText, () => {
-                onComplete && onComplete();
-              });
+                // Format the text with proper indentation and line breaks
+                const formattedText = '6BDM:\nJULIAN ASSANGE AND THE\nPRICE OF TRUTH';
+                // Type the formatted 6BDM text in the center element
+                decodeSubtitle(bdmElement, '', formattedText, () => {
+                  onComplete && onComplete();
+                });
               } else {
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 22000); // 22 second delay
+            }, 5000); // 5 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
