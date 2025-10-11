@@ -8,11 +8,11 @@
     /* Background video */
     .bg-video {
       position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0.8);
-      width: calc(60vw - 2rem);
-      height: calc(70vh - 2rem);
+      top: 30px;
+      left: 0;
+      transform: scaleX(0.8);
+      width: calc(80vw);
+      height: calc(80vh);
       object-fit: cover;
       object-position: center center;
       z-index: 100000;
@@ -21,15 +21,15 @@
       filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2.5);
       animation: none;
       overflow: hidden;
-      padding-left: 5vw;
     }
     
-    /* Mobile video - 15% bigger */
+    /* Mobile video - bigger and flush left */
     @media (max-width: 768px) {
       .bg-video {
-        width: calc(69vw - 2rem); /* 60vw * 1.15 = 69vw */
-        height: calc(80.5vh - 2rem);  /* 70vh * 1.15 = 80.5vh */
-        padding-left: 5vw;
+        width: calc(90vw);
+        height: calc(85vh);
+        left: 0;
+        transform: scaleX(0.8);
       }
     }
     
@@ -2199,7 +2199,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
           wrapYearsInSpans(timelineRevealState.element);
           
           // Check if this is the 2010 section - show collateral photo and play audio
-          if (currentSection.includes('2010:')) {
+          // Only play collateral audio in timeline (slide 4)
+          if (currentSection.includes('2010:') && currentPage === 3) {
             console.log('🎬 2010 section detected - showing collateral photo and playing audio');
             addCollateralPhoto();
             
