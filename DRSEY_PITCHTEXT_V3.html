@@ -8,7 +8,7 @@
     /* Background video */
     .bg-video {
       position: fixed;
-      top: 30px;
+      top: 10px;
       left: 50%;
       transform: translateX(-50%) scaleX(0.8);
       width: calc(60vw - 2rem);
@@ -21,6 +21,7 @@
       filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2.5);
       animation: none;
       overflow: hidden;
+      padding-left: 5vw;
     }
     
     /* Mobile video - 15% bigger */
@@ -28,6 +29,7 @@
       .bg-video {
         width: calc(69vw - 2rem); /* 60vw * 1.15 = 69vw */
         height: calc(80.5vh - 2rem);  /* 70vh * 1.15 = 80.5vh */
+        padding-left: 5vw;
       }
     }
     
@@ -222,7 +224,7 @@ transparent 4px
       
       /* Mobile video sizing - optimized for mobile */
       .bg-video {
-        top: 10vh;
+        top: 5vh;
         left: 50%;
         transform: translateX(-50%) scaleX(0.9);
         width: calc(90vw - 2rem);
@@ -231,6 +233,7 @@ transparent 4px
         object-position: center center;
         max-width: 100%;
         max-height: 100%;
+        padding-left: 5vw;
       }
       
       /* Force full width on mobile regardless of image mode */
@@ -822,7 +825,7 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-    <source src="VIDEOS/ZOOM.mp4" type="video/mp4" />
+    <source src="VIDEOS/HOLOZOOMNARROW.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
@@ -1065,7 +1068,6 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         video.muted = false; // Don't start muted
         video.volume = 0.7;
         video.loop = false; // Don't loop - freeze on last frame
-        video.currentTime = 0;
         
         // Debug audio properties
         console.log('🔊 Video muted:', video.muted);
@@ -1078,6 +1080,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Set up video event listeners
         const onCanPlay = () => {
           console.log('✅ Video3 ready to play');
+          video.currentTime = 1; // Set start time when video is ready to play
+          console.log('🎬 Video currentTime set to 1 second on canplay');
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
@@ -1120,6 +1124,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             console.log('✅ Video current time:', video.currentTime);
             console.log('✅ Video duration:', video.duration);
             console.log('✅ Video muted after play:', video.muted);
+            videoStartTime = Date.now(); // Track when video started playing
+            console.log('🎬 Video start time recorded:', videoStartTime);
           }).catch(err => {
             console.log('❌ Video3 play failed:', err.message);
             console.log('❌ Error details:', err);
@@ -1130,6 +1136,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
               console.log('🔄 Retrying video play...');
               video.play().then(() => {
                 console.log('✅ Video3 playing with audio on retry');
+                videoStartTime = Date.now(); // Track when video started playing on retry
+                console.log('🎬 Video start time recorded on retry:', videoStartTime);
               }).catch(retryErr => {
                 console.log('❌ Video3 retry failed:', retryErr.message);
                 console.log('❌ Retry error details:', retryErr);
@@ -1406,6 +1414,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     let isInTimelineRevealMode = false;
     let audioContextUnlocked = false; // Track if audio context is unlocked
     let scramblingDisabled = false; // Track if scrambling should be disabled after timeline
+    let videoStartTime = null; // Track when video started playing
     
     // Memory management
     let activeEventListeners = new Map(); // Track active event listeners
@@ -1952,14 +1961,14 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             bdmElement.id = 'bdm-subtitle';
             bdmElement.style.cssText = `
               position: fixed;
-              top: 55%;
+              top: 45%;
               left: 50%;
               transform: translate(-50%, -50%);
               width: 80vw;
-              z-index: 99997;
+              z-index: 100001;
               color: var(--soft);
               font-family: var(--font-family);
-              font-size: 1.2em;
+              font-size: 1.0em;
               text-align: left;
               padding-left: 2rem;
               padding-right: 2rem;
@@ -1972,7 +1981,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             
             // Add mobile responsiveness
             if (window.innerWidth <= 768) {
-              bdmElement.style.fontSize = '1em';
+              bdmElement.style.fontSize = '0.85em';
               bdmElement.style.width = '90vw';
             }
             document.body.appendChild(bdmElement);
@@ -1981,7 +1990,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             const filmByTimeout = setTimeout(() => {
               if (sixBdmLine) {
                 // Format the text with proper indentation and line breaks
-                const formattedText = '6BDM:\nJULIAN ASSANGE AND THE\nPRICE OF TRUTH';
+                const formattedText = '6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH';
                 // Type the formatted 6BDM text in the center element
                 decodeSubtitle(bdmElement, '', formattedText, () => {
                   onComplete && onComplete();
@@ -1990,7 +1999,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 5000); // 5 second delay
+            }, 1000); // 1 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
@@ -2788,6 +2797,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
          console.log(`🎬 Not slide 3 (current: ${pageIndex + 1}), hiding video...`);
          // Hide video on other pages
          hideVideo3Background();
+         videoStartTime = null; // Reset video timing when leaving video slide
        }
        
        
@@ -2799,7 +2809,23 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     /* ================== NAV ================== */
     let lastAdvance = 0;
     function throttle(){ const now=Date.now(); if (now-lastAdvance<300) return false; lastAdvance=now; return true; }
-    function safeAdvance(){ if (!throttle()) return; unlockAudioContext(); startPage(currentPage+1); }
+    function safeAdvance(){ 
+      if (!throttle()) return; 
+      
+      // Check if we're on the video slide (slide 3, index 2) and video hasn't played for 2 seconds yet
+      if (currentPage === 2 && videoStartTime !== null) {
+        const currentTime = Date.now();
+        const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
+        
+        if (videoPlayTime < 2) {
+          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 2s to advance`);
+          return; // Block navigation
+        }
+      }
+      
+      unlockAudioContext(); 
+      startPage(currentPage+1); 
+    }
     function goBack(){ if (!throttle()) return; unlockAudioContext(); startPage(currentPage-1); }
 
     document.getElementById('nav-prev').addEventListener('pointerdown', goBack, {passive:true});
