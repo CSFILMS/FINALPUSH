@@ -96,7 +96,8 @@
       perspective: 1000px; 
       margin: 0;
       line-height:1.6; 
-      user-select:none;
+      -webkit-user-select: none;
+      user-select: none;
       font-size: 1rem;
       box-sizing: border-box;
     }
@@ -151,7 +152,7 @@ transparent 4px
         right: 0 !important;
         overflow-x: hidden !important;
         -webkit-text-size-adjust: 100%; /* Prevent iOS text scaling */
-        text-size-adjust: 100%; /* Standard property */
+        text-size-adjust: 100%; /* Standard property for Chrome/Edge */
         -webkit-tap-highlight-color: transparent; /* Remove tap highlights */
       }
       #page {
@@ -300,8 +301,8 @@ transparent 4px
         left: 0;
         right: 0;
         background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
         z-index: 1000;
         padding: 0.5rem 0;
       }
@@ -324,8 +325,8 @@ transparent 4px
         border-radius: 8px;
         margin: 0 1rem;
         text-align: center;
-        backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
       }
     }
     
@@ -613,7 +614,7 @@ z-index: 1;
         padding: 0 4rem;
       }
     }
-    #nav span { cursor:pointer; user-select:none; padding:0 1em; }
+    #nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 1em; }
           #nav-msg { 
       flex-grow:1; 
       text-align:center; 
@@ -2007,7 +2008,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 1000); // 1 second delay
+            }, 25000); // 25 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
