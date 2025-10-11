@@ -10,11 +10,11 @@
       position: fixed;
       top: 30px;
       left: 0;
-      transform: scaleX(0.8);
-      width: calc(80vw);
+      transform: none;
+      width: 100vw;
       height: calc(80vh);
       object-fit: cover;
-      object-position: center center;
+      object-position: left center;
       z-index: 100000;
       pointer-events: none;
       display: block;
@@ -26,10 +26,11 @@
     /* Mobile video - bigger and flush left */
     @media (max-width: 768px) {
       .bg-video {
-        width: calc(90vw);
+        width: 100vw;
         height: calc(85vh);
         left: 0;
-        transform: scaleX(0.8);
+        transform: none;
+        object-position: left center;
       }
     }
     
@@ -225,15 +226,14 @@ transparent 4px
       /* Mobile video sizing - optimized for mobile */
       .bg-video {
         top: 5vh;
-        left: 50%;
-        transform: translateX(-50%) scaleX(0.9);
-        width: calc(90vw - 2rem);
-        height: calc(60vh - 2rem);
-        object-fit: contain;
-        object-position: center center;
+        left: 0;
+        transform: none;
+        width: 100vw;
+        height: calc(85vh);
+        object-fit: cover;
+        object-position: left center;
         max-width: 100%;
         max-height: 100%;
-        padding-left: 5vw;
       }
       
       /* Force full width on mobile regardless of image mode */
