@@ -3,34 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <title>Unscramble + Images</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     /* Background video */
     .bg-video {
       position: fixed;
-      top: 30px;
-      left: 0;
-      transform: none;
-      width: 50vw;
-      height: calc(70vh);
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0.8);
+      width: calc(60vw - 2rem);
+      height: calc(70vh - 2rem);
       object-fit: cover;
-      object-position: left center;
+      object-position: center center;
       z-index: 100000;
       pointer-events: none;
       display: block;
       filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2.5);
       animation: none;
       overflow: hidden;
+      padding-left: 5vw;
     }
     
-    /* Mobile video - bigger and flush left */
+    /* Mobile video - 15% bigger */
     @media (max-width: 768px) {
       .bg-video {
-        width: 75vw;
-        height: calc(85vh);
-        left: 0;
-        transform: none;
-        object-position: left center;
+        width: calc(69vw - 2rem); /* 60vw * 1.15 = 69vw */
+        height: calc(80.5vh - 2rem);  /* 70vh * 1.15 = 80.5vh */
+        padding-left: 5vw;
       }
     }
     
@@ -42,6 +41,10 @@
     
     /* Video overlay (disabled for small centered video) */
     .bg-overlay {
+      display: none;
+    }
+    
+    #bg-overlay {
       display: none;
     }
     /* Your actual content goes above (z-index > 0) */
@@ -148,6 +151,7 @@ transparent 4px
         right: 0 !important;
         overflow-x: hidden !important;
         -webkit-text-size-adjust: 100%; /* Prevent iOS text scaling */
+        text-size-adjust: 100%; /* Standard property */
         -webkit-tap-highlight-color: transparent; /* Remove tap highlights */
       }
       #page {
@@ -192,9 +196,9 @@ transparent 4px
         white-space: pre-wrap !important;
         overflow-x: hidden !important;
         word-break: break-word !important; /* Force word breaking on mobile */
-        hyphens: auto !important; /* Enable hyphenation on mobile */
-        -webkit-hyphens: auto; /* Safari hyphenation */
         -ms-hyphens: auto; /* IE hyphenation */
+        -webkit-hyphens: auto; /* Safari hyphenation */
+        hyphens: auto !important; /* Enable hyphenation on mobile */
       }
       #nav {
         font-size: 1rem; /* Larger for better touch targets */
@@ -226,14 +230,15 @@ transparent 4px
       /* Mobile video sizing - optimized for mobile */
       .bg-video {
         top: 5vh;
-        left: 0;
-        transform: none;
-        width: 75vw;
-        height: calc(85vh);
-        object-fit: cover;
-        object-position: left center;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0.9);
+        width: calc(90vw - 2rem);
+        height: calc(60vh - 2rem);
+        object-fit: contain;
+        object-position: center center;
         max-width: 100%;
         max-height: 100%;
+        padding-left: 5vw;
       }
       
       /* Force full width on mobile regardless of image mode */
@@ -825,12 +830,12 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-    <source src="VIDEOS/ZOOM.mp4" type="video/mp4" />
+    <source src="VIDEOS/HOLOZOOMNARROW.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
 
-  <div class="bg-overlay" id="bg-overlay" style="display: none;"></div>
+  <div class="bg-overlay" id="bg-overlay"></div>
 
   <div id="page">
     <div id="text-wrap">
@@ -1629,7 +1634,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
           }
           #collateral-photo {
             display: block !important;
-            filter: brightness(0.4) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            opacity: 0.35 !important;
+            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
           }
         }
         @media (max-width: 768px) {
@@ -1638,12 +1644,14 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
           }
           #collateral-photo {
             display: block !important;
-            filter: brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            opacity: 0.35 !important;
+            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
           }
         }
         /* Override any conflicting CSS rules */
         #collateral-photo-container #collateral-photo {
           display: block !important;
+          position: relative !important;
         }
       `;
       document.head.appendChild(style);
@@ -1652,7 +1660,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       // Add Collateral photo
       const img = document.createElement('img');
       img.id = 'collateral-photo';
-      img.src = 'PHOTOS/photo_collateral.jpg';
+      img.src = 'PHOTOS/photo_collateral_crop.jpg';
       img.style.cssText = `
         width: 100% !important;
         height: 100% !important;
@@ -1999,7 +2007,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 25000); // 25 second delay
+            }, 1000); // 1 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
@@ -2585,6 +2593,24 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Clear all timeouts and intervals
         clearAllTimeouts();
         
+        // Audio control: only allow audio on timeline slide (4) and video slide (3)
+        const allowedAudioSlides = [2, 3]; // Slide 3 (video) and slide 4 (timeline) - using 0-based index
+        if (!allowedAudioSlides.includes(pageIndex)) {
+          // Stop all audio when not on allowed slides
+          if (currentAudio) {
+            console.log(`🛑 Stopping audio - not on allowed audio slide (current: slide ${pageIndex + 1})`);
+            stopCurrentAudio();
+          }
+          // Also stop any other audio elements
+          document.querySelectorAll('audio').forEach(audio => {
+            if (!audio.paused) {
+              console.log('🛑 Stopping additional audio element');
+              audio.pause();
+              audio.currentTime = 0;
+            }
+          });
+        }
+        
         // Clear any ongoing typing animation
         if (currentTypingInterval) {
           clearInterval(currentTypingInterval);
@@ -2724,32 +2750,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       }
        
        
-      // Handle last slide - add audio only
-       if (pageIndex === pages.length - 1) {
-        console.log('Last slide detected - adding audio');
-         
-         // Clear any existing last slide elements
-         const existingAudio = document.getElementById('last-slide-audio');
-         if (existingAudio) existingAudio.remove();
-         
-         // Add audio to body (more persistent)
-         const audio = document.createElement('audio');
-         audio.id = 'last-slide-audio';
-         audio.src = 'AUDIO/COLLATERAL_AUDIO.mp4';
-         audio.autoplay = true;
-         audio.loop = true;
-         audio.volume = 0.7;
-         audio.style.cssText = 'position: fixed; bottom: 0; left: 0; z-index: 1000;';
-         document.body.appendChild(audio);
-         
-         audio.play().catch(err => {
-           console.log('Last slide audio autoplay failed:', err);
-         });
-       } else {
-         // Clean up when not on last slide
-         const existingAudio = document.getElementById('last-slide-audio');
-         if (existingAudio) existingAudio.remove();
-       }
+      // Audio removed from last slide
        
        // Audio disabled - no sounds
        if (pageIndex + 1 === 7) {
