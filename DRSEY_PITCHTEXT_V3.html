@@ -843,7 +843,7 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-    <source src="VIDEOS/HOLOZOOMNARROW.mp4" type="video/mp4" />
+     <source src="VIDEOS/hopefullypenultimate.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
@@ -2176,8 +2176,8 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         console.log(`Showing timeline section ${sectionNumber}: ${currentSection.substring(0, 50)}...`);
         
         if (timelineRevealState.currentIndex === 0) {
-          // First section (2006): decode with ultra-fast scrambling animation
-          scrambleUltraFastChunks(timelineRevealState.element, currentSection, () => {
+          // First section (2006): decode with regular scrambling animation
+          scrambleFastChunks(timelineRevealState.element, currentSection, () => {
             // Wrap years in spans for styling
             wrapYearsInSpans(timelineRevealState.element);
             
@@ -2199,25 +2199,9 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
             
             timelineRevealState.currentIndex++;
             
-            // Show collateral photo and sound after first section (2006) completes
-            console.log('🎬 First timeline section complete - showing collateral photo and playing audio');
+            // Show collateral photo after first section (2006) completes
+            console.log('🎬 First timeline section complete - showing collateral photo');
             addCollateralPhoto();
-            
-            // Play collateral audio with 3-second delay
-            stopCurrentAudio(); // Stop any existing audio first
-            const audio = new Audio('AUDIO/COLLATERAL_AUDIO.mp4');
-            audio.volume = 0.7;
-            audio.loop = true;
-            currentAudio = audio;
-            
-            // Skip first 3 seconds of audio
-            audio.addEventListener('loadedmetadata', () => {
-              audio.currentTime = 3;
-            });
-            
-            audio.play().catch(err => {
-              console.log('Collateral audio play failed:', err);
-            });
             
             // Show navigation message for next section
             if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
