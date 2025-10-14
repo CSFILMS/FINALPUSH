@@ -874,13 +874,14 @@ z-index: 2 !important;
   <script>
     /* ================== CONTENT ================== */
     const fullTextRaw = `
-RECIPIENT: DORSEY.6BDM
+RECIPIENT: DORSEY.6BDM180925
 
 EYES ONLY / NO FWD / 
 NO DSTRO
 
 SOURCE: CSF
 FILE ID: 369-108-11
+
 
 
 
@@ -919,26 +920,18 @@ A FILM BY EUGENE JARECKI
 
 
 
-2006: 
-  > JULIAN ASSANGE [JA] IS ALIGNED WITH CRYPTO AND CYPHERPUNK AGITATORS IN THE FIGHT FOR
-  > DECENTRALIZATION, PRIVACY, AND FREEDOM OF INFORMATION.
-  > JA BUILDS WIKILEAKS [WL], A SECURE PUBLISHING PLATFORM TO HELP WHISTLEBLOWERS BYPASS LEGACY MEDIA.
-2010: 
-  > WL RELEASES A CLASSIFIED INTERNAL U.S. MILITARY VIDEO, EXPOSING U.S. WAR CRIMES COMMITTED IN IRAQ. 
-2011-2012: 
-  > WL PUBLISHES 6 OF THE 10 LARGEST RELEASES OF SENSITIVE MATERIAL IN U.S. HISTORY.
-  > UK AUTHORITIES CARRY OUT INTERPOL ARREST WARRANT. JA TAKES REFUGE IN ECUADORIAN EMBASSY, LONDON.
-2019: 
-  > JA FORCIBLY REMOVED FROM EMBASSY.
-2019-2024: 
-  > JA IS INMATE #A9379AY AT HMP BELMARSH, MAX. SEC. 
-2024: 
-  > US. DROPS 17/18 COUNTS AGAINST JA, DISMISSES CASE. 
-  > JA RETURNED TO AUSTRALIA.
+2006: JULIAN ASSANGE BUILDS WIKILEAKS TO ENABLE WHISTLEBLOWERS TO INFORM THE PUBLIC.
+
+2010: WIKILEAKS RELEASES LARGEST TROVE OF U.S. MILITARY SECRETS IN HISTORY, EXPOSING U.S. WAR CRIMES.
+
+2012-2019: U.S. AUTHORITIES CHARGE ASSANGE WITH ESPIONAGE. HE TAKES ASYLUM IN ECUADORIAN EMBASSY, LONDON.
 
 
 
 
+2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.
+
+2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.
 THE FAILED WAR ON JA IS A STORY THE WORLD NEEDS TO HEAR. BUT THIS WON'T HAPPEN WITHOUT A RADICAL RELEASE PLAN.
 
 IN 2025, 6BDM WON THE CANNES FILM FESTIVAL AND FIRST-EVER GOLDEN GLOBE FOR DOCUMENTARY.
@@ -947,12 +940,19 @@ BUT NO STREAMER OR BROADCASTER WILL TOUCH IT.
 
 
 
+2019: ASSANGE IS IMPRISONED IN THE UK FOR FIVE YEARS. AWAITS EXTRADITION TO THE U.S TO FACE A FURTHER 175.
 
-IN THE MODE OF WL, 6BDM'S RELEASE WILL BYPASS TRADITIONAL MEDIA.
+2024: U.S. SUDDENLY DROPS 17 OF ITS 18 COUNTS AGAINST ASSANGE, DISMISSES CASE. ASSANGE PLEADS GUILTY ONLY TO JOURNALISM AND RETURNS TO AUSTRALIA A FREE MAN.
 
-A LEADING INFLUENCER WILL INTERVIEW JA AND GUIDE TRAFFIC TO THE FILM BEHIND A PAYWALL.
 
-TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN THE CRYPTO/CYPHER WORLD
+
+
+IN 2025, THE SIX BILLION DOLLAR MAN WON THE CANNES FILM FESTIVAL AND THE FIRST-EVER GOLDEN GLOBE FOR DOCUMENTARY. BUT NO LEGACY MEDIA WILL TOUCH IT.
+ 
+SO, LIKE WIKILEAKS, WE ARE TAKING THE FILM DIRECT TO THE PUBLIC. 
+
+FOR THIS, WE NEED YOUR HELP. 
+
 
 `;
 
@@ -1424,15 +1424,16 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     let isInLineRevealMode = false;
     let lineRevealState = { lines: [], currentIndex: 0, element: null, onComplete: null };
     let lastTouchTime = 0; // Track last touch time to prevent double-firing
-    let lastTimelineAdvance = 0; // Track last timeline advance to prevent double-firing
+    // Timeline advance tracking removed
     let filmByTimeouts = []; // Track 6BDM animation timeouts
     let currentTypingInterval = null; // Track the current subtitle typing interval
     let shouldContinueTyping = true; // Flag to control if typing should continue
-    let timelineRevealState = { sections: [], currentIndex: 0, element: null, onComplete: null };
-    let isInTimelineRevealMode = false;
+    // Timeline reveal variables removed
     let audioContextUnlocked = false; // Track if audio context is unlocked
     let scramblingDisabled = false; // Track if scrambling should be disabled after timeline
     let videoStartTime = null; // Track when video started playing
+    
+    // Timeline detection function removed
     
     // Memory management
     let activeEventListeners = new Map(); // Track active event listeners
@@ -1617,6 +1618,53 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       console.log('Cannes photo added to slide 5');
     }
     
+    function addArrestPhoto() {
+      // Remove any existing images first
+      removeAllImages();
+      
+      // Create container for Arrest photo
+      const imageContainer = document.createElement('div');
+      imageContainer.id = 'arrest-photo-container';
+      imageContainer.style.cssText = `
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-width: 75vw !important;
+        max-height: 75vh !important;
+        width: 75vw !important;
+        height: 75vh !important;
+        z-index: 0 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
+      `;
+      document.body.appendChild(imageContainer);
+      
+      // Add Arrest photo
+      const img = document.createElement('img');
+      img.id = 'arrest-photo';
+      img.src = 'PHOTOS/photo_arrest.webp';
+      img.style.cssText = `
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        display: block !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease-in-out !important;
+      `;
+      imageContainer.appendChild(img);
+      
+      // CRT-style fade-in effect
+      setTimeout(() => {
+        img.style.opacity = '0.6';
+      }, 50);
+      
+      console.log('Arrest photo added to slide 5');
+    }
+    
     function addCollateralPhoto() {
       // Remove any existing images first
       removeAllImages();
@@ -1704,12 +1752,71 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       console.log('Mobile z-index: collateral=1, text=1');
     }
     
+    function addCorreaPhoto() {
+      // Remove any existing images first
+      removeAllImages();
+      
+      // Create container for Correa photo
+      const imageContainer = document.createElement('div');
+      imageContainer.id = 'correa-photo-container';
+      imageContainer.style.cssText = `
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-width: 75vw !important;
+        max-height: 75vh !important;
+        width: 75vw !important;
+        height: 75vh !important;
+        z-index: 0 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
+      `;
+      document.body.appendChild(imageContainer);
+      
+      // Add Correa photo
+      const img = document.createElement('img');
+      img.id = 'correa-photo';
+      img.src = 'PHOTOS/photo_correa.jpg';
+      img.style.cssText = `
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        display: block !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease-in-out !important;
+      `;
+      imageContainer.appendChild(img);
+      
+      // CRT-style fade-in effect
+      setTimeout(() => {
+        img.style.opacity = '0.6';
+      }, 50);
+      
+      console.log('Correa photo added to slide 4');
+    }
+    
     
     function removeAllImages() {
       // Remove Cannes photo
       const cannesContainer = document.getElementById('cannes-photo-container');
       if (cannesContainer) {
         cannesContainer.remove();
+      }
+      
+      // Remove Arrest photo
+      const arrestContainer = document.getElementById('arrest-photo-container');
+      if (arrestContainer) {
+        arrestContainer.remove();
+      }
+      
+      // Remove Correa photo
+      const correaContainer = document.getElementById('correa-photo-container');
+      if (correaContainer) {
+        correaContainer.remove();
       }
       
       // Remove Collateral photo
@@ -1902,9 +2009,9 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
     }
 
     function scrambleFastChunks(element, text, onComplete) {
-      // Check if scrambling is disabled
-      if (scramblingDisabled) {
-        console.log('🔒 Scrambling disabled - displaying text instantly');
+      // Check if scrambling is disabled or if we're after slide 3
+      if (scramblingDisabled || currentPage > 2) {
+        console.log('🔒 Scrambling disabled - displaying text instantly (after slide 3)');
         element.textContent = text;
         wrapYearsInSpans(element);
         onComplete && onComplete();
@@ -2033,9 +2140,9 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
 
     // Ultra-fast scrambling specifically for 2006 text - much faster interval
     function scrambleUltraFastChunks(element, text, onComplete) {
-      // Check if scrambling is disabled
-      if (scramblingDisabled) {
-        console.log('🔒 Scrambling disabled - displaying text instantly');
+      // Check if scrambling is disabled or if we're after slide 3
+      if (scramblingDisabled || currentPage > 2) {
+        console.log('🔒 Scrambling disabled - displaying text instantly (after slide 3)');
         element.textContent = text;
         wrapYearsInSpans(element);
         onComplete && onComplete();
@@ -2094,396 +2201,10 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       }, 25); // Ultra-fast: 25ms interval instead of 100ms (4x faster)
     }
 
-    /* ================== TIMELINE YEAR-BY-YEAR REVEAL ================== */
-    function revealTimelineYearByYear(element, text, onComplete) {
-      // Clear any existing animations
-      if (currentInterval) {
-        clearInterval(currentInterval);
-        currentInterval = null;
-      }
-      
-      isAnimating = true;
-      isInTimelineRevealMode = true;
-      promptElem.style.visibility = 'hidden';
-      
-      console.log('🎯 Timeline reveal mode activated! isInTimelineRevealMode =', isInTimelineRevealMode);
-      
-      // Split timeline into year sections
-      const yearSections = parseTimelineSections(text);
-      
-      // Set up timeline reveal state
-      timelineRevealState = {
-        sections: yearSections,
-        currentIndex: 0,
-        element: element,
-        onComplete: onComplete
-      };
-      
-      console.log('Starting year-by-year timeline reveal...');
-      console.log(`Total year sections: ${yearSections.length}`);
-      console.log('📱 Mobile device detected:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-      
-      // Clear element and show first year section with decode animation
-      element.textContent = '';
-      showNextTimelineSection();
-    }
+    /* ================== TIMELINE FUNCTIONALITY REMOVED ================== */
+    // Timeline reveal functionality has been removed as requested
     
-    function parseTimelineSections(text) {
-      // Split by year patterns (2006:, 2010:, 2011-2012:, etc.)
-      const yearPattern = /(\d{4}(-\d{4})?:\s*)/g;
-      const sections = [];
-      
-      // Find all year markers
-      const matches = [...text.matchAll(yearPattern)];
-      
-      if (matches.length === 0) {
-        // No year patterns found, return whole text as single section
-        return [text];
-      }
-      
-      console.log('Found year markers:', matches.map(m => m[0].trim()));
-      
-      // Split text at each year marker, including the year marker in each section
-      matches.forEach((match, i) => {
-        const startIndex = match.index;
-        const endIndex = i < matches.length - 1 ? matches[i + 1].index : text.length;
-        const sectionText = text.substring(startIndex, endIndex).trim();
-        
-        // Only add if section is not empty and contains actual content
-        if (sectionText && sectionText.length > 10) {
-          sections.push(sectionText);
-          console.log(`Section ${i + 1}:`, sectionText.substring(0, 100) + '...');
-        }
-      });
-      
-      console.log(`Total parsed timeline sections: ${sections.length}`);
-      return sections;
-    }
     
-    function showNextTimelineSection() {
-      const now = Date.now();
-      // Debounce timeline advances to prevent double-firing from multiple events
-      if (now - lastTimelineAdvance < 500) {
-        console.log('Timeline advance debounced - too soon');
-        return;
-      }
-      lastTimelineAdvance = now;
-      
-      if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
-        const currentSection = timelineRevealState.sections[timelineRevealState.currentIndex];
-        const sectionNumber = timelineRevealState.currentIndex + 1;
-        
-        console.log(`Showing timeline section ${sectionNumber}: ${currentSection.substring(0, 50)}...`);
-        
-        if (timelineRevealState.currentIndex === 0) {
-          // First section (2006): decode with regular scrambling animation
-          scrambleFastChunks(timelineRevealState.element, currentSection, () => {
-            // Wrap years in spans for styling
-            wrapYearsInSpans(timelineRevealState.element);
-            
-            // Scrolling disabled for slide 5
-            if (currentPage === 3) { // Only allow scrolling on slide 4 (timeline slide)
-            // Smart auto-scroll for first section too
-            smartTimelineScroll(timelineRevealState.element, 1);
-            
-            // Fallback: Force scroll if smart scroll didn't work
-            setTimeout(() => {
-              forceTimelineScroll(timelineRevealState.element, 1);
-            }, 300);
-            
-            // Additional fallback: Direct scroll manipulation
-            setTimeout(() => {
-              directTimelineScroll(timelineRevealState.element, 1);
-            }, 500);
-            }
-            
-            timelineRevealState.currentIndex++;
-            
-            // Show collateral photo after first section (2006) completes
-            console.log('🎬 First timeline section complete - showing collateral photo');
-            addCollateralPhoto();
-            
-            // Show navigation message for next section
-            if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
-              navMsg.innerHTML = 'PRESS SPACEBAR<br>TO CONTINUE';
-              navMsg.style.fontSize = '0.9rem';
-              navMsg.style.visibility = 'visible';
-            } else {
-              // All sections revealed
-              finishTimelineReveal();
-            }
-          });
-        } else {
-          // Subsequent sections: append instantly with single line break
-          const currentContent = timelineRevealState.element.textContent;
-          timelineRevealState.element.textContent = currentContent + '\n' + currentSection;
-          
-          // Reapply padding after content change
-          timelineRevealState.element.style.paddingTop = '1rem';
-          
-          // Wrap years in spans for styling
-          wrapYearsInSpans(timelineRevealState.element);
-          
-          // Scrolling disabled for slide 5
-          if (currentPage === 3) { // Only allow scrolling on slide 4 (timeline slide)
-          // Smart auto-scroll: scroll up to show new content while pushing old content up
-          smartTimelineScroll(timelineRevealState.element, sectionNumber);
-          
-          // Fallback: Force scroll if smart scroll didn't work
-          setTimeout(() => {
-            forceTimelineScroll(timelineRevealState.element, sectionNumber);
-          }, 300);
-          
-          // Additional fallback: Direct scroll manipulation
-          setTimeout(() => {
-            directTimelineScroll(timelineRevealState.element, sectionNumber);
-          }, 500);
-          }
-          
-          console.log(`Timeline section ${sectionNumber} displayed. Current index: ${timelineRevealState.currentIndex}, Total sections: ${timelineRevealState.sections.length}`);
-          
-          timelineRevealState.currentIndex++;
-          
-          // Show navigation message for next section - wait for user input
-          if (timelineRevealState.currentIndex < timelineRevealState.sections.length) {
-            navMsg.innerHTML = 'PRESS SPACEBAR<br>TO CONTINUE';
-            navMsg.style.fontSize = '0.9rem';
-            navMsg.style.visibility = 'visible';
-            // Don't automatically advance - wait for user to press spacebar
-          } else {
-            // All sections revealed - show final navigation message
-            console.log('All timeline sections have been displayed');
-            navMsg.innerHTML = 'PRESS SPACEBAR<br>TO CONTINUE';
-            navMsg.style.fontSize = '0.9rem';
-            navMsg.style.visibility = 'visible';
-            // Don't call finishTimelineReveal() here - let user press spacebar to finish
-          }
-        }
-      } else {
-        // No more sections - finish the timeline
-        console.log('No more timeline sections, finishing...');
-        finishTimelineReveal();
-      }
-    }
-    
-    function finishTimelineReveal() {
-      console.log('All timeline sections revealed, finishing...');
-      isAnimating = false;
-      isInTimelineRevealMode = false;
-      scramblingDisabled = true; // Disable scrambling for all subsequent slides
-      console.log('🔒 Scrambling disabled for all subsequent slides');
-      navMsg.style.visibility = 'hidden';
-      timelineRevealState.onComplete && timelineRevealState.onComplete();
-    }
-    
-    // Smart timeline scrolling function
-    function smartTimelineScroll(element, sectionNumber) {
-      if (!element) {
-        console.log('smartTimelineScroll: No element provided');
-        return;
-      }
-      
-      // Only work on slide 4 (timeline slide) - block all other slides
-      if (currentPage !== 3) {
-        console.log(`Timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
-        return;
-      }
-      
-      // Only start scrolling from section 3 onwards (2011-2012 and later)
-      if (sectionNumber < 3) {
-        console.log(`Timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
-        return;
-      }
-      
-      // Find the scrollable container - try multiple approaches
-      let scrollContainer = null;
-      
-      // First, check if the element itself is scrollable
-      if (element.scrollHeight > element.clientHeight) {
-        scrollContainer = element;
-        console.log('Using element as scroll container');
-      } else {
-        // Look for parent containers that might be scrollable
-        const textWrap = element.closest('#text-wrap');
-        const unscramble = element.closest('#unscramble');
-        
-        if (textWrap && textWrap.scrollHeight > textWrap.clientHeight) {
-          scrollContainer = textWrap;
-          console.log('Using #text-wrap as scroll container');
-        } else if (unscramble && unscramble.scrollHeight > unscramble.clientHeight) {
-          scrollContainer = unscramble;
-          console.log('Using #unscramble as scroll container');
-        } else {
-          // Fallback to the element itself
-          scrollContainer = element;
-          console.log('Using element as fallback scroll container');
-        }
-      }
-      
-      if (!scrollContainer) {
-        console.log('smartTimelineScroll: No scrollable container found');
-        return;
-      }
-      
-      // Calculate optimal scroll behavior based on content length and screen size
-      const isMobile = window.innerWidth <= 768;
-      const containerHeight = scrollContainer.clientHeight;
-      const contentHeight = element.scrollHeight;
-      const currentScrollTop = scrollContainer.scrollTop;
-      
-      console.log(`Timeline scroll debug - Section: ${sectionNumber}, Container: ${scrollContainer.id || 'unknown'}, Content height: ${contentHeight}, Container height: ${containerHeight}, Current scroll: ${currentScrollTop}`);
-      
-      // Determine how much content should remain visible
-      // On mobile: show more recent content (scroll more aggressively)
-      // On desktop: show a good balance of recent and older content
-      const visibleRatio = isMobile ? 0.7 : 0.6; // Show 70% recent content on mobile, 60% on desktop
-      const targetScrollTop = Math.max(0, contentHeight - (containerHeight * visibleRatio));
-      
-      // Only scroll if we have enough content to warrant scrolling
-      const shouldScroll = contentHeight > containerHeight * 1.2; // Scroll when content is 120% of container height
-      
-      console.log(`Should scroll: ${shouldScroll}, Target scroll: ${targetScrollTop}, Current scroll: ${currentScrollTop}`);
-      
-      // Always try to scroll if we have a target position, regardless of content height
-      if (targetScrollTop > currentScrollTop) {
-        // Smooth scroll to the target position
-        const scrollDistance = targetScrollTop - currentScrollTop;
-        const scrollDuration = Math.min(600, scrollDistance * 1.5); // Faster, shorter duration
-        const startTime = performance.now();
-        
-        function animateScroll(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / scrollDuration, 1);
-          
-          // Use easeOutCubic for smooth deceleration
-          const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-          const currentScroll = currentScrollTop + (scrollDistance * easeOutCubic);
-          
-          scrollContainer.scrollTop = currentScroll;
-          
-          if (progress < 1) {
-            requestAnimationFrame(animateScroll);
-          } else {
-            console.log(`Timeline scroll completed - Final position: ${scrollContainer.scrollTop}`);
-          }
-        }
-        
-        requestAnimationFrame(animateScroll);
-        
-        console.log(`Timeline auto-scroll started: section ${sectionNumber}, target: ${Math.round(targetScrollTop)}, current: ${Math.round(currentScrollTop)}, distance: ${Math.round(scrollDistance)}`);
-      } else {
-        console.log(`Timeline scroll skipped - shouldScroll: ${shouldScroll}, targetScrollTop: ${targetScrollTop}, currentScrollTop: ${currentScrollTop}`);
-      }
-    }
-    
-    // Force timeline scroll - simpler, more direct approach
-    function forceTimelineScroll(element, sectionNumber) {
-      if (!element) return;
-      
-      // Only work on slide 4 (timeline slide) - block all other slides
-      if (currentPage !== 3) {
-        console.log(`Force timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
-        return;
-      }
-      
-      // Only start scrolling from section 3 onwards (2011-2012 and later)
-      if (sectionNumber < 3) {
-        console.log(`Force timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
-        return;
-      }
-      
-      console.log(`Force timeline scroll - Section: ${sectionNumber}`);
-      
-      // Try multiple containers in order of preference
-      const containers = [
-        element,
-        document.getElementById('unscramble'),
-        document.getElementById('text-wrap'),
-        element.parentElement
-      ];
-      
-      for (const container of containers) {
-        if (container) {
-          const isMobile = window.innerWidth <= 768;
-          const visibleRatio = isMobile ? 0.6 : 0.5; // Show more historical content - less aggressive
-          const targetScroll = Math.max(0, element.scrollHeight - (container.clientHeight * visibleRatio));
-          
-          console.log(`Force scrolling container ${container.id || 'unknown'} to ${targetScroll} (scrollHeight: ${container.scrollHeight}, clientHeight: ${container.clientHeight})`);
-          
-          // Always try to scroll, even if container doesn't seem scrollable
-          container.scrollTop = targetScroll;
-          
-          // Also try smooth scroll as backup
-          container.scrollTo({
-            top: targetScroll,
-            behavior: 'smooth'
-          });
-          
-          // If this container worked, break
-          if (container.scrollHeight > container.clientHeight) {
-            break;
-          }
-        }
-      }
-    }
-    
-    // Direct timeline scroll - most aggressive approach
-    function directTimelineScroll(element, sectionNumber) {
-      if (!element) return;
-      
-      // Only work on slide 4 (timeline slide) - block all other slides
-      if (currentPage !== 3) {
-        console.log(`Direct timeline scroll blocked - not on slide 4 (current: ${currentPage + 1})`);
-        return;
-      }
-      
-      // Only start scrolling from section 3 onwards (2011-2012 and later)
-      if (sectionNumber < 3) {
-        console.log(`Direct timeline scroll skipped - too early (section ${sectionNumber}), waiting for 2011-2012`);
-        return;
-      }
-      
-      console.log(`Direct timeline scroll - Section: ${sectionNumber}`);
-      
-      // Find the actual scrollable element by checking computed styles
-      const candidates = [
-        element,
-        document.getElementById('unscramble'),
-        document.getElementById('text-wrap'),
-        document.querySelector('#page'),
-        document.body
-      ];
-      
-      for (const candidate of candidates) {
-        if (!candidate) continue;
-        
-        const computedStyle = window.getComputedStyle(candidate);
-        const hasOverflow = computedStyle.overflowY === 'auto' || 
-                           computedStyle.overflowY === 'scroll' || 
-                           computedStyle.overflow === 'auto' || 
-                           computedStyle.overflow === 'scroll';
-        
-        console.log(`Checking ${candidate.id || candidate.tagName}: overflow-y=${computedStyle.overflowY}, scrollHeight=${candidate.scrollHeight}, clientHeight=${candidate.clientHeight}`);
-        
-        if (hasOverflow && candidate.scrollHeight > candidate.clientHeight) {
-          const isMobile = window.innerWidth <= 768;
-          const visibleRatio = isMobile ? 0.7 : 0.6; // Show more historical content - less aggressive
-          const targetScroll = Math.max(0, element.scrollHeight - (candidate.clientHeight * visibleRatio));
-          
-          console.log(`Direct scrolling ${candidate.id || candidate.tagName} to ${targetScroll}`);
-          
-          // Try multiple scroll methods
-          candidate.scrollTop = targetScroll;
-          candidate.scrollTo(0, targetScroll);
-          
-          // Force a reflow to ensure the scroll takes effect
-          candidate.offsetHeight;
-          
-          console.log(`Direct scroll result: ${candidate.scrollTop}`);
-          break;
-        }
-      }
-    }
 
     /* ================== LINE BY LINE REVEAL ================== */
     function revealLineByLine(element, text, onComplete) {
@@ -2632,8 +2353,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Reset line reveal mode
         isInLineRevealMode = false;
         
-        // Reset timeline reveal mode
-        isInTimelineRevealMode = false;
+        // Timeline reveal mode removed
         
         slideCounterEl.textContent = `SLIDE ${pageIndex + 1} / ${pages.length}`;
         navMsg.style.visibility = 'hidden';
@@ -2648,7 +2368,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Check if this is timeline content - ONLY slide 4 (index 3)
         const pageContent = pages[pageIndex];
         console.log(`🔍 Page ${pageIndex + 1} content preview:`, pageContent.substring(0, 100));
-        const isTimelineContent = pageIndex === 3; // Only slide 4 (index 3) is timeline content
+        const isTimelineContent = pageContent.includes('2006:') && pageContent.includes('2010:'); // Detect timeline by year patterns
         console.log(`🔍 Page ${pageIndex + 1} is timeline content:`, isTimelineContent);
         
         if (isTimelineContent) {
@@ -2713,14 +2433,10 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
         // Collateral Murder slide detection removed
          
          if (isTimelineContent) {
-          // For timeline content, use year-by-year reveal system
-          console.log('Timeline content detected, starting year-by-year reveal');
-          
-          // Use the new year-by-year timeline reveal
-          revealTimelineYearByYear(el, pages[pageIndex], () => {
-             // Timeline reveal complete
-            console.log('Timeline year-by-year reveal completed');
-           });
+          // Timeline content - display instantly without reveal animation
+          console.log('Timeline content detected, displaying instantly');
+          el.textContent = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
+          wrapYearsInSpans(el);
          } else {
           // Use faster scrambling for page 0
           if (pageIndex === 0) {
@@ -2738,9 +2454,11 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
          }
        }
        
-      // Handle specific images for slide 5 only
-      if (pageIndex === 4) { // Slide 5 - Cannes photo
-        addCannesPhoto();
+      // Handle specific images for different slides
+      if (pageIndex === 3) { // Slide 4 - Correa photo
+        addCorreaPhoto();
+      } else if (pageIndex === 4) { // Slide 5 - Arrest photo
+        addArrestPhoto();
       } else {
         // Remove any existing images for other slides
         removeAllImages();
@@ -2826,11 +2544,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
       // Unlock audio context on pointer interaction
       unlockAudioContext();
       
-      // If in timeline reveal mode, clicking anywhere advances to next year section
-      if (isInTimelineRevealMode) {
-        showNextTimelineSection();
-        return;
-      }
+      // Timeline reveal mode removed
       
       // If in line reveal mode, clicking anywhere advances to next line
       if (isInLineRevealMode) {
@@ -2857,14 +2571,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
        // Unlock audio context on mobile touch
        unlockAudioContext();
        
-      // If in timeline reveal mode, allow tapping anywhere to advance (mobile-friendly)
-      if (isInTimelineRevealMode) {
-        console.log('Mobile touchstart: Timeline reveal mode detected, advancing timeline');
-        e.preventDefault(); // Prevent default touch behavior
-        e.stopPropagation(); // Stop event bubbling
-        showNextTimelineSection();
-        return;
-      }
+      // Timeline reveal mode removed
        
        // If in line reveal mode, tapping anywhere advances to next line
        if (isInLineRevealMode) {
@@ -2893,14 +2600,7 @@ TO PROMOTE THIS TO A GLOBAL AUDIENCE, WE SEEK TO RAISE A P&A ARSENAL FROM WITHIN
        // Unlock audio context on mobile touch
        unlockAudioContext();
        
-      // If in timeline reveal mode, allow tapping anywhere to advance (mobile-friendly)
-      if (isInTimelineRevealMode) {
-        console.log('Mobile touchend: Timeline reveal mode detected, advancing timeline');
-        e.preventDefault(); // Prevent default touch behavior
-        e.stopPropagation(); // Stop event bubbling
-        showNextTimelineSection();
-        return;
-      }
+      // Timeline reveal mode removed
        
        // If in line reveal mode, tapping anywhere advances to next line
        if (isInLineRevealMode) {
@@ -2916,14 +2616,7 @@ document.addEventListener('click', (e)=>{
       // Prevent click events that follow touch events too closely
       if (now - lastTouchTime < 300) return;
       
-      // If in timeline reveal mode, allow clicking anywhere to advance (mobile-friendly)
-      if (isInTimelineRevealMode) {
-        console.log('Click: Timeline reveal mode detected, advancing timeline');
-        e.preventDefault(); // Prevent any default click behavior
-        e.stopPropagation(); // Stop event bubbling
-        showNextTimelineSection();
-        return;
-      }
+      // Timeline reveal mode removed
       
       // If in line reveal mode, clicking anywhere advances to next line
       if (isInLineRevealMode) {
@@ -2982,11 +2675,7 @@ document.addEventListener('click', (e)=>{
       // Mute any keyboard sounds
       e.preventDefault();
       
-      // Check if we're in timeline reveal mode first
-      if (isInTimelineRevealMode && (e.code==='Space'||e.code==='ArrowRight')) {
-        showNextTimelineSection();
-        return;
-      }
+      // Timeline reveal mode removed
       
       // Check if we're in line reveal mode
       if (isInLineRevealMode && (e.code==='Space'||e.code==='ArrowRight')) {
@@ -3048,46 +2737,14 @@ if (e.key==='1'||e.key==='2'||e.key==='3'){ colorIndex=parseInt(e.key,10)-1; app
 
     /* ================== MOBILE TIMELINE HANDLER ================== */
     // Dedicated mobile handler for timeline reveal - works on all mobile devices
-    function addMobileTimelineHandler() {
-      // Add multiple event listeners for maximum mobile compatibility
-      const events = ['touchstart', 'touchend', 'click', 'tap'];
-      
-      events.forEach(eventType => {
-        document.addEventListener(eventType, (e) => {
-          // Only handle if in timeline reveal mode
-          if (!isInTimelineRevealMode) return;
-          
-          // Skip navigation buttons
-          if (e.target && (e.target.id === 'nav-prev' || e.target.id === 'nav-next')) return;
-          
-          console.log(`Mobile ${eventType}: Timeline advance triggered`);
-          e.preventDefault();
-          e.stopPropagation();
-          showNextTimelineSection();
-        }, { passive: false });
-      });
-      
-      // Also add a specific handler for the text area itself
-      const textArea = document.getElementById('unscramble');
-      if (textArea) {
-        textArea.addEventListener('touchstart', (e) => {
-          if (isInTimelineRevealMode) {
-            console.log('Text area touch: Timeline advance triggered');
-            e.preventDefault();
-            e.stopPropagation();
-            showNextTimelineSection();
-          }
-        }, { passive: false });
-      }
-    }
+    // Mobile timeline handler removed
 
     /* ================== INIT ================== */
     window.onload = () => {
       // Start presentation immediately when DOM is loaded
       startPage(0);
       
-      // Add mobile timeline handler
-      addMobileTimelineHandler();
+      // Mobile timeline handler removed
       
       // Initialize audio context for mobile devices
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
