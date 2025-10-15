@@ -2314,6 +2314,8 @@ FOR THIS, WE NEED YOUR HELP.
         currentPage = pageIndex;
         
         console.log(`🔍 Starting page ${pageIndex + 1}, content:`, pages[pageIndex] ? pages[pageIndex].substring(0, 100) : 'UNDEFINED');
+        console.log(`🔍 DEBUG: Page ${pageIndex + 1} full content length:`, pages[pageIndex] ? pages[pageIndex].length : 0);
+        console.log(`🔍 DEBUG: Total pages available:`, pages.length);
         
         // Clear all timeouts and intervals
         clearAllTimeouts();
@@ -2462,11 +2464,15 @@ FOR THIS, WE NEED YOUR HELP.
        }
        
       // Handle specific images for different slides
+      console.log(`🖼️ DEBUG: Checking images for pageIndex ${pageIndex} (slide ${pageIndex + 1})`);
       if (pageIndex === 3) { // Slide 4 - Correa photo
+        console.log(`🖼️ DEBUG: Adding Correa photo for slide 4`);
         addCorreaPhoto();
       } else if (pageIndex === 4) { // Slide 5 - Arrest photo
+        console.log(`🖼️ DEBUG: Adding Arrest photo for slide 5`);
         addArrestPhoto();
       } else {
+        console.log(`🖼️ DEBUG: Removing all images for slide ${pageIndex + 1}`);
         // Remove any existing images for other slides
         removeAllImages();
       }
