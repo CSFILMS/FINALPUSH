@@ -613,17 +613,25 @@ z-index: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 1vh 0 0.5vh; 
+      margin: 0; 
       font-size: 0.9rem;
       min-height: 5vh;
-      position: relative;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 0.5rem 0;
       gap: 4vw;
     }
     
     /* Desktop - add padding to bring arrows in from edges */
     @media (min-width: 769px) {
       #nav {
-        padding: 0 4rem;
+        padding: 0.5rem 4rem;
       }
     }
     #nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 1em; }
