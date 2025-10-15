@@ -24,16 +24,16 @@
       padding-left: 5vw;
     }
     
-    /* Mobile video - flush with edges */
+    /* Mobile video - flush with edges, no cropping */
     @media (max-width: 768px) {
       .bg-video {
         width: 100vw;
-        height: 75vh;
+        height: 80vh;
         padding-left: 0;
-        top: 10vh;
+        top: 5vh;
         left: 0;
         transform: none;
-        object-fit: cover;
+        object-fit: contain;
       }
     }
     
