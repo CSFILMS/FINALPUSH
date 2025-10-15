@@ -1921,7 +1921,7 @@ FOR THIS, WE NEED YOUR HELP.
             }
             document.body.appendChild(bdmElement);
             
-            // After 5 seconds, type 6BDM in the center of the screen
+            // After 22 seconds, type 6BDM in the center of the screen
             const filmByTimeout = setTimeout(() => {
               if (sixBdmLine) {
                 // Format the text with proper indentation and line breaks
@@ -1934,7 +1934,7 @@ FOR THIS, WE NEED YOUR HELP.
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
               }
-            }, 2000); // 2 second delay
+            }, 22000); // 22 second delay
             filmByTimeouts.push(filmByTimeout);
           } else {
             onComplete && onComplete();
