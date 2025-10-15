@@ -179,6 +179,8 @@ transparent 4px
         padding: 1.5rem 2vw !important; /* Better padding for mobile */
         box-sizing: border-box !important;
         overflow-x: hidden !important;
+        position: relative !important;
+        z-index: 9999999 !important;
       }
       
       /* Special handling for timeline content on mobile */
@@ -442,11 +444,11 @@ z-index: 1;
       text-shadow: 0 0 2px #66FF66, 0 0 12px #66FF66;
     }
     
-    /* Ensure text content appears above collateral photo on desktop */
+    /* Ensure text content appears above video and photos */
     @media (min-width: 769px) {
       #text-wrap, #unscramble, #page {
         position: relative;
-        z-index: 1 !important;
+        z-index: 9999999 !important;
       }
     }
     
@@ -536,6 +538,7 @@ z-index: 1;
        overflow: hidden;
        max-width: 100vw;
        padding: 4rem 2rem 6rem 4rem; /* Consistent top padding for all slides */
+       z-index: 9999999;
      }
      
     /* Mobile-specific text-wrap overrides */
