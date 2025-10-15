@@ -18,7 +18,7 @@
       z-index: 100000;
       pointer-events: none;
       display: block;
-      filter: none;
+      filter: saturate(0.8);
       animation: none;
       overflow: hidden;
       padding-left: 5vw;
@@ -961,7 +961,7 @@ FOR THIS, WE NEED YOUR HELP.
     let audioEnabled = true; // Enable audio by default
     let debugMode = true;
     let currentAudio = null; // Track currently playing audio
-    let audioVolume = 0.7; // Default volume level
+    let audioVolume = 0.67; // Default volume level
     
     // Function to stop any currently playing audio
     function stopCurrentAudio() {
@@ -1064,7 +1064,7 @@ FOR THIS, WE NEED YOUR HELP.
         
         // Set video properties
         video.muted = false; // Don't start muted
-        video.volume = 0.7;
+        video.volume = 0.67;
         video.loop = false; // Don't loop - freeze on last frame
         
         // Debug audio properties
@@ -1148,7 +1148,7 @@ FOR THIS, WE NEED YOUR HELP.
         video.addEventListener('loadeddata', () => {
           console.log('🔊 Video loaded - ensuring audio is enabled');
           video.muted = false;
-          video.volume = 0.7;
+          video.volume = 0.67;
           console.log('🔊 Video muted after load:', video.muted);
           console.log('🔊 Video volume after load:', video.volume);
         });
