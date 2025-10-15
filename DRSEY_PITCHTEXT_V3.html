@@ -5,35 +5,44 @@
   <title>Unscramble + Images</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Background video */
+    /* Background video - sized to show full width */
     .bg-video {
       position: fixed;
-      top: 10px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%) scaleX(0.8);
-      width: calc(60vw - 2rem);
-      height: calc(70vh - 2rem);
-      object-fit: cover;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      height: auto;
+      object-fit: contain;
       object-position: center center;
-      z-index: 100000;
+      z-index: 2147483647;
       pointer-events: none;
       display: block;
       filter: saturate(0.8);
       animation: none;
-      overflow: hidden;
-      padding-left: 5vw;
+      border: none;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      max-width: 90vw;
+      max-height: 80vh;
     }
     
-    /* Mobile video - flush with edges, no cropping */
+    /* Mobile video - sized to show full width */
     @media (max-width: 768px) {
       .bg-video {
-        width: 100vw;
-        height: 80vh;
-        padding-left: 0;
-        top: 5vh;
-        left: 0;
-        transform: none;
+        width: 95vw;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         object-fit: contain;
+        border: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        max-width: 95vw;
+        max-height: 75vh;
       }
     }
     
