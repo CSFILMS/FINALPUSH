@@ -1895,15 +1895,15 @@ FOR THIS, WE NEED YOUR HELP.
             bdmElement.style.cssText = `
               position: fixed;
               top: 45%;
-              left: 50%;
+              left: 60%;
               transform: translate(-50%, -50%);
               width: 80vw;
               z-index: 100001;
               color: var(--soft);
               font-family: var(--font-family);
-              font-size: 1.0em;
+              font-size: 1.8rem;
               text-align: left;
-              padding-left: 2rem;
+              padding-left: 6rem;
               padding-right: 2rem;
               opacity: 0.9;
               pointer-events: none;
@@ -1914,8 +1914,10 @@ FOR THIS, WE NEED YOUR HELP.
             
             // Add mobile responsiveness
             if (window.innerWidth <= 768) {
-              bdmElement.style.fontSize = '0.85em';
+              bdmElement.style.fontSize = '1.4rem';
               bdmElement.style.width = '90vw';
+              bdmElement.style.paddingLeft = '4rem';
+              bdmElement.style.left = '55%';
             }
             document.body.appendChild(bdmElement);
             
