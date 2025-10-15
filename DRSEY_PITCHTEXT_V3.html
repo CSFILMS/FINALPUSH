@@ -988,27 +988,7 @@ FOR THIS, WE NEED YOUR HELP.
     
 
 
-    // Test audio function
-    function testAudio() {
-      console.log('🧪 Testing audio playback...');
-      const testAudio = new Audio('AUDIO/audio15.mp3');
-      testAudio.volume = 0.7;
-      
-      testAudio.addEventListener('play', () => {
-        console.log('✅ Test audio started playing!');
-      });
-      
-      testAudio.addEventListener('error', (e) => {
-        console.error('❌ Test audio error:', e);
-      });
-      
-      testAudio.play().then(() => {
-        console.log('✅ Test audio playing successfully');
-      }).catch(err => {
-        console.log('❌ Test audio play failed:', err.message);
-        console.log('🔧 Error details:', err);
-      });
-    }
+    // Test audio function removed - defunct
 
     // Video preloading system
     const videoPreloadState = {
@@ -1232,119 +1212,7 @@ FOR THIS, WE NEED YOUR HELP.
     
 
 
-    // Enhanced audio function for page 8
-    function playAudioForPage8() {
-      console.log('🎵 Attempting to play audio for page 8...');
-      
-      if (!audioEnabled) {
-        console.log('🔇 Audio disabled, skipping');
-        return;
-      }
-      
-      // Stop any current audio
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio = null;
-      }
-      
-      // Create new audio with better error handling
-      const audio = new Audio();
-      audio.src = 'AUDIO/audio7.mp3';
-      audio.volume = audioVolume;
-      audio.preload = 'auto';
-      
-      console.log('🎵 Audio source:', audio.src);
-      console.log('🎵 Audio volume:', audioVolume);
-      console.log('🎵 Audio enabled:', audioEnabled);
-      
-      // Multiple event listeners for better compatibility
-      audio.addEventListener('loadstart', () => {
-        console.log('🔄 Audio loading started');
-      });
-      
-      audio.addEventListener('loadeddata', () => {
-        console.log('📊 Audio data loaded');
-      });
-      
-      audio.addEventListener('canplay', () => {
-        console.log('▶️ Audio can play');
-        currentAudio = audio;
-        audio.play().then(() => {
-          console.log('✅ Audio playing for page 8');
-        }).catch(err => {
-          console.error('❌ Audio play failed:', err);
-          console.error('❌ Error details:', err.message);
-          showAudioError('Audio play failed: ' + err.message);
-        });
-      });
-      
-      audio.addEventListener('error', (e) => {
-        console.error('❌ Audio load failed:', e);
-        console.error('❌ Audio src was:', audio.src);
-        console.error('❌ Error code:', audio.error ? audio.error.code : 'unknown');
-        showAudioError('Audio file not found or corrupted');
-      });
-      
-      // Force load
-      audio.load();
-    }
-
-    // Enhanced audio function for page 12
-    function playAudioForPage12() {
-      console.log('🎵 Attempting to play audio for page 12...');
-      
-      if (!audioEnabled) {
-        console.log('🔇 Audio disabled, skipping');
-        return;
-      }
-      
-      // Stop any current audio
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio = null;
-      }
-      
-      // Create new audio with better error handling
-      const audio = new Audio();
-      audio.src = 'AUDIO/audio9.mp3';
-      audio.volume = audioVolume;
-      audio.preload = 'auto';
-      
-      console.log('🎵 Audio source:', audio.src);
-      console.log('🎵 Audio volume:', audioVolume);
-      console.log('🎵 Audio enabled:', audioEnabled);
-      
-      // Multiple event listeners for better compatibility
-      audio.addEventListener('loadstart', () => {
-        console.log('🔄 Audio loading started');
-      });
-      
-      audio.addEventListener('loadeddata', () => {
-        console.log('📊 Audio data loaded');
-      });
-      
-      audio.addEventListener('canplay', () => {
-        console.log('▶️ Audio can play');
-        currentAudio = audio;
-        audio.play().then(() => {
-          console.log('✅ Audio playing for page 12');
-        }).catch(err => {
-          console.error('❌ Audio play failed:', err);
-          console.error('❌ Error details:', err.message);
-          showAudioError('Audio play failed: ' + err.message);
-        });
-      });
-      
-      audio.addEventListener('error', (e) => {
-        console.error('❌ Audio load failed:', e);
-        console.error('❌ Audio src was:', audio.src);
-        console.error('❌ Error code:', audio.error ? audio.error.code : 'unknown');
-        showAudioError('Audio file not found or corrupted');
-      });
-      
-      // Force load
-      audio.load();
-    }
+    // Audio functions for pages 8 and 12 removed - defunct
 
     /* ================== PREP ================== */
     const fullText = fullTextRaw.toUpperCase();
@@ -1373,41 +1241,7 @@ FOR THIS, WE NEED YOUR HELP.
     
     // Keyword scanning removed - no more image searches
     
-    // Debug function - test audio 8
-    window.testAudio8 = function() {
-      console.log('🎵 Testing audio 8...');
-      playAudioForPage8();
-    };
-    
-    // Debug function - test audio 12
-    window.testAudio12 = function() {
-      console.log('🎵 Testing audio 12...');
-      playAudioForPage12();
-    };
-    
-    // Simple test function for audio 8
-    window.testAudio7Simple = function() {
-      console.log('🎵 Testing audio7.mp3...');
-      const audio = new Audio('AUDIO/audio7.mp3');
-      audio.volume = 0.7;
-      audio.play().then(() => {
-        console.log('✅ Audio7 playing successfully');
-      }).catch(err => {
-        console.log('❌ Audio7 failed:', err.message);
-      });
-    };
-    
-    // Simple test function for audio 15
-    window.testAudio15Simple = function() {
-      console.log('🎵 Testing audio15.mp3...');
-      const audio = new Audio('AUDIO/audio15.mp3');
-      audio.volume = 0.7;
-      audio.play().then(() => {
-        console.log('✅ Audio15 playing successfully');
-      }).catch(err => {
-        console.log('❌ Audio15 failed:', err.message);
-      });
-    };
+    // Test audio functions removed - defunct
     
     
 
@@ -2669,10 +2503,7 @@ document.addEventListener('click', (e)=>{
       else if (k==='x'||k==='X'){ toggleGreenOverlay('half'); }
       else if (k==='c'||k==='C'){ toggleGreenOverlay('off'); }
       else if (k==='f'||k==='F'){ toggleFullscreen(); }
-      else if (k==='a'||k==='A'){ 
-        console.log('🧪 A key pressed - testing audio...');
-        testAudio();
-      }
+      // Audio test key removed - defunct
       // video2 keyboard shortcuts removed - defunct
     });
     
