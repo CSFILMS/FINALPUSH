@@ -183,13 +183,6 @@ transparent 4px
         z-index: 9999999 !important;
       }
       
-      /* Special handling for timeline content on mobile */
-      #text-wrap.timeline-mode {
-        height: calc(100vh - 10rem) !important; /* More height for timeline with navbar space */
-        padding: 0.5rem 1vw !important; /* Reduced padding for timeline */
-        overflow-y: visible !important; /* Allow content to flow */
-        margin-bottom: 4rem !important; /* Extra bottom margin to prevent going under navbar */
-      }
       #unscramble {
         font-size: 0.85rem; /* Slightly larger for better readability */
         line-height: 1.4; /* Better line spacing */
@@ -277,18 +270,6 @@ transparent 4px
         line-height: 1.3 !important;
       }
       
-      /* Mobile-specific timeline optimizations */
-      #unscramble[data-timeline="true"] {
-        font-size: 0.7rem !important; /* Even smaller for timeline on mobile */
-        line-height: 1.2 !important; /* Tighter line spacing */
-        padding-left: 2rem !important; /* Keep left padding */
-        padding-right: 2rem !important; /* Keep right padding */
-        /* Keep container top padding - don't override it */
-        height: calc(100vh - 12rem) !important; /* More space for navbar - increased from 8rem to 12rem */
-        overflow-y: auto !important; /* Allow scrolling if needed */
-        -webkit-overflow-scrolling: touch !important; /* Smooth scrolling on iOS */
-        margin-bottom: 4rem !important; /* Extra bottom margin to prevent going under navbar */
-      }
       
       /* Better mobile navigation */
       #nav {
@@ -300,13 +281,13 @@ transparent 4px
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         z-index: 1000;
-        padding: 0.5rem 0;
+        padding: 0.75rem 0;
       }
       
       /* Mobile slide counter positioning */
       #slide-counter {
         position: fixed;
-        bottom: 6rem;
+        bottom: 7rem;
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.9rem;
@@ -576,13 +557,6 @@ z-index: 1;
       hyphens: none;
     }
     
-    /* Desktop timeline optimizations */
-    #unscramble[data-timeline="true"] {
-      height: calc(100vh - 8rem) !important; /* Account for navbar on desktop */
-      overflow-y: auto !important; /* Allow scrolling for timeline */
-      margin-bottom: 2rem !important; /* Extra bottom margin to prevent going under navbar */
-      /* Keep container padding - don't override it */
-    }
      
      /* Handle indented line wrapping - preserve indentation for continuation lines */
      #unscramble .indented-line {
@@ -608,7 +582,7 @@ z-index: 1;
       align-items: center;
       margin: 0; 
       font-size: 0.9rem;
-      min-height: 5vh;
+      min-height: 7vh;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -617,14 +591,14 @@ z-index: 1;
       -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       z-index: 1000;
-      padding: 0.5rem 0;
+      padding: 0.75rem 0;
       gap: 4vw;
     }
     
     /* Desktop - add padding to bring arrows in from edges */
     @media (min-width: 769px) {
       #nav {
-        padding: 0.5rem 4rem;
+        padding: 0.75rem 4rem;
       }
     }
     #nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 1em; }
@@ -638,7 +612,7 @@ z-index: 1;
     
     #slide-counter {
       position: fixed;
-      bottom: 7rem;
+      bottom: 8rem;
       left: 50%;
       transform: translateX(-50%);
       font-size: 1rem;
@@ -701,20 +675,6 @@ z-index: 2 !important;
       padding-right: 2rem !important;
     }
     
-    /* Prevent any formatting interference with timeline content */
-    #unscramble[data-timeline="true"] {
-      white-space: pre-wrap !important;
-      word-wrap: normal !important;
-      overflow-wrap: normal !important;
-      hyphens: none !important;
-      text-indent: 0 !important;
-      word-break: normal !important;
-      line-height: 1.5 !important;
-      letter-spacing: 0.05em !important;
-      word-spacing: normal !important;
-      padding-left: 2rem !important;
-      padding-right: 2rem !important;
-    }
     
     /* Collateral Murder animation removed - no more scrolling */
     
@@ -741,15 +701,8 @@ z-index: 2 !important;
       padding-top: 1rem !important;
     }
     
-    /* Add top padding specifically for slide 4 (timeline) without breaking scroll */
+    /* Add top padding specifically for slide 4 */
     #page[data-page="4"] #unscramble {
-      padding-top: 1rem !important;
-    }
-    
-    /* Ensure timeline padding persists during scrolling - multiple selectors for maximum specificity */
-    #unscramble[data-timeline="true"],
-    #page[data-page="4"] #unscramble[data-timeline="true"],
-    #unscramble[data-timeline="true"][data-timeline="true"] {
       padding-top: 1rem !important;
     }
     
@@ -1267,16 +1220,13 @@ FOR THIS, WE NEED YOUR HELP.
     let isInLineRevealMode = false;
     let lineRevealState = { lines: [], currentIndex: 0, element: null, onComplete: null };
     let lastTouchTime = 0; // Track last touch time to prevent double-firing
-    // Timeline advance tracking removed
     let filmByTimeouts = []; // Track 6BDM animation timeouts
     let currentTypingInterval = null; // Track the current subtitle typing interval
     let shouldContinueTyping = true; // Flag to control if typing should continue
-    // Timeline reveal variables removed
     let audioContextUnlocked = false; // Track if audio context is unlocked
-    let scramblingDisabled = false; // Track if scrambling should be disabled after timeline
+    let scramblingDisabled = false; // Track if scrambling should be disabled
     let videoStartTime = null; // Track when video started playing
     
-    // Timeline detection function removed
     
     // Memory management
     let activeEventListeners = new Map(); // Track active event listeners
@@ -1470,7 +1420,7 @@ FOR THIS, WE NEED YOUR HELP.
       imageContainer.id = 'arrest-photo-container';
       imageContainer.style.cssText = `
         position: fixed !important;
-        top: 50% !important;
+        top: 65% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         max-width: 75vw !important;
@@ -1604,7 +1554,7 @@ FOR THIS, WE NEED YOUR HELP.
       imageContainer.id = 'correa-photo-container';
       imageContainer.style.cssText = `
         position: fixed !important;
-        top: 50% !important;
+        top: 65% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         max-width: 75vw !important;
@@ -1741,7 +1691,6 @@ FOR THIS, WE NEED YOUR HELP.
       }, 50); // 50ms per character for smooth typewriter effect
     }
     
-    // Timeline decode function removed
     
     // Mobile text wrapping function - breaks long lines intelligently while preserving formatting
     function wrapTextForMobile(text) {
@@ -1834,8 +1783,8 @@ FOR THIS, WE NEED YOUR HELP.
         currentAnimationFrame = null;
       }
       
-      // Apply mobile text wrapping before processing (skip for timeline content and slides 5-6)
-      if (!element.hasAttribute('data-timeline') && currentPage !== 4 && currentPage !== 5) {
+      // Apply mobile text wrapping before processing (skip slides 5-6)
+      if (currentPage !== 4 && currentPage !== 5) {
         text = wrapTextForMobile(text);
       }
       
@@ -1967,8 +1916,8 @@ FOR THIS, WE NEED YOUR HELP.
         currentAnimationFrame = null;
       }
       
-      // Apply mobile text wrapping before processing (skip for timeline content and slides 5-6)
-      if (!element.hasAttribute('data-timeline') && currentPage !== 4 && currentPage !== 5) {
+      // Apply mobile text wrapping before processing (skip slides 5-6)
+      if (currentPage !== 4 && currentPage !== 5) {
         text = wrapTextForMobile(text);
       }
       
@@ -2009,8 +1958,6 @@ FOR THIS, WE NEED YOUR HELP.
       }, 25); // Ultra-fast: 25ms interval instead of 100ms (4x faster)
     }
 
-    /* ================== TIMELINE FUNCTIONALITY REMOVED ================== */
-    // Timeline reveal functionality has been removed as requested
     
     
 
@@ -2065,7 +2012,7 @@ FOR THIS, WE NEED YOUR HELP.
             previousContent = lineRevealState.element.textContent + '\n\n';
           }
           
-          // Display line instantly (timeline decode removed)
+          // Display line instantly
           lineRevealState.element.textContent = previousContent + currentLine;
           setTimeout(() => {
             lineRevealState.currentIndex++;
@@ -2122,8 +2069,8 @@ FOR THIS, WE NEED YOUR HELP.
         // Clear all timeouts and intervals
         clearAllTimeouts();
         
-        // Audio control: only allow audio on timeline slide (4) and video slide (3)
-        const allowedAudioSlides = [2, 3]; // Slide 3 (video) and slide 4 (timeline) - using 0-based index
+        // Audio control: only allow audio on video slide (3)
+        const allowedAudioSlides = [2]; // Slide 3 (video) - using 0-based index
         if (!allowedAudioSlides.includes(pageIndex)) {
           // Stop all audio when not on allowed slides
           if (currentAudio) {
@@ -2164,7 +2111,6 @@ FOR THIS, WE NEED YOUR HELP.
         // Reset line reveal mode
         isInLineRevealMode = false;
         
-        // Timeline reveal mode removed
         
         slideCounterEl.textContent = `SLIDE ${pageIndex + 1} / ${pages.length}`;
         navMsg.style.visibility = 'hidden';
@@ -2176,56 +2122,8 @@ FOR THIS, WE NEED YOUR HELP.
       // Use simple, consistent font sizing - smaller on mobile
         const isMobile = window.innerWidth <= 768;
         
-        // Check if this is timeline content - ONLY slide 4 (index 3)
-        const pageContent = pages[pageIndex];
-        console.log(`🔍 Page ${pageIndex + 1} content preview:`, pageContent.substring(0, 100));
-        const isTimelineContent = pageContent.includes('2006:') && pageContent.includes('2010:'); // Detect timeline by year patterns
-        console.log(`🔍 Page ${pageIndex + 1} is timeline content:`, isTimelineContent);
-        
-        if (isTimelineContent) {
-          // Make timeline content 25% smaller
-          el.style.fontSize = isMobile ? '0.6rem' : '0.9rem';
-          
-          // Mark as timeline content for CSS protection
-          el.setAttribute('data-timeline', 'true');
-          
-          // Add timeline-mode class to text-wrap for mobile optimization
-          const textWrap = document.getElementById('text-wrap');
-          if (textWrap) {
-            textWrap.classList.add('timeline-mode');
-          }
-          
-          // Preserve exact formatting for timeline content - prevent any text modifications
-          el.style.whiteSpace = 'pre-wrap';
-          el.style.wordWrap = 'normal';
-          el.style.overflowWrap = 'normal';
-          el.style.hyphens = 'none';
-          el.style.textIndent = '0';
-          el.style.wordBreak = 'normal';
-          el.style.lineHeight = '1.5';
-          
-        } else {
-          // Normal text size
+        // Set consistent text size for all slides
         el.style.fontSize = isMobile ? '0.8rem' : '1.2rem';
-          
-          // Remove timeline marker
-          el.removeAttribute('data-timeline');
-          
-          // Remove timeline-mode class from text-wrap
-          const textWrap = document.getElementById('text-wrap');
-          if (textWrap) {
-            textWrap.classList.remove('timeline-mode');
-          }
-          
-          // Reset any timeline-specific formatting
-          el.style.whiteSpace = '';
-          el.style.wordWrap = '';
-          el.style.overflowWrap = '';
-          el.style.hyphens = '';
-          el.style.textIndent = '';
-          el.style.wordBreak = '';
-          el.style.lineHeight = '';
-        }
         
         el.style.paddingBottom = ''; // Reset any padding
        
@@ -2243,14 +2141,7 @@ FOR THIS, WE NEED YOUR HELP.
          
         // Collateral Murder slide detection removed
          
-         if (isTimelineContent) {
-          // Timeline content - display instantly without reveal animation
-          console.log('Timeline content detected, displaying instantly');
-          const contentToShow = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
-          console.log(`🎯 TIMELINE: Displaying content for slide ${pageIndex + 1}:`, contentToShow.substring(0, 100));
-          el.textContent = contentToShow;
-          wrapYearsInSpans(el);
-         } else {
+         {
           // Use faster scrambling for page 0
           if (pageIndex === 0) {
             // Instant display for page 0 to speed up initial load
