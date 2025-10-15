@@ -1362,6 +1362,14 @@ FOR THIS, WE NEED YOUR HELP.
     console.log('📄 Page 2 content:', pages[1] ? pages[1].substring(0, 100) : 'UNDEFINED');
     console.log('📄 Total pages created:', pages.length);
     console.log('📄 Pages:', pages.map((p, i) => `Page ${i + 1}: ${p.substring(0, 50)}...`));
+    
+    // Debug: Show detailed content for each page
+    pages.forEach((page, index) => {
+      console.log(`📄 DETAILED Page ${index + 1} (${page.length} chars):`, page.substring(0, 200));
+      if (page.includes('IN 2025, THE SIX BILLION DOLLAR MAN')) {
+        console.log(`🎯 FOUND "IN 2025" content on page ${index + 1}`);
+      }
+    });
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
 
     // Image mode constants and functions removed - no more image mode switching
@@ -2408,7 +2416,9 @@ FOR THIS, WE NEED YOUR HELP.
          if (isTimelineContent) {
           // Timeline content - display instantly without reveal animation
           console.log('Timeline content detected, displaying instantly');
-          el.textContent = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
+          const contentToShow = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
+          console.log(`🎯 TIMELINE: Displaying content for slide ${pageIndex + 1}:`, contentToShow.substring(0, 100));
+          el.textContent = contentToShow;
           wrapYearsInSpans(el);
          } else {
           // Use faster scrambling for page 0
@@ -2419,6 +2429,7 @@ FOR THIS, WE NEED YOUR HELP.
             wrapYearsInSpans(el);
              // Collateral Murder slide animation removed
          } else {
+           console.log(`🎯 SCRAMBLE: Displaying content for slide ${pageIndex + 1}:`, pages[pageIndex].substring(0, 100));
            scrambleFastChunks(el, pages[pageIndex], () => {
            // Text displayed
            // Collateral Murder slide animation removed
