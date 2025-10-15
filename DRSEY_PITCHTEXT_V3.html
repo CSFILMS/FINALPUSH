@@ -1905,44 +1905,7 @@ FOR THIS, WE NEED YOUR HELP.
       }, 50); // 50ms per character for smooth typewriter effect
     }
     
-    // Function to decode individual timeline lines with scrambling effect
-    function decodeTimelineLine(element, baseContent, lineText, onComplete) {
-      let index = 0;
-      const chunkSize = 15; // Larger chunks for much faster decoding
-      const len = lineText.length;
-      let scrambled = lineText.split('');
-      
-      // Initialize scrambled version (keeping spaces and punctuation)
-      for (let i = 0; i < len; i++) {
-        scrambled[i] = /\s|[:\.\-\[\]#]/.test(lineText[i]) ? lineText[i] : chars[Math.floor(Math.random() * chars.length)];
-      }
-      
-      const lineInterval = setInterval(() => {
-        const display = scrambled.slice();
-        
-        // Reveal chunks progressively
-        for (let i = 0; i < index; i++) {
-          let s = i * chunkSize, e = Math.min(s + chunkSize, len);
-          for (let j = s; j < e; j++) display[j] = lineText[j];
-        }
-        
-        // Keep scrambling the unrevealed part
-        for (let k = index * chunkSize; k < len; k++) {
-          display[k] = /\s|[:\.\-\[\]#]/.test(lineText[k]) ? lineText[k] : chars[Math.floor(Math.random() * chars.length)];
-        }
-        
-        // Update element with base content + decoded line
-        element.textContent = baseContent + display.join('');
-        
-        
-        index++;
-        if ((index * chunkSize) >= len) {
-          clearInterval(lineInterval);
-          element.textContent = baseContent + lineText; // Final clean text
-          onComplete && onComplete();
-        }
-      }, 20); // Much faster decode for individual lines
-    }
+    // Timeline decode function removed
     
     // Mobile text wrapping function - breaks long lines intelligently while preserving formatting
     function wrapTextForMobile(text) {
@@ -2264,8 +2227,9 @@ FOR THIS, WE NEED YOUR HELP.
             previousContent = lineRevealState.element.textContent + '\n\n';
           }
           
-          // Decode this line with scrambling effect
-          decodeTimelineLine(lineRevealState.element, previousContent, currentLine, () => {
+          // Display line instantly (timeline decode removed)
+          lineRevealState.element.textContent = previousContent + currentLine;
+          setTimeout(() => {
             lineRevealState.currentIndex++;
             
             // Check if we're done
@@ -2280,7 +2244,7 @@ FOR THIS, WE NEED YOUR HELP.
               navMsg.style.fontSize = '0.9rem';
               navMsg.style.visibility = 'visible';
             }
-          });
+          }, 50);
         } else {
           // Show instantly for later lines (no decoding)
           if (lineRevealState.currentIndex > 0) {
