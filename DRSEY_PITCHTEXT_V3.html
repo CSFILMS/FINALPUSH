@@ -15,7 +15,7 @@
       height: calc(70vh - 2rem);
       object-fit: cover;
       object-position: center center;
-      z-index: 999999;
+      z-index: 100000;
       pointer-events: none;
       display: block;
       filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2.5);
@@ -218,11 +218,7 @@ transparent 4px
         line-height: 1.2;
         padding: 0.5rem;
       }
-      #slide-counter {
-        font-size: 0.6rem; /* Slightly larger */
-        margin: 0.5vh 0;
-        padding: 0.25rem;
-      }
+      /* Slide counter mobile styles handled in main styles */
       #prompt {
         font-size: 0.75rem; /* Slightly larger */
         line-height: 1.3;
@@ -316,10 +312,11 @@ transparent 4px
       /* Mobile slide counter positioning */
       #slide-counter {
         position: fixed;
-        top: 1rem;
-        right: 1rem;
+        bottom: 6rem;
+        left: 1rem;
+        font-size: 0.9rem;
         background: rgba(0, 0, 0, 0.7);
-        padding: 0.5rem;
+        padding: 0.5rem 1rem;
         border-radius: 4px;
         z-index: 1000;
       }
@@ -644,11 +641,11 @@ z-index: 1;
     }
     
     #slide-counter {
-      position: relative;
-      top: 0.5vh;
-      left: 0;
+      position: fixed;
+      bottom: 7rem;
+      left: 2rem;
       transform: none;
-      font-size: 0.6rem;
+      font-size: 1rem;
       opacity: 1;
       color: var(--accent);
       text-shadow: 0 0 2px var(--accent), 0 0 12px var(--accent);
@@ -657,8 +654,11 @@ z-index: 1;
       z-index: 1000;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      text-align: center;
-      margin: 0.5vh 0;
+      text-align: left;
+      margin: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
     }
     
    /* Side mode: text on left, image on right */
@@ -851,7 +851,7 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-     <source src="VIDEOS/MAKEITSTOPAGHGH.mp4" type="video/mp4" />
+     <source src="VIDEOS/hopefullypenultimate.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
