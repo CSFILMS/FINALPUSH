@@ -1031,8 +1031,8 @@ FOR THIS, WE NEED YOUR HELP.
         // Set up video event listeners
         const onCanPlay = () => {
           console.log('✅ Video3 ready to play');
-          video.currentTime = 1; // Skip the first second of video
-          console.log('🎬 Video currentTime set to 1 second (skipping first second)');
+          video.currentTime = 1.5; // Skip the first 1.5 seconds of video
+          console.log('🎬 Video currentTime set to 1.5 seconds (skipping first 1.5 seconds)');
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
