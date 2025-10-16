@@ -20,7 +20,7 @@
       z-index: 100000 !important;
       display: none;
       padding-right: 0 !important;
-      filter: sepia(0.03) saturate(1.3) !important;
+      filter: sepia(0.03) saturate(1.3) contrast(1.2) !important;
     }
     
     /* Mobile video - full width, edges meet screen sides */
@@ -253,15 +253,17 @@ transparent 4px
       /* Better mobile navigation */
       #nav {
         position: fixed;
-        bottom: 2rem;
-        left: 0;
-        right: 0;
+        top: 35%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
         background: rgba(0, 0, 0, 0.95);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        z-index: 100000;
-        padding: 1rem 0;
+        z-index: 99998;
+        padding: 1rem 1.5rem;
         min-height: 60px;
+        border-radius: 8px;
       }
       
       /* Mobile slide counter positioning */
@@ -568,15 +570,17 @@ z-index: 1;
       font-size: 0.9rem;
       min-height: 7vh;
       position: fixed;
-      bottom: 3rem;
-      left: 0;
-      right: 0;
+      top: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
       background: rgba(0, 0, 0, 0.9);
       -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
-      z-index: 100000;
-      padding: 0.75rem 0;
+      z-index: 99998;
+      padding: 0.75rem 1.5rem;
       gap: 0.5rem;
+      border-radius: 8px;
     }
     
     /* Desktop - reduced padding for closer arrows */
