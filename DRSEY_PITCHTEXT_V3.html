@@ -1136,6 +1136,10 @@ FOR THIS, WE NEED YOUR HELP.
         
         // Show video immediately
         video.style.setProperty('display', 'block', 'important');
+        video.style.setProperty('opacity', '1', 'important'); // Force opacity to 1
+        video.style.setProperty('visibility', 'visible', 'important'); // Force visible
+        video.style.setProperty('border', '5px solid red', 'important'); // DEBUG: red border to see if element is there
+        video.style.setProperty('background', 'blue', 'important'); // DEBUG: blue background to see element bounds
         console.log('🎬 Video display set to block');
         console.log('🎬 Video computed display:', window.getComputedStyle(video).display);
         
