@@ -583,16 +583,16 @@ z-index: 1;
       backdrop-filter: blur(10px);
       z-index: 1000;
       padding: 0.75rem 0;
-      gap: 2vw;
+      gap: 0.5rem;
     }
     
-    /* Desktop - add padding to bring arrows in from edges */
+    /* Desktop - reduced padding for closer arrows */
     @media (min-width: 769px) {
       #nav {
-        padding: 0.75rem 4rem;
+        padding: 0.75rem 1rem;
       }
     }
-    #nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 1em; }
+    #nav span { cursor:pointer; -webkit-user-select: none; user-select: none; padding:0 0.5em; }
           #nav-msg { 
       flex-grow:1; 
       text-align:center; 
