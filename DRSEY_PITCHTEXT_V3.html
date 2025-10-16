@@ -2312,13 +2312,13 @@ FOR THIS, WE NEED YOUR HELP.
     function safeAdvance(){ 
       if (!throttle()) return; 
       
-      // Check if we're on the trailer slide (last slide) and video hasn't played for 1 second yet
+      // Check if we're on the trailer slide (last slide) and video hasn't played for 3 seconds yet
       if (currentPage === pages.length - 1 && videoStartTime !== null) {
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
-        if (videoPlayTime < 1) {
-          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 1s to advance`);
+        if (videoPlayTime < 3) {
+          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 3s to advance`);
           return; // Block navigation
         }
       }
@@ -2329,13 +2329,13 @@ FOR THIS, WE NEED YOUR HELP.
     function goBack(){ 
       if (!throttle()) return; 
       
-      // Check if we're on the trailer slide (last slide) and video hasn't played for 1 second yet
+      // Check if we're on the trailer slide (last slide) and video hasn't played for 3 seconds yet
       if (currentPage === pages.length - 1 && videoStartTime !== null) {
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
-        if (videoPlayTime < 1) {
-          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 1s to go back`);
+        if (videoPlayTime < 3) {
+          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 3s to go back`);
           return; // Block navigation
         }
       }
