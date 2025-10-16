@@ -1119,32 +1119,15 @@ FOR THIS, WE NEED YOUR HELP.
 
     // Video3 functions - with audio that stops when slide changes
     function showVideo3Background() {
+      console.log('🎬 Showing video with audio...');
       const video = document.getElementById('bg-video3');
+      const audio = document.getElementById('obiwan-audio');
       
       if (video) {
-        console.log('🎬 showVideo3Background called - showing video');
-        console.log('📱 User agent:', navigator.userAgent);
-        console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
-        
-        // Show video using display (not opacity)
+        // Show video immediately
         video.style.setProperty('display', 'block', 'important');
-        console.log('🎬 Video display set to block');
-        
-        // Debug video source
-        console.log('🎬 Video src:', video.querySelector('source')?.src);
-        console.log('🎬 Video current src:', video.currentSrc);
-        console.log('🎬 Video ready state:', video.readyState);
-        console.log('🎬 Video network state:', video.networkState);
-        console.log('🎬 Video duration:', video.duration);
-        console.log('🎬 Video paused:', video.paused);
-        
-        // Set video properties - ensure completely muted
-        video.muted = true;
-        video.volume = 0;
-        video.defaultMuted = true;
-        video.loop = false; // Don't loop - will freeze at end frame
-        
-        // Reset video to beginning (no skip)
+        video.muted = true;   // Keep video muted
+        video.loop = false;   // Don't loop - freeze at end
         video.currentTime = 0;
         
         // Set up video event listeners
@@ -1156,18 +1139,12 @@ FOR THIS, WE NEED YOUR HELP.
         
         const onError = (e) => {
           console.log('❌ Video3 failed to load:', e);
-          console.log('❌ Video error code:', video.error ? video.error.code : 'unknown');
-          console.log('❌ Video error message:', video.error ? video.error.message : 'unknown');
-          console.log('❌ Video network state:', video.networkState);
-          console.log('❌ Video ready state:', video.readyState);
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
         
         const onEnded = () => {
           console.log('🎬 Video3 ended - freezing on last frame');
-          // Video will automatically freeze on the last frame when ended
-          
           // Trigger the 6BDM subtitle typing when video ends
           const videoEndedEvent = new CustomEvent('videoEnded');
           document.dispatchEvent(videoEndedEvent);
@@ -1176,69 +1153,38 @@ FOR THIS, WE NEED YOUR HELP.
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
         video.addEventListener('ended', onEnded);
-        video.addEventListener('loadstart', () => {
-          console.log('🔄 Video load started');
-        });
-        video.addEventListener('loadeddata', () => {
-          console.log('📊 Video data loaded');
-          console.log('🔊 Video audio tracks:', video.audioTracks ? video.audioTracks.length : 'not supported');
-          console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
-        });
         
-        // Manually play video now that it's visible
         video.play().then(() => {
           videoStartTime = Date.now();
-          console.log('🎬 Video started playing successfully');
+          console.log('✅ Video playing');
         }).catch(err => {
-          console.log('❌ Video autoplay blocked, waiting for user interaction:', err.message);
-          // If autoplay fails, user tap will start it
+          console.log('❌ Video play blocked:', err.message);
+          // On mobile, video.play() might need user interaction
+          const playOnInteraction = () => {
+            video.play().then(() => {
+              videoStartTime = Date.now();
+              console.log('✅ Video playing after user interaction');
+            });
+            document.removeEventListener('touchstart', playOnInteraction);
+            document.removeEventListener('click', playOnInteraction);
+          };
+          document.addEventListener('touchstart', playOnInteraction, { once: true, passive: true });
+          document.addEventListener('click', playOnInteraction, { once: true });
         });
+      }
+      
+      if (audio) {
+        audio.volume = 0.7;   // Set audio volume
+        audio.muted = false;  // Ensure not muted
+        audio.currentTime = 0;
         
-        // Record start time on play event
-        video.addEventListener('play', () => {
-          if (!videoStartTime) {
-            videoStartTime = Date.now();
-            console.log('🎬 Video started playing');
-          }
-        });
-        
-        // Get separate audio element
-        const audio = document.getElementById('obiwan-audio');
-        
-        // Try to play audio immediately (like working version)
-        if (audio) {
-          audio.volume = 0.7;
-          audio.muted = false;
-          audio.currentTime = 0;
-          
-          console.log('🔊 Attempting to play audio immediately...');
-          audio.play().then(() => {
-            console.log('✅ Audio playing successfully');
-          }).catch(err => {
-            console.log('❌ Audio play failed:', err.message);
-            console.log('🔧 This might require user interaction first');
-            
-            // Fallback: play audio on user interaction
-            const playAudioOnInteraction = () => {
-              audio.play().then(() => {
-                console.log('✅ Audio playing after user interaction');
-              }).catch(err2 => {
-                console.log('❌ Audio still failed:', err2.message);
-              });
-              document.removeEventListener('click', playAudioOnInteraction);
-              document.removeEventListener('touchstart', playAudioOnInteraction);
-            };
-            
-            document.addEventListener('click', playAudioOnInteraction, { once: true });
-            document.addEventListener('touchstart', playAudioOnInteraction, { once: true, passive: true });
-          });
-        }
-        
-        // Log when video loads
-        video.addEventListener('loadeddata', () => {
-          console.log('📊 Video loaded and ready');
-          console.log('🔊 Video muted after load:', video.muted);
-          console.log('🔊 Video volume after load:', video.volume);
+        // Try to play with better error handling
+        console.log('🔊 Attempting to play audio...');
+        audio.play().then(() => {
+          console.log('✅ Audio playing successfully');
+        }).catch(err => {
+          console.log('❌ Audio play failed:', err.message);
+          console.log('🔧 This might require user interaction first');
         });
       }
     }
