@@ -903,8 +903,9 @@ z-index: 2 !important;
     playsinline
     webkit-playsinline
     x-webkit-airplay="allow"
-    preload="auto"
+    preload="metadata"
     muted
+    autoplay
     aria-hidden="true"
     tabindex="-1"
     style="transform: translateZ(0); -webkit-transform: translateZ(0);"
@@ -1184,54 +1185,65 @@ FOR THIS, WE NEED YOUR HELP.
           console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
         });
         
-        // Try to play video - start muted for mobile compatibility
+        // Try to play video - mobile-first approach
         console.log('🔊 Attempting to play video...');
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
-        // Try to play video immediately with audio
+        // Detect mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        console.log('📱 Is mobile device:', isMobile);
+        
+        // Mobile-first play approach: always start muted for autoplay
         const attemptPlay = () => {
-          console.log('🎬 Attempting to play video with audio...');
-          video.load();
-          video.muted = false; // Try unmuted first
-          video.volume = 0.3;
+          console.log('🎬 Attempting to play video (mobile-first approach)...');
+          
+          // Ensure video is muted for autoplay
+          video.muted = true;
+          video.volume = 0;
           
           video.play().then(() => {
-            console.log('✅ Video playing successfully with audio');
+            console.log('✅ Video playing successfully (muted for autoplay)');
             videoStartTime = Date.now();
             console.log('🎬 Video start time recorded:', videoStartTime);
-          }).catch(err => {
-            console.log('❌ Video play with audio failed:', err.message);
-            console.log('🔊 Retrying with muted...');
-            // If unmuted fails, try muted
-            video.muted = true;
-            video.play().then(() => {
-              console.log('✅ Video playing muted');
-              videoStartTime = Date.now();
-              // Try to unmute after a moment
+            
+            // On desktop, try to unmute after video starts
+            if (!isMobile) {
               setTimeout(() => {
                 video.muted = false;
                 video.volume = 0.3;
-                console.log('🔊 Attempted to unmute video');
-              }, 500);
-            }).catch(err2 => {
-              console.log('❌ Video play failed entirely:', err2.message);
-            });
+                console.log('🔊 Desktop: Unmuted video after start');
+              }, 100);
+            } else {
+              console.log('📱 Mobile: Video will remain muted for compatibility');
+            }
+          }).catch(err => {
+            console.log('❌ Video play failed:', err.message);
+            // Fallback: ensure video is loaded
+            video.load();
+            setTimeout(() => {
+              video.play().catch(err2 => {
+                console.log('❌ Video play retry failed:', err2.message);
+              });
+            }, 500);
           });
         };
         
-        // Try immediately
-        setTimeout(attemptPlay, 200);
+        // Try to play immediately
+        setTimeout(attemptPlay, 100);
         
-        // Also add click handler to play with audio on any user interaction
+        // Add user interaction handler for mobile unmute (optional)
         const playOnClick = () => {
           if (video.paused) {
-            video.muted = false;
-            video.volume = 0.3;
             video.play().then(() => {
               console.log('✅ Video playing after user interaction');
               videoStartTime = Date.now();
             });
+          } else if (isMobile) {
+            // On mobile, user tap can unmute
+            video.muted = false;
+            video.volume = 0.3;
+            console.log('📱 Mobile: User tapped to unmute');
           }
           document.removeEventListener('click', playOnClick);
         };
