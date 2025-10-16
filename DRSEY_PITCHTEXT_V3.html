@@ -917,7 +917,7 @@ z-index: 2 !important;
   </video>
   
   <!-- Separate audio element for mobile video sound -->
-  <audio id="video-audio" preload="metadata">
+  <audio id="obiwan-audio" preload="metadata" style="display: none;">
     <source src="VIDEOS/HAVETOENDSOMEHOW.mp4" type="audio/mp4" />
   </audio>
 
@@ -1203,7 +1203,7 @@ FOR THIS, WE NEED YOUR HELP.
         });
         
         // Get separate audio element
-        const audio = document.getElementById('video-audio');
+        const audio = document.getElementById('obiwan-audio');
         
         // Try to play audio immediately (like working version)
         if (audio) {
@@ -1246,7 +1246,7 @@ FOR THIS, WE NEED YOUR HELP.
     function hideVideo3Background() {
       console.log('🛑 Hiding video and stopping audio...');
       const video = document.getElementById('bg-video3');
-      const audio = document.getElementById('video-audio');
+      const audio = document.getElementById('obiwan-audio');
       
       if (video) {
         video.pause();
@@ -2303,31 +2303,6 @@ FOR THIS, WE NEED YOUR HELP.
         // Clear all timeouts and intervals
         clearAllTimeouts();
         
-        // Audio control: allow audio on slide 3 (video slide) and trailer slide
-        const allowedAudioSlides = [2, pages.length - 1]; // Slide 3 (index 2) and last slide
-        if (!allowedAudioSlides.includes(pageIndex)) {
-          // Stop all audio when not on allowed slides
-          if (currentAudio) {
-            console.log(`🛑 Stopping audio - not on allowed audio slide (current: slide ${pageIndex + 1})`);
-            stopCurrentAudio();
-          }
-          // Also stop any other audio elements
-          document.querySelectorAll('audio').forEach(audio => {
-            if (!audio.paused) {
-              console.log('🛑 Stopping additional audio element');
-              audio.pause();
-              audio.currentTime = 0;
-            }
-          });
-          // Mute video element on non-video slides
-          const video = document.getElementById('bg-video3');
-          if (video) {
-            video.muted = true;
-            video.volume = 0;
-            console.log('🔇 Video muted on non-video slide');
-          }
-        }
-        
         // Clear any ongoing typing animation
         if (currentTypingInterval) {
           clearInterval(currentTypingInterval);
@@ -2464,16 +2439,14 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔇 Audio disabled for page 15');
       }
        
-       // Show video on slide 3 (A FILM BY EUGENE JARECKI)
-       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video slide...`);
-       if (pageIndex + 1 === 3) {
-         console.log('🎬 SLIDE 3 - Showing video...');
+       // Show video3 on 6BDM slide (content-based detection like working version)
+       const pageContent = pages[pageIndex];
+       if (pageContent && pageContent.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH')) {
+         console.log('🎬 6BDM slide - Showing video3...');
          showVideo3Background();
        } else {
-         console.log(`🎬 Not video slide (current: ${pageIndex + 1}), hiding video...`);
-         // Hide video on other pages
+         console.log(`🎬 Not 6BDM slide, hiding video3...`);
          hideVideo3Background();
-         videoStartTime = null; // Reset video timing when leaving video slide
        }
        
        
