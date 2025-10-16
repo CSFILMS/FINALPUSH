@@ -1189,8 +1189,16 @@ FOR THIS, WE NEED YOUR HELP.
           console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
         });
         
-        // Video should autoplay muted via HTML attributes
-        // Just record the start time when it plays
+        // Manually play video now that it's visible
+        video.play().then(() => {
+          videoStartTime = Date.now();
+          console.log('🎬 Video started playing successfully');
+        }).catch(err => {
+          console.log('❌ Video autoplay blocked, waiting for user interaction:', err.message);
+          // If autoplay fails, user tap will start it
+        });
+        
+        // Record start time on play event
         video.addEventListener('play', () => {
           if (!videoStartTime) {
             videoStartTime = Date.now();
@@ -1204,32 +1212,42 @@ FOR THIS, WE NEED YOUR HELP.
         // Get separate audio element
         const videoAudio = document.getElementById('video-audio');
         
-        // User interaction handler - play audio on tap
+        // User interaction handler - play audio on tap (and video if paused)
         const playAudio = () => {
+          // If video is paused, start it
+          if (video.paused) {
+            video.play().then(() => {
+              videoStartTime = Date.now();
+              console.log('🎬 Video started after user interaction');
+            });
+          }
+          
           if (!isMobile) {
             // Desktop: just unmute the video
             video.muted = false;
             video.volume = 0.3;
             console.log('🔊 Desktop: Video unmuted');
-          } else if (videoAudio && !video.paused) {
-            // Mobile: play audio synced with video
-            videoAudio.currentTime = video.currentTime;
-            videoAudio.volume = 0.3;
-            videoAudio.play().then(() => {
-              console.log('🔊 Mobile: Audio playing');
-              
-              // Keep audio synced
-              const syncInterval = setInterval(() => {
-                if (video.paused || video.ended) {
-                  videoAudio.pause();
-                  clearInterval(syncInterval);
-                } else if (Math.abs(videoAudio.currentTime - video.currentTime) > 0.3) {
-                  videoAudio.currentTime = video.currentTime;
-                }
-              }, 1000);
-            }).catch(err => {
-              console.log('❌ Audio play failed:', err.message);
-            });
+          } else if (videoAudio) {
+            // Mobile: play audio synced with video (even if video just started)
+            setTimeout(() => {
+              videoAudio.currentTime = video.currentTime;
+              videoAudio.volume = 0.3;
+              videoAudio.play().then(() => {
+                console.log('🔊 Mobile: Audio playing');
+                
+                // Keep audio synced
+                const syncInterval = setInterval(() => {
+                  if (video.paused || video.ended) {
+                    videoAudio.pause();
+                    clearInterval(syncInterval);
+                  } else if (Math.abs(videoAudio.currentTime - video.currentTime) > 0.3) {
+                    videoAudio.currentTime = video.currentTime;
+                  }
+                }, 1000);
+              }).catch(err => {
+                console.log('❌ Audio play failed:', err.message);
+              });
+            }, 100);
           }
           
           // Remove listeners
