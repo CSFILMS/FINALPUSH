@@ -19,12 +19,15 @@
       filter: hue-rotate(5deg) saturate(1.1) brightness(0.9);
     }
     
-    /* Mobile video - smaller on mobile too */
+    /* Mobile video - full width, edges meet screen sides */
     @media (max-width: 768px) {
       .bg-video {
-        width: 85vw;
-        height: 60vh;
-        object-fit: contain;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
     }
     
@@ -792,7 +795,7 @@ z-index: 2 !important;
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
   >
-     <source src="VIDEOS/MAKEITSTOPAGHGH.mp4" type="video/mp4" />
+     <source src="VIDEOS/LONGASSVIDEO.mp4" type="video/mp4" />
   </video>
   
   <!-- OBIWAN_REAL audio removed - defunct -->
