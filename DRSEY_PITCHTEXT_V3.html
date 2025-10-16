@@ -104,27 +104,8 @@
       box-sizing: border-box;
     }
     
-    /* CRT scanline effect - more intense */
+    /* Black scanlines only */
     body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: repeating-linear-gradient(
-0deg,
-transparent 0px,
-transparent 2px,
-rgba(0, 255, 0, 0.06) 2px,
-rgba(0, 255, 0, 0.06) 4px
-      );
-      pointer-events: none;
-      z-index: 99998;
-    }
-    
-    /* Black scanlines on top - more intense */
-    body::after {
       content: '';
       position: fixed;
       top: 0;
