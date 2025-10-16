@@ -903,7 +903,7 @@ FOR THIS, WE NEED YOUR HELP.
     let audioEnabled = true; // Enable audio by default
     let debugMode = true;
     let currentAudio = null; // Track currently playing audio
-    let audioVolume = 0.27; // Default volume level (60% quieter)
+    let audioVolume = 0.05; // Default volume level (very quiet)
     
     // Function to stop any currently playing audio
     function stopCurrentAudio() {
@@ -1006,7 +1006,7 @@ FOR THIS, WE NEED YOUR HELP.
         
         // Set video properties
         video.muted = false; // Don't start muted
-        video.volume = 0.27; // 60% quieter
+        video.volume = 0.05; // Very quiet
         video.loop = false; // Don't loop - freeze on last frame
         
         // Debug audio properties
@@ -1090,7 +1090,7 @@ FOR THIS, WE NEED YOUR HELP.
         video.addEventListener('loadeddata', () => {
           console.log('🔊 Video loaded - ensuring audio is enabled');
           video.muted = false;
-          video.volume = 0.27; // 60% quieter
+          video.volume = 0.05; // Very quiet
           console.log('🔊 Video muted after load:', video.muted);
           console.log('🔊 Video volume after load:', video.volume);
         });
