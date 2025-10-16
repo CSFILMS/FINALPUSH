@@ -5,44 +5,23 @@
   <title>Unscramble + Images</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Background video - sized to show full width */
+    /* Background video - simple full screen background */
     .bg-video {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90vw;
-      height: auto;
-      object-fit: contain;
-      object-position: center center;
-      z-index: 2147483647;
-      pointer-events: none;
-      display: block;
-      filter: saturate(0.8);
-      animation: none;
-      border: none;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      max-width: 90vw;
-      max-height: 80vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 100000;
+      display: none;
+      filter: hue-rotate(15deg) saturate(1.1);
     }
     
-    /* Mobile video - sized to show full width */
+    /* Mobile video - same simple approach */
     @media (max-width: 768px) {
       .bg-video {
-        width: 95vw;
-        height: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        object-fit: contain;
-        border: none;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        max-width: 95vw;
-        max-height: 75vh;
+        object-fit: cover;
       }
     }
     
@@ -80,7 +59,7 @@
     }
     
     :root { 
-      --fg:#D4D4D4; 
+      --fg:#00FF00; 
       --bg:#000; 
       --accent:#00FF00; 
       --soft:#66FF66;
@@ -296,7 +275,7 @@ transparent 4px
       /* Mobile slide counter positioning */
       #slide-counter {
         position: fixed;
-        bottom: 7rem;
+        bottom: 4rem;
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.9rem;
@@ -431,8 +410,8 @@ z-index: 1;
     .year-text {
       font-size: 1.2em !important;
       font-weight: bold;
-      color: #66FF66;
-      text-shadow: 0 0 2px #66FF66, 0 0 12px #66FF66;
+      color: #00FF00;
+      text-shadow: 0 0 2px #00FF00, 0 0 12px #00FF00;
     }
     
     /* Ensure text content appears above video and photos */
@@ -601,7 +580,7 @@ z-index: 1;
       backdrop-filter: blur(10px);
       z-index: 1000;
       padding: 0.75rem 0;
-      gap: 4vw;
+      gap: 2vw;
     }
     
     /* Desktop - add padding to bring arrows in from edges */
@@ -621,7 +600,7 @@ z-index: 1;
     
     #slide-counter {
       position: fixed;
-      bottom: 8rem;
+      bottom: 5rem;
       left: 50%;
       transform: translateX(-50%);
       font-size: 1rem;
@@ -924,7 +903,7 @@ FOR THIS, WE NEED YOUR HELP.
     let audioEnabled = true; // Enable audio by default
     let debugMode = true;
     let currentAudio = null; // Track currently playing audio
-    let audioVolume = 0.67; // Default volume level
+    let audioVolume = 0.27; // Default volume level (60% quieter)
     
     // Function to stop any currently playing audio
     function stopCurrentAudio() {
@@ -1014,8 +993,8 @@ FOR THIS, WE NEED YOUR HELP.
       if (video) {
         console.log('🎬 showVideo3Background called - showing holofreeze video');
         
-        // Show video - now that inline style is removed, this should work
-        video.style.setProperty('display', 'block', 'important');
+        // Show video as background
+        video.style.display = 'block';
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
@@ -1027,7 +1006,7 @@ FOR THIS, WE NEED YOUR HELP.
         
         // Set video properties
         video.muted = false; // Don't start muted
-        video.volume = 0.67;
+        video.volume = 0.27; // 60% quieter
         video.loop = false; // Don't loop - freeze on last frame
         
         // Debug audio properties
@@ -1041,8 +1020,8 @@ FOR THIS, WE NEED YOUR HELP.
         // Set up video event listeners
         const onCanPlay = () => {
           console.log('✅ Video3 ready to play');
-          video.currentTime = 1; // Set start time when video is ready to play
-          console.log('🎬 Video currentTime set to 1 second on canplay');
+          video.currentTime = 1; // Skip the first second of video
+          console.log('🎬 Video currentTime set to 1 second (skipping first second)');
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
@@ -1111,7 +1090,7 @@ FOR THIS, WE NEED YOUR HELP.
         video.addEventListener('loadeddata', () => {
           console.log('🔊 Video loaded - ensuring audio is enabled');
           video.muted = false;
-          video.volume = 0.67;
+          video.volume = 0.27; // 60% quieter
           console.log('🔊 Video muted after load:', video.muted);
           console.log('🔊 Video volume after load:', video.volume);
         });
@@ -1123,8 +1102,9 @@ FOR THIS, WE NEED YOUR HELP.
       
       if (video) {
         video.pause();
-        video.style.setProperty('display', 'none', 'important');
+        video.style.display = 'none';
       }
+      
     }
     
     // Enhanced audio context initialization with debugging
@@ -1398,7 +1378,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1409,10 +1389,10 @@ FOR THIS, WE NEED YOUR HELP.
       setTimeout(() => {
         img.style.opacity = '1';
         // Add brightness flash effect with intense glow
-        img.style.filter = 'brightness(1.2) sepia(1) hue-rotate(60deg) saturate(2.0)';
+        img.style.filter = 'brightness(1.2) sepia(1) hue-rotate(60deg) saturate(3.0)';
         img.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.4)';
         setTimeout(() => {
-          img.style.filter = 'brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0)';
+          img.style.filter = 'brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0)';
           img.style.boxShadow = 'none';
         }, 200);
       }, 50);
@@ -1452,7 +1432,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1563,7 +1543,7 @@ FOR THIS, WE NEED YOUR HELP.
       imageContainer.id = 'correa-photo-container';
       imageContainer.style.cssText = `
         position: fixed !important;
-        top: 65% !important;
+        top: 75% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         max-width: 75vw !important;
@@ -1586,7 +1566,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(3.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1820,11 +1800,29 @@ FOR THIS, WE NEED YOUR HELP.
           // Wrap years in spans for styling
           wrapYearsInSpans(element);
           
-          // Only show "PRESS SPACEBAR TO CONTINUE" for first 2 pages
-          if (currentPage < 2) {
-          navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
-          navMsg.style.fontSize = '0.9rem';
-          navMsg.style.visibility='visible';
+          // Show appropriate message based on page
+          if (currentPage === 0) {
+            // Slide 1 - show slide counter in nav-msg location
+            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+            navMsg.style.fontSize = '1rem';
+            navMsg.style.visibility='visible';
+            navMsg.style.textTransform = 'uppercase';
+            navMsg.style.letterSpacing = '0.1em';
+            // Hide the regular slide counter
+            slideCounterEl.style.visibility = 'hidden';
+          } else if (currentPage === 1) {
+            // Slide 2 - hide everything (invisible)
+            navMsg.style.visibility = 'hidden';
+            slideCounterEl.style.visibility = 'hidden';
+          } else if (currentPage >= 2) {
+            // On slide 3 and all subsequent slides, show slide counter in nav-msg location
+            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+            navMsg.style.fontSize = '1rem';
+            navMsg.style.visibility='visible';
+            navMsg.style.textTransform = 'uppercase';
+            navMsg.style.letterSpacing = '0.1em';
+            // Hide the regular slide counter
+            slideCounterEl.style.visibility = 'hidden';
           }
           
           // Check if this text contains "A FILM BY" and add delayed subtitle
@@ -1953,11 +1951,29 @@ FOR THIS, WE NEED YOUR HELP.
           // Wrap years in spans for styling
           wrapYearsInSpans(element);
           
-          // Only show "PRESS SPACEBAR TO CONTINUE" for first 2 pages
-          if (currentPage < 2) {
-            navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
-            navMsg.style.fontSize = '0.9rem';
+          // Show appropriate message based on page
+          if (currentPage === 0) {
+            // Slide 1 - show slide counter in nav-msg location
+            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+            navMsg.style.fontSize = '1rem';
             navMsg.style.visibility='visible';
+            navMsg.style.textTransform = 'uppercase';
+            navMsg.style.letterSpacing = '0.1em';
+            // Hide the regular slide counter
+            slideCounterEl.style.visibility = 'hidden';
+          } else if (currentPage === 1) {
+            // Slide 2 - hide everything (invisible)
+            navMsg.style.visibility = 'hidden';
+            slideCounterEl.style.visibility = 'hidden';
+          } else if (currentPage >= 2) {
+            // On slide 3 and all subsequent slides, show slide counter in nav-msg location
+            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+            navMsg.style.fontSize = '1rem';
+            navMsg.style.visibility='visible';
+            navMsg.style.textTransform = 'uppercase';
+            navMsg.style.letterSpacing = '0.1em';
+            // Hide the regular slide counter
+            slideCounterEl.style.visibility = 'hidden';
           }
           
           onComplete && onComplete();
@@ -2078,8 +2094,8 @@ FOR THIS, WE NEED YOUR HELP.
         // Clear all timeouts and intervals
         clearAllTimeouts();
         
-        // Audio control: only allow audio on video slide (3)
-        const allowedAudioSlides = [2]; // Slide 3 (video) - using 0-based index
+        // Audio control: only allow audio on trailer slide (last slide)
+        const allowedAudioSlides = [pages.length - 1]; // Trailer slide (last slide) - using 0-based index
         if (!allowedAudioSlides.includes(pageIndex)) {
           // Stop all audio when not on allowed slides
           if (currentAudio) {
@@ -2122,7 +2138,22 @@ FOR THIS, WE NEED YOUR HELP.
         
         
         slideCounterEl.textContent = `SLIDE ${pageIndex + 1} / ${pages.length}`;
-        navMsg.style.visibility = 'hidden';
+        
+        // Handle slide counter visibility based on page
+        if (pageIndex === 0) {
+          // Slide 1 - hide regular counter, nav-msg will show slide counter after animation
+          slideCounterEl.style.visibility = 'hidden';
+        } else if (pageIndex === 1) {
+          // Slide 2 - hide everything (invisible)
+          slideCounterEl.style.visibility = 'hidden';
+          navMsg.style.visibility = 'hidden';
+          // Reset nav-msg styling
+          navMsg.style.textTransform = '';
+          navMsg.style.letterSpacing = '';
+        } else if (pageIndex >= 2) {
+          // On slide 3 and all subsequent slides, hide regular counter (will be shown in nav-msg after animation)
+          slideCounterEl.style.visibility = 'hidden';
+        }
         
         // Set data-page attribute for CSS targeting
         pageEl.setAttribute('data-page', pageIndex + 1);
@@ -2210,13 +2241,13 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔇 Audio disabled for page 15');
       }
        
-       // Show video on slide 3
-       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video on slide 3...`);
-       if (pageIndex + 1 === 3) {
-         console.log('🎬 SLIDE 3 - Showing video...');
+       // Show video on trailer slide (last slide)
+       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video on trailer slide...`);
+       if (pageIndex + 1 === pages.length) {
+         console.log('🎬 TRAILER SLIDE - Showing video...');
          showVideo3Background();
        } else {
-         console.log(`🎬 Not slide 3 (current: ${pageIndex + 1}), hiding video...`);
+         console.log(`🎬 Not trailer slide (current: ${pageIndex + 1}), hiding video...`);
          // Hide video on other pages
          hideVideo3Background();
          videoStartTime = null; // Reset video timing when leaving video slide
@@ -2234,8 +2265,8 @@ FOR THIS, WE NEED YOUR HELP.
     function safeAdvance(){ 
       if (!throttle()) return; 
       
-      // Check if we're on the video slide (slide 3, index 2) and video hasn't played for 2 seconds yet
-      if (currentPage === 2 && videoStartTime !== null) {
+      // Check if we're on the trailer slide (last slide) and video hasn't played for 2 seconds yet
+      if (currentPage === pages.length - 1 && videoStartTime !== null) {
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
@@ -2429,7 +2460,7 @@ document.exitFullscreen();
       const navPrev = document.getElementById('nav-prev');
       const navNext = document.getElementById('nav-next');
       const terminals = [document.getElementById('unscramble'), document.getElementById('prompt'), document.getElementById('nav-msg'), navPrev, navNext, document.getElementById('slide-counter')];
-      let colorIndex=2; // Default to soft green (option 3)
+      let colorIndex=1; // Default to bright green (option 2)
       const colors=['#CCCCCC','#00FF00','#66FF66'];
       function apply(){
 terminals.forEach(el=>{ if(!el) return;
@@ -2546,4 +2577,5 @@ if (mode === 'full') {
   
 </body>
 </html>
+  
   
