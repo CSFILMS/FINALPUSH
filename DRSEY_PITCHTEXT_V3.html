@@ -904,9 +904,8 @@ z-index: 2 !important;
     playsinline
     webkit-playsinline
     x-webkit-airplay="allow"
-    preload="metadata"
+    preload="auto"
     muted
-    autoplay
     aria-hidden="true"
     tabindex="-1"
     style="transform: translateZ(0); -webkit-transform: translateZ(0);"
@@ -1189,11 +1188,6 @@ FOR THIS, WE NEED YOUR HELP.
           console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
         });
         
-        // Try to play video - mobile-first approach with separate audio
-        console.log('🔊 Attempting to play video...');
-        console.log('🔊 Video element:', video);
-        console.log('🔊 Video source element:', video.querySelector('source'));
-        
         // Detect mobile device
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         console.log('📱 Is mobile device:', isMobile);
@@ -1201,88 +1195,67 @@ FOR THIS, WE NEED YOUR HELP.
         // Get separate audio element
         const videoAudio = document.getElementById('video-audio');
         
-        // Mobile-first play approach: video muted, audio on user interaction
-        const attemptPlay = () => {
-          console.log('🎬 Attempting to play video (mobile-first approach)...');
-          
-          // Ensure video is muted for autoplay
-          video.muted = true;
-          video.volume = 0;
-          
-          video.play().then(() => {
-            console.log('✅ Video playing successfully (muted for autoplay)');
-            videoStartTime = Date.now();
-            console.log('🎬 Video start time recorded:', videoStartTime);
-            
-            // On desktop, try to unmute video directly
-            if (!isMobile) {
-              setTimeout(() => {
-                video.muted = false;
-                video.volume = 0.3;
-                console.log('🔊 Desktop: Unmuted video after start');
-              }, 100);
-            } else {
-              console.log('📱 Mobile: Video muted, waiting for user interaction to play audio');
-            }
-          }).catch(err => {
-            console.log('❌ Video play failed:', err.message);
-            // Fallback: ensure video is loaded
-            video.load();
-            setTimeout(() => {
-              video.play().catch(err2 => {
-                console.log('❌ Video play retry failed:', err2.message);
-              });
-            }, 500);
-          });
-        };
+        // Set up video for playback
+        video.muted = true;
+        video.volume = 0;
+        video.currentTime = 1.5; // Skip first 1.5 seconds
         
-        // Try to play immediately
-        setTimeout(attemptPlay, 100);
-        
-        // Add user interaction handler to start audio on mobile
-        const playOnClick = () => {
+        // User interaction handler - required for mobile
+        const startVideoAndAudio = (e) => {
+          console.log('🎬 User interaction detected, starting video...');
+          
+          // Start video if not playing
           if (video.paused) {
             video.play().then(() => {
               console.log('✅ Video playing after user interaction');
               videoStartTime = Date.now();
-            });
-          }
-          
-          // Play separate audio on mobile (synced with video)
-          if (isMobile && videoAudio && !video.paused) {
-            // Sync audio with video timeline (skip first 1.5 seconds like video)
-            videoAudio.currentTime = Math.max(0, video.currentTime);
-            videoAudio.volume = 0.3;
-            videoAudio.play().then(() => {
-              console.log('🔊 Mobile: Audio playing after user interaction');
               
-              // Keep audio synced with video
-              const syncAudio = setInterval(() => {
-                if (video.paused || video.ended) {
-                  videoAudio.pause();
-                  clearInterval(syncAudio);
-                } else {
-                  // Sync if drift is more than 0.3 seconds
-                  if (Math.abs(videoAudio.currentTime - video.currentTime) > 0.3) {
-                    videoAudio.currentTime = video.currentTime;
-                  }
-                }
-              }, 1000);
+              // Desktop: unmute the video directly
+              if (!isMobile) {
+                video.muted = false;
+                video.volume = 0.3;
+                console.log('🔊 Desktop: Video unmuted');
+              }
             }).catch(err => {
-              console.log('❌ Audio play failed:', err.message);
+              console.log('❌ Video play failed:', err.message);
             });
-          } else if (!isMobile) {
-            // On desktop, just unmute video
-            video.muted = false;
-            video.volume = 0.3;
           }
           
-          document.removeEventListener('click', playOnClick);
-          document.removeEventListener('touchstart', playOnClick);
+          // Mobile: play separate audio element synced with video
+          if (isMobile && videoAudio) {
+            setTimeout(() => {
+              if (!video.paused) {
+                videoAudio.currentTime = video.currentTime;
+                videoAudio.volume = 0.3;
+                videoAudio.play().then(() => {
+                  console.log('🔊 Mobile: Audio playing synced with video');
+                  
+                  // Sync audio with video
+                  const syncInterval = setInterval(() => {
+                    if (video.paused || video.ended) {
+                      videoAudio.pause();
+                      clearInterval(syncInterval);
+                    } else if (Math.abs(videoAudio.currentTime - video.currentTime) > 0.3) {
+                      videoAudio.currentTime = video.currentTime;
+                    }
+                  }, 1000);
+                }).catch(err => {
+                  console.log('❌ Mobile audio play failed:', err.message);
+                });
+              }
+            }, 200);
+          }
+          
+          // Remove listeners after first interaction
+          document.removeEventListener('click', startVideoAndAudio);
+          document.removeEventListener('touchstart', startVideoAndAudio);
+          document.removeEventListener('pointerdown', startVideoAndAudio);
         };
         
-        document.addEventListener('click', playOnClick, { once: true });
-        document.addEventListener('touchstart', playOnClick, { once: true });
+        // Add event listeners for user interaction
+        document.addEventListener('click', startVideoAndAudio);
+        document.addEventListener('touchstart', startVideoAndAudio, { passive: true });
+        document.addEventListener('pointerdown', startVideoAndAudio, { passive: true });
         
         // Log when video loads
         video.addEventListener('loadeddata', () => {
