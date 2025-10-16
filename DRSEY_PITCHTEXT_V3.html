@@ -1019,10 +1019,14 @@ FOR THIS, WE NEED YOUR HELP.
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        console.log('🎬 showVideo3Background called - showing holofreeze video');
+        console.log('🎬 showVideo3Background called - showing video');
+        console.log('📱 User agent:', navigator.userAgent);
+        console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
         
         // Show video as background
         video.style.display = 'block';
+        video.style.visibility = 'visible';
+        console.log('🎬 Video display set to block and visible');
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
