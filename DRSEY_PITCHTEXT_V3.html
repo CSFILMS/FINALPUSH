@@ -2494,13 +2494,13 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔇 Audio disabled for page 15');
       }
        
-       // Show video on trailer slide (last slide)
-       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video on trailer slide...`);
-       if (pageIndex + 1 === pages.length) {
-         console.log('🎬 TRAILER SLIDE - Showing video...');
+       // Show video on slide 3 (A FILM BY EUGENE JARECKI)
+       console.log(`🔍 Debug: Current page ${pageIndex + 1}, checking for video slide...`);
+       if (pageIndex + 1 === 3) {
+         console.log('🎬 SLIDE 3 - Showing video...');
          showVideo3Background();
        } else {
-         console.log(`🎬 Not trailer slide (current: ${pageIndex + 1}), hiding video...`);
+         console.log(`🎬 Not video slide (current: ${pageIndex + 1}), hiding video...`);
          // Hide video on other pages
          hideVideo3Background();
          videoStartTime = null; // Reset video timing when leaving video slide
