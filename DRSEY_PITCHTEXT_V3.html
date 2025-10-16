@@ -1891,8 +1891,8 @@ FOR THIS, WE NEED YOUR HELP.
             `;
             
             // Add mobile responsiveness
-            if (window.innerWidth <= 768) {
-              bdmElement.style.fontSize = '0.9rem';
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
               bdmElement.style.width = '90vw';
               bdmElement.style.bottom = '15vh';
             }
@@ -1901,12 +1901,11 @@ FOR THIS, WE NEED YOUR HELP.
             // After 22 seconds, type 6BDM in the center of the screen
             const filmByTimeout = setTimeout(() => {
               if (sixBdmLine) {
-                // Format the text with proper indentation and line breaks
-                const formattedText = '6BDM:\nJULIAN ASSANGE AND THE PRICE OF TRUTH';
-                // Type the formatted 6BDM text in the center element
-                decodeSubtitle(bdmElement, '', formattedText, () => {
-                  onComplete && onComplete();
-                });
+                // Format the text with different font sizes (desktop vs mobile)
+                const bigSize = isMobile ? '2.5rem' : '3.3rem';
+                const smallSize = isMobile ? '0.8rem' : '0.95rem';
+                bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">6BDM:</span><br><span style="font-size: ${smallSize};">JULIAN ASSANGE AND THE PRICE OF TRUTH</span>`;
+                onComplete && onComplete();
               } else {
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
