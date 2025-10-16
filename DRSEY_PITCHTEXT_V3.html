@@ -1112,7 +1112,10 @@ FOR THIS, WE NEED YOUR HELP.
       
       if (video) {
         video.pause();
+        video.muted = true; // Mute audio when leaving video slide
+        video.volume = 0; // Set volume to 0 as extra precaution
         video.style.display = 'none';
+        console.log('🔇 Video hidden and audio muted');
       }
       
     }
@@ -2140,6 +2143,13 @@ FOR THIS, WE NEED YOUR HELP.
               audio.currentTime = 0;
             }
           });
+          // Mute video element on non-video slides
+          const video = document.getElementById('bg-video3');
+          if (video) {
+            video.muted = true;
+            video.volume = 0;
+            console.log('🔇 Video muted on non-video slide');
+          }
         }
         
         // Clear any ongoing typing animation
@@ -2301,13 +2311,13 @@ FOR THIS, WE NEED YOUR HELP.
     function safeAdvance(){ 
       if (!throttle()) return; 
       
-      // Check if we're on the trailer slide (last slide) and video hasn't played for 2 seconds yet
+      // Check if we're on the trailer slide (last slide) and video hasn't played for 1 second yet
       if (currentPage === pages.length - 1 && videoStartTime !== null) {
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
-        if (videoPlayTime < 2) {
-          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 2s to advance`);
+        if (videoPlayTime < 1) {
+          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 1s to advance`);
           return; // Block navigation
         }
       }
@@ -2315,7 +2325,23 @@ FOR THIS, WE NEED YOUR HELP.
       unlockAudioContext(); 
       startPage(currentPage+1); 
     }
-    function goBack(){ if (!throttle()) return; unlockAudioContext(); startPage(currentPage-1); }
+    function goBack(){ 
+      if (!throttle()) return; 
+      
+      // Check if we're on the trailer slide (last slide) and video hasn't played for 1 second yet
+      if (currentPage === pages.length - 1 && videoStartTime !== null) {
+        const currentTime = Date.now();
+        const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
+        
+        if (videoPlayTime < 1) {
+          console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 1s to go back`);
+          return; // Block navigation
+        }
+      }
+      
+      unlockAudioContext(); 
+      startPage(currentPage-1); 
+    }
 
     document.getElementById('nav-prev').addEventListener('pointerdown', goBack, {passive:true});
     document.getElementById('nav-next').addEventListener('pointerdown', safeAdvance, {passive:true});
