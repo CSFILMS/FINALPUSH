@@ -5,23 +5,26 @@
   <title>Unscramble + Images</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* Background video - simple full screen background */
+    /* Background video - smaller centered video */
     .bg-video {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      height: 70vh;
+      object-fit: contain;
       z-index: 100000;
       display: none;
       filter: hue-rotate(5deg) saturate(1.1) brightness(0.9);
     }
     
-    /* Mobile video - same simple approach */
+    /* Mobile video - smaller on mobile too */
     @media (max-width: 768px) {
       .bg-video {
-        object-fit: cover;
+        width: 85vw;
+        height: 60vh;
+        object-fit: contain;
       }
     }
     
