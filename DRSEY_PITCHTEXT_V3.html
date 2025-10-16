@@ -1104,6 +1104,10 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔇 Video hidden and audio muted');
       }
       
+      // Reset video slide protection when hiding video
+      isOnVideoSlide = false;
+      videoStartTime = null;
+      
     }
     
     // Enhanced audio context initialization with debugging
@@ -1214,6 +1218,7 @@ FOR THIS, WE NEED YOUR HELP.
     let audioContextUnlocked = false; // Track if audio context is unlocked
     let scramblingDisabled = false; // Track if scrambling should be disabled
     let videoStartTime = null; // Track when video started playing
+    let isOnVideoSlide = false; // Track if we're on a slide that requires video viewing
     
     
     // Memory management
@@ -1839,6 +1844,10 @@ FOR THIS, WE NEED YOUR HELP.
           if (text.includes('A FILM BY EUGENE JARECKI')) {
             console.log('A FILM BY detected - showing video and adding delay...');
             
+            // Mark that we're on a video slide that requires viewing
+            isOnVideoSlide = true;
+            console.log('🔒 Video slide protection enabled');
+            
             // Show JA_OBIWAN video
             showVideo3Background();
             
@@ -2319,8 +2328,14 @@ FOR THIS, WE NEED YOUR HELP.
     function safeAdvance(){ 
       if (!throttle()) return; 
       
-      // Check if video is currently playing and hasn't played for 3 seconds yet
-      if (videoStartTime !== null) {
+      // Check if we're on a video slide that requires viewing
+      if (isOnVideoSlide) {
+        // Block navigation if video hasn't started or hasn't played for 3 seconds
+        if (videoStartTime === null) {
+          console.log(`🎬 Video slide protection: Video hasn't started yet, blocking navigation`);
+          return; // Block navigation - video hasn't even started
+        }
+        
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
@@ -2328,6 +2343,11 @@ FOR THIS, WE NEED YOUR HELP.
           console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 3s to advance`);
           return; // Block navigation
         }
+        
+        // Video has played for 3+ seconds, allow navigation and reset flags
+        isOnVideoSlide = false;
+        videoStartTime = null;
+        console.log('✅ Video slide protection passed, allowing navigation');
       }
       
       unlockAudioContext(); 
@@ -2336,8 +2356,14 @@ FOR THIS, WE NEED YOUR HELP.
     function goBack(){ 
       if (!throttle()) return; 
       
-      // Check if video is currently playing and hasn't played for 3 seconds yet
-      if (videoStartTime !== null) {
+      // Check if we're on a video slide that requires viewing
+      if (isOnVideoSlide) {
+        // Block navigation if video hasn't started or hasn't played for 3 seconds
+        if (videoStartTime === null) {
+          console.log(`🎬 Video slide protection: Video hasn't started yet, blocking navigation`);
+          return; // Block navigation - video hasn't even started
+        }
+        
         const currentTime = Date.now();
         const videoPlayTime = (currentTime - videoStartTime) / 1000; // Convert to seconds
         
@@ -2345,6 +2371,11 @@ FOR THIS, WE NEED YOUR HELP.
           console.log(`🎬 Video slide protection: Only ${videoPlayTime.toFixed(1)}s played, need 3s to go back`);
           return; // Block navigation
         }
+        
+        // Video has played for 3+ seconds, allow navigation and reset flags
+        isOnVideoSlide = false;
+        videoStartTime = null;
+        console.log('✅ Video slide protection passed, allowing navigation');
       }
       
       unlockAudioContext(); 
