@@ -1908,8 +1908,30 @@ FOR THIS, WE NEED YOUR HELP.
                 // Format the text with different font sizes (desktop vs mobile)
                 const bigSize = isMobile ? '2.5rem' : '3.3rem';
                 const smallSize = isMobile ? '0.8rem' : '0.95rem';
-                bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">6BDM:</span><br><span style="font-size: ${smallSize};">JULIAN ASSANGE AND THE PRICE OF TRUTH</span>`;
-                onComplete && onComplete();
+                
+                // Typewriter effect for 6BDM text
+                const text1 = '6BDM:';
+                const text2 = 'JULIAN ASSANGE AND THE PRICE OF TRUTH';
+                let index1 = 0;
+                let index2 = 0;
+                
+                const typeInterval = setInterval(() => {
+                  if (index1 < text1.length) {
+                    // Type first part (6BDM:)
+                    bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">${text1.substring(0, index1 + 1)}</span>`;
+                    index1++;
+                  } else if (index2 < text2.length) {
+                    // Type second part (subtitle)
+                    bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">${text1}</span><br><span style="font-size: ${smallSize};">${text2.substring(0, index2 + 1)}</span>`;
+                    index2++;
+                  } else {
+                    // Finished typing
+                    clearInterval(typeInterval);
+                    onComplete && onComplete();
+                  }
+                }, 50); // 50ms per character
+                
+                filmByTimeouts.push(typeInterval);
               } else {
                 console.log('6BDM line not found, skipping subtitle animation');
                 onComplete && onComplete();
