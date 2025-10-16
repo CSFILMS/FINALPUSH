@@ -18,8 +18,8 @@
       height: 88vh !important;
       object-fit: contain !important;
       z-index: 1 !important;
-      visibility: hidden;
       opacity: 0;
+      pointer-events: none;
       padding-right: 0 !important;
       filter: sepia(0.03) saturate(1.3) contrast(1.35) !important;
       transition: opacity 0.3s ease;
@@ -814,11 +814,8 @@ z-index: 2 !important;
     x-webkit-airplay="allow"
     preload="auto"
     muted
-    autoplay
-    loop
     aria-hidden="true"
     tabindex="-1"
-    style="display: block; visibility: visible;"
   >
      <source src="VIDEOS/LONGASSVIDEO.mp4" type="video/mp4" />
   </video>
@@ -1031,9 +1028,9 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
         
         // Show video as background
-        video.style.visibility = 'visible';
         video.style.opacity = '1';
-        console.log('🎬 Video visibility and opacity set');
+        video.style.pointerEvents = 'auto';
+        console.log('🎬 Video opacity set to 1');
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
@@ -1106,31 +1103,28 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
-        // Video has autoplay attribute, so just ensure it's playing and track start time
+        // Manually trigger video play for mobile compatibility
         setTimeout(() => {
-          if (!video.paused) {
-            console.log('✅ Video autoplaying via HTML attribute');
+          console.log('🎬 Manually triggering video play...');
+          video.load(); // Ensure video is loaded
+          
+          video.play().then(() => {
+            console.log('✅ Video playing successfully');
             videoStartTime = Date.now();
             console.log('🎬 Video start time recorded:', videoStartTime);
-          } else {
-            // Fallback: trigger play if autoplay didn't work
-            console.log('🔄 Autoplay didnt work, manually triggering play...');
-            video.play().then(() => {
-              console.log('✅ Video playing after manual trigger');
-              videoStartTime = Date.now();
-              console.log('🎬 Video start time recorded:', videoStartTime);
-              
-              // Unmute after playing starts (for desktop and mobile)
-              setTimeout(() => {
-                video.muted = false;
-                video.volume = 0.05;
-                console.log('🔊 Video unmuted after playback started');
-              }, 100);
-            }).catch(err => {
-              console.log('❌ Video play failed:', err.message);
-            });
-          }
-        }, 200); // Small delay to check autoplay status
+            
+            // Unmute after playing starts (for desktop and mobile)
+            setTimeout(() => {
+              video.muted = false;
+              video.volume = 0.05;
+              console.log('🔊 Video unmuted after playback started');
+            }, 100);
+          }).catch(err => {
+            console.log('❌ Video play failed:', err.message);
+            console.log('❌ Error name:', err.name);
+            console.log('❌ This may be due to autoplay policy - video will play on user interaction');
+          });
+        }, 200);
         
         // Log when video loads
         video.addEventListener('loadeddata', () => {
@@ -1145,12 +1139,15 @@ FOR THIS, WE NEED YOUR HELP.
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        video.pause();
-        video.muted = true; // Mute audio when leaving video slide
-        video.volume = 0; // Set volume to 0 as extra precaution
-        video.style.visibility = 'hidden';
         video.style.opacity = '0';
-        console.log('🔇 Video hidden and audio muted');
+        video.style.pointerEvents = 'none';
+        setTimeout(() => {
+          video.pause();
+          video.currentTime = 0; // Reset video to beginning
+          video.muted = true; // Mute audio when leaving video slide
+          video.volume = 0; // Set volume to 0 as extra precaution
+          console.log('🔇 Video hidden and audio muted');
+        }, 300); // Wait for fade out transition
       }
       
       // Hide custom text scanlines
