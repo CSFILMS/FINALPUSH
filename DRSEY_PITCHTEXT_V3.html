@@ -46,12 +46,13 @@
     /* Mobile video - full width, edges meet screen sides */
     @media (max-width: 768px) {
       .bg-video {
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        width: 100vw !important;
+        height: 100vh !important;
+        object-fit: cover !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1 !important;
       }
     }
     
@@ -804,7 +805,9 @@ z-index: 2 !important;
     id="bg-video3"
     class="bg-video bg-video3"
     playsinline
-    preload="metadata"
+    webkit-playsinline
+    preload="auto"
+    muted
     aria-hidden="true"
     tabindex="-1"
     disablepictureinpicture
@@ -1088,19 +1091,26 @@ FOR THIS, WE NEED YOUR HELP.
           console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
         });
         
-        // Try to play video with audio after a small delay to avoid pause conflicts
-        console.log('🔊 Attempting to play video with audio...');
+        // Try to play video - start muted for mobile compatibility
+        console.log('🔊 Attempting to play video...');
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
         setTimeout(() => {
+          // Try playing muted first (required for mobile autoplay)
           video.play().then(() => {
-            console.log('✅ Video3 playing with audio successfully');
+            console.log('✅ Video3 playing successfully');
             console.log('✅ Video current time:', video.currentTime);
             console.log('✅ Video duration:', video.duration);
-            console.log('✅ Video muted after play:', video.muted);
             videoStartTime = Date.now(); // Track when video started playing
             console.log('🎬 Video start time recorded:', videoStartTime);
+            
+            // Unmute after playing starts (for desktop and mobile)
+            setTimeout(() => {
+              video.muted = false;
+              video.volume = 0.05;
+              console.log('🔊 Video unmuted after playback started');
+            }, 100);
           }).catch(err => {
             console.log('❌ Video3 play failed:', err.message);
             console.log('❌ Error details:', err);
@@ -1110,9 +1120,16 @@ FOR THIS, WE NEED YOUR HELP.
             setTimeout(() => {
               console.log('🔄 Retrying video play...');
               video.play().then(() => {
-                console.log('✅ Video3 playing with audio on retry');
+                console.log('✅ Video3 playing on retry');
                 videoStartTime = Date.now(); // Track when video started playing on retry
                 console.log('🎬 Video start time recorded on retry:', videoStartTime);
+                
+                // Unmute after playing starts
+                setTimeout(() => {
+                  video.muted = false;
+                  video.volume = 0.05;
+                  console.log('🔊 Video unmuted after retry');
+                }, 100);
               }).catch(retryErr => {
                 console.log('❌ Video3 retry failed:', retryErr.message);
                 console.log('❌ Retry error details:', retryErr);
@@ -1121,11 +1138,9 @@ FOR THIS, WE NEED YOUR HELP.
           });
         }, 100); // Small delay to avoid pause conflicts
         
-        // Ensure audio is enabled after video loads
+        // Log when video loads
         video.addEventListener('loadeddata', () => {
-          console.log('🔊 Video loaded - ensuring audio is enabled');
-          video.muted = false;
-          video.volume = 0.05; // Very quiet
+          console.log('📊 Video loaded and ready');
           console.log('🔊 Video muted after load:', video.muted);
           console.log('🔊 Video volume after load:', video.volume);
         });
