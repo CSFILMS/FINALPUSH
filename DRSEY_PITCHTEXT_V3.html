@@ -1762,6 +1762,17 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔒 Scrambling disabled - displaying text instantly (after slide 3)');
         element.textContent = text;
         wrapYearsInSpans(element);
+        
+        // Update slide counter for slides after slide 3
+        if (currentPage >= 2) {
+          navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+          navMsg.style.fontSize = '1rem';
+          navMsg.style.visibility='visible';
+          navMsg.style.textTransform = 'uppercase';
+          navMsg.style.letterSpacing = '0.1em';
+          slideCounterEl.style.visibility = 'hidden';
+        }
+        
         onComplete && onComplete();
         return;
       }
@@ -1912,6 +1923,17 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔒 Scrambling disabled - displaying text instantly (after slide 3)');
         element.textContent = text;
         wrapYearsInSpans(element);
+        
+        // Update slide counter for slides after slide 3
+        if (currentPage >= 2) {
+          navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
+          navMsg.style.fontSize = '1rem';
+          navMsg.style.visibility='visible';
+          navMsg.style.textTransform = 'uppercase';
+          navMsg.style.letterSpacing = '0.1em';
+          slideCounterEl.style.visibility = 'hidden';
+        }
+        
         onComplete && onComplete();
         return;
       }
