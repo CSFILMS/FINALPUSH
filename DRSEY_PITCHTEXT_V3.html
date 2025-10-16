@@ -253,27 +253,28 @@ transparent 4px
       /* Better mobile navigation */
       #nav {
         position: fixed;
-        bottom: 0;
+        bottom: 2rem;
         left: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.95);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        z-index: 1000;
-        padding: 0.75rem 0;
+        z-index: 100000;
+        padding: 1rem 0;
+        min-height: 60px;
       }
       
       /* Mobile slide counter positioning */
       #slide-counter {
         position: fixed;
-        bottom: 4rem;
+        bottom: 7rem;
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.9rem;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.9);
         padding: 0.5rem 1rem;
         border-radius: 4px;
-        z-index: 1000;
+        z-index: 100000;
       }
       
       /* Mobile nav message improvements */
@@ -567,13 +568,13 @@ z-index: 1;
       font-size: 0.9rem;
       min-height: 7vh;
       position: fixed;
-      bottom: 0;
+      bottom: 3rem;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.9);
       -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
-      z-index: 1000;
+      z-index: 100000;
       padding: 0.75rem 0;
       gap: 0.5rem;
     }
@@ -596,7 +597,7 @@ z-index: 1;
     
     #slide-counter {
       position: fixed;
-      bottom: 5rem;
+      bottom: 8rem;
       left: 50%;
       transform: translateX(-50%);
       font-size: 1rem;
@@ -605,12 +606,12 @@ z-index: 1;
       text-shadow: 0 0 2px var(--accent), 0 0 12px var(--accent);
       font-family: var(--font-family);
       pointer-events: none;
-      z-index: 1000;
+      z-index: 100000;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       text-align: center;
       margin: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.9);
       padding: 0.5rem 1rem;
       border-radius: 4px;
     }
