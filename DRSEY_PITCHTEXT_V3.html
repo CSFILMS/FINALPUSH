@@ -189,11 +189,11 @@ transparent 4px
         max-width: 100% !important;
         margin-top: 0; /* Remove negative margin that was causing issues */
         height: calc(100% - 2rem); /* Better height calculation */
-        padding: 1.5rem 1.5vw !important; /* Reduced padding by 25% */
+        padding: 1.5rem 0.5vw !important; /* Minimal side padding for wider text */
         box-sizing: border-box !important;
         overflow-x: hidden !important;
         position: relative !important;
-        z-index: 100000 !important;
+        z-index: 2 !important;
       }
       
       #unscramble {
@@ -245,7 +245,7 @@ transparent 4px
         max-width: 100% !important;
         position: relative !important;
         z-index: 2 !important;
-        padding: 1rem 0.75vw !important; /* Reduced padding by 25% */
+        padding: 1rem 0.5vw !important; /* Minimal padding for wider text */
         box-sizing: border-box !important;
         overflow-x: hidden !important;
       }
@@ -281,6 +281,36 @@ transparent 4px
       #page[data-page="1"] #unscramble {
         font-size: 1.1em !important;
         line-height: 1.3 !important;
+      }
+      
+      /* Slides 4, 5, 6, 7 mobile - slightly bigger text */
+      #page[data-page="4"] #unscramble,
+      #page[data-page="5"] #unscramble,
+      #page[data-page="6"] #unscramble,
+      #page[data-page="7"] #unscramble {
+        font-size: 1.0em !important;
+        line-height: 1.3 !important;
+        overflow: hidden !important;
+        height: 100% !important;
+      }
+      
+      /* Slides 4, 5, 6, 7 mobile - reduce top padding and prevent scrolling */
+      #page[data-page="4"] #text-wrap,
+      #page[data-page="5"] #text-wrap,
+      #page[data-page="6"] #text-wrap,
+      #page[data-page="7"] #text-wrap {
+        padding-top: 0.5vw !important;
+        padding-bottom: 10vh !important;
+        overflow: hidden !important;
+        height: 100vh !important;
+      }
+      
+      /* Slides 4, 5, 6, 7 mobile - ensure page container has no scroll */
+      #page[data-page="4"],
+      #page[data-page="5"],
+      #page[data-page="6"],
+      #page[data-page="7"] {
+        overflow: hidden !important;
       }
       
       
@@ -442,11 +472,11 @@ z-index: 1;
       text-shadow: 0 0 2px #00FF00, 0 0 12px #00FF00;
     }
     
-    /* Text content z-index - below custom scanlines */
+    /* Text content z-index - below scanlines */
     @media (min-width: 769px) {
       #text-wrap, #unscramble, #page {
         position: relative;
-        z-index: 100000 !important;
+        z-index: 2 !important;
       }
     }
     
@@ -465,6 +495,35 @@ z-index: 1;
     #page[data-page="3"] #unscramble {
       font-size: 0.95em !important;
       text-align: center !important;
+    }
+    
+    /* Slides 4, 5, 6, 7 - slightly bigger text */
+    #page[data-page="4"] #unscramble,
+    #page[data-page="5"] #unscramble,
+    #page[data-page="6"] #unscramble,
+    #page[data-page="7"] #unscramble {
+      font-size: 1.05em !important;
+      overflow: hidden !important;
+      height: 100% !important;
+    }
+    
+    /* Slides 4, 5, 6, 7 - reduce top padding for higher text start and prevent scrolling */
+    #page[data-page="4"] #text-wrap,
+    #page[data-page="5"] #text-wrap,
+    #page[data-page="6"] #text-wrap,
+    #page[data-page="7"] #text-wrap {
+      padding-top: 0.5rem !important;
+      padding-bottom: 4rem !important;
+      overflow: hidden !important;
+      height: 100vh !important;
+    }
+    
+    /* Slides 4, 5, 6, 7 - ensure page container has no scroll */
+    #page[data-page="4"],
+    #page[data-page="5"],
+    #page[data-page="6"],
+    #page[data-page="7"] {
+      overflow: hidden !important;
     }
     
     
@@ -540,8 +599,8 @@ z-index: 1;
       box-sizing: border-box;
       overflow: hidden;
       max-width: 100vw;
-      padding: 4rem 1.5rem 6rem 3rem; /* Reduced side padding by 25% */
-      z-index: 100000;
+      padding: 4rem 0.5rem 6rem 1rem; /* Minimal side padding for wider text */
+      z-index: 2;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translateZ(0);
@@ -553,7 +612,7 @@ z-index: 1;
       #text-wrap {
         margin-top: 0; /* Remove negative margin on mobile */
         height: calc(100% - 1rem); /* Better height calculation for mobile */
-        padding: 1vh 1.5vw; /* Reduced horizontal padding by 25% */
+        padding: 1vh 0.5vw; /* Minimal horizontal padding for wider text */
         height: 70vh; /* Increased height for mobile */
         min-height: 25em;
         width: 100% !important;
@@ -684,8 +743,8 @@ z-index: 2 !important;
       overflow-wrap: normal !important;
       hyphens: none !important;
       text-indent: 0 !important;
-      padding-left: 1.5rem !important;
-      padding-right: 1.5rem !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
     }
     
     #text-wrap.small-side-mode #unscramble {
@@ -699,8 +758,8 @@ z-index: 2 !important;
       text-indent: 0 !important;
       font-size: 1.0rem !important;
       line-height: 1.3 !important;
-      padding-left: 1.5rem !important;
-      padding-right: 1.5rem !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
     }
     
     
@@ -708,19 +767,9 @@ z-index: 2 !important;
     
     /* Ensure all unscramble elements have consistent padding */
     #unscramble {
-      padding-left: 1.5rem !important;
-      padding-right: 1.5rem !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
       padding-top: 0 !important; /* No top padding - container handles it */
-    }
-    
-    /* Add top padding specifically for slide 5 */
-    #page[data-page="5"] #unscramble {
-      padding-top: 1rem !important;
-    }
-    
-    /* Add top padding specifically for slide 6 */
-    #page[data-page="6"] #unscramble {
-      padding-top: 1rem !important;
     }
     
     /* Add top padding for slides 2 and 3 */
@@ -729,9 +778,12 @@ z-index: 2 !important;
       padding-top: 1rem !important;
     }
     
-    /* Add top padding specifically for slide 4 */
-    #page[data-page="4"] #unscramble {
-      padding-top: 1rem !important;
+    /* Slides 4, 5, 6, 7 - NO extra top padding on unscramble (container handles it) */
+    #page[data-page="4"] #unscramble,
+    #page[data-page="5"] #unscramble,
+    #page[data-page="6"] #unscramble,
+    #page[data-page="7"] #unscramble {
+      padding-top: 0 !important;
     }
     
     /* Scanline movement animation */
@@ -1054,7 +1106,7 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🎬 Video paused:', video.paused);
         
         // Set video properties
-        video.loop = false; // Don't loop - will freeze at 22s
+        video.loop = false; // Don't loop - will freeze at end frame
         // Video starts muted for mobile compatibility, will unmute during play
         
         // Debug audio properties
@@ -1089,19 +1141,9 @@ FOR THIS, WE NEED YOUR HELP.
           // Video will automatically freeze on the last frame when ended
         };
         
-        const onTimeUpdate = () => {
-          // Freeze video at 22 seconds (when 6BDM subtitle appears)
-          if (video.currentTime >= 22) {
-            video.pause();
-            console.log('🎬 Video frozen at 22 seconds to match 6BDM subtitle timing');
-            video.removeEventListener('timeupdate', onTimeUpdate);
-          }
-        };
-        
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
         video.addEventListener('ended', onEnded);
-        video.addEventListener('timeupdate', onTimeUpdate);
         video.addEventListener('loadstart', () => {
           console.log('🔄 Video load started');
         });
