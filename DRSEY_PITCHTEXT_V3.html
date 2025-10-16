@@ -104,7 +104,7 @@
       box-sizing: border-box;
     }
     
-    /* CRT scanline effect */
+    /* CRT scanline effect - more intense */
     body::before {
       content: '';
       position: fixed;
@@ -116,14 +116,14 @@
 0deg,
 transparent 0px,
 transparent 2px,
-rgba(0, 255, 0, 0.03) 2px,
-rgba(0, 255, 0, 0.03) 4px
+rgba(0, 255, 0, 0.06) 2px,
+rgba(0, 255, 0, 0.06) 4px
       );
       pointer-events: none;
       z-index: 99998;
     }
     
-    /* Black scanlines on top */
+    /* Black scanlines on top - more intense */
     body::after {
       content: '';
       position: fixed;
@@ -133,8 +133,8 @@ rgba(0, 255, 0, 0.03) 4px
       height: 100vh;
       background: repeating-linear-gradient(
 0deg,
-rgba(0, 0, 0, 0.26) 0px,
-rgba(0, 0, 0, 0.26) 2px,
+rgba(0, 0, 0, 0.38) 0px,
+rgba(0, 0, 0, 0.38) 2px,
 transparent 2px,
 transparent 4px
       );
@@ -178,7 +178,7 @@ transparent 4px
         box-sizing: border-box !important;
         overflow-x: hidden !important;
         position: relative !important;
-        z-index: 9999999 !important;
+        z-index: 1 !important;
       }
       
       #unscramble {
@@ -424,11 +424,11 @@ z-index: 1;
       text-shadow: 0 0 2px #00FF00, 0 0 12px #00FF00;
     }
     
-    /* Ensure text content appears above video and photos */
+    /* Text content z-index - below scanlines so they affect all text */
     @media (min-width: 769px) {
       #text-wrap, #unscramble, #page {
         position: relative;
-        z-index: 9999999 !important;
+        z-index: 1 !important;
       }
     }
     
@@ -444,12 +444,6 @@ z-index: 1;
       font-size: 1.1em !important;
     }
     
-    /* Slide 3 - text under scanlines */
-    #page[data-page="3"] #text-wrap,
-    #page[data-page="3"] #unscramble,
-    #page[data-page="3"] {
-      z-index: 99997 !important;
-    }
     
     
     /* Video loading status */
@@ -524,7 +518,7 @@ z-index: 1;
        overflow: hidden;
        max-width: 100vw;
        padding: 4rem 2rem 6rem 4rem; /* Consistent top padding for all slides */
-       z-index: 9999999;
+       z-index: 1;
      }
      
     /* Mobile-specific text-wrap overrides */
