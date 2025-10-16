@@ -11,7 +11,7 @@
     /* Background video - large, close to edges */
     .bg-video {
       position: fixed !important;
-      top: 50% !important;
+      top: 47% !important;
       left: 50% !important;
       transform: translate(-50%, -50%) !important;
       -webkit-transform: translate(-50%, -50%) !important;
@@ -59,7 +59,7 @@
         object-fit: cover !important;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
-        top: 50% !important;
+        top: 47% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         -webkit-transform: translate(-50%, -50%) !important;
@@ -469,7 +469,9 @@ z-index: 1;
       font-size: 1.2em !important;
       font-weight: bold;
       color: #00FF00;
-      text-shadow: 0 0 2px #00FF00, 0 0 12px #00FF00;
+      text-shadow: 0 0 2px #00FF00, 0 0 8px #00FF00, 0 0 16px #00FF00;
+      filter: saturate(1.3);
+      -webkit-filter: saturate(1.3);
     }
     
     /* Text content z-index - below scanlines */
@@ -705,7 +707,9 @@ z-index: 1;
       font-size: 1rem;
       opacity: 1;
       color: var(--accent);
-      text-shadow: 0 0 2px var(--accent), 0 0 12px var(--accent);
+      text-shadow: 0 0 2px var(--accent), 0 0 8px var(--accent), 0 0 16px var(--accent);
+      filter: saturate(1.3);
+      -webkit-filter: saturate(1.3);
       font-family: var(--font-family);
       pointer-events: none;
       z-index: 100000;
@@ -784,6 +788,29 @@ z-index: 2 !important;
     #page[data-page="6"] #unscramble,
     #page[data-page="7"] #unscramble {
       padding-top: 0 !important;
+    }
+    
+    /* 6BDM subtitle scanlines overlay */
+    #bdm-subtitle::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.38) 0px,
+        rgba(0, 0, 0, 0.38) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    #bdm-subtitle {
+      position: relative;
     }
     
     /* Scanline movement animation */
@@ -1139,6 +1166,10 @@ FOR THIS, WE NEED YOUR HELP.
         const onEnded = () => {
           console.log('🎬 Video3 ended - freezing on last frame');
           // Video will automatically freeze on the last frame when ended
+          
+          // Trigger the 6BDM subtitle typing when video ends
+          const videoEndedEvent = new CustomEvent('videoEnded');
+          document.dispatchEvent(videoEndedEvent);
         };
         
         video.addEventListener('canplay', onCanPlay);
@@ -1158,28 +1189,53 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
-        // Manually trigger video play for mobile compatibility
-        setTimeout(() => {
-          console.log('🎬 Manually triggering video play...');
-          video.load(); // Ensure video is loaded
+        // Try to play video immediately with audio
+        const attemptPlay = () => {
+          console.log('🎬 Attempting to play video with audio...');
+          video.load();
+          video.muted = false; // Try unmuted first
+          video.volume = 0.3;
           
           video.play().then(() => {
-            console.log('✅ Video playing successfully');
+            console.log('✅ Video playing successfully with audio');
             videoStartTime = Date.now();
             console.log('🎬 Video start time recorded:', videoStartTime);
-            
-            // Unmute after playing starts (for desktop and mobile)
-            setTimeout(() => {
-              video.muted = false;
-              video.volume = 0.05;
-              console.log('🔊 Video unmuted after playback started');
-            }, 100);
           }).catch(err => {
-            console.log('❌ Video play failed:', err.message);
-            console.log('❌ Error name:', err.name);
-            console.log('❌ This may be due to autoplay policy - video will play on user interaction');
+            console.log('❌ Video play with audio failed:', err.message);
+            console.log('🔊 Retrying with muted...');
+            // If unmuted fails, try muted
+            video.muted = true;
+            video.play().then(() => {
+              console.log('✅ Video playing muted');
+              videoStartTime = Date.now();
+              // Try to unmute after a moment
+              setTimeout(() => {
+                video.muted = false;
+                video.volume = 0.3;
+                console.log('🔊 Attempted to unmute video');
+              }, 500);
+            }).catch(err2 => {
+              console.log('❌ Video play failed entirely:', err2.message);
+            });
           });
-        }, 200);
+        };
+        
+        // Try immediately
+        setTimeout(attemptPlay, 200);
+        
+        // Also add click handler to play with audio on any user interaction
+        const playOnClick = () => {
+          if (video.paused) {
+            video.muted = false;
+            video.volume = 0.3;
+            video.play().then(() => {
+              console.log('✅ Video playing after user interaction');
+              videoStartTime = Date.now();
+            });
+          }
+          document.removeEventListener('click', playOnClick);
+        };
+        document.addEventListener('click', playOnClick, { once: true });
         
         // Log when video loads
         video.addEventListener('loadeddata', () => {
@@ -1203,13 +1259,6 @@ FOR THIS, WE NEED YOUR HELP.
           video.volume = 0; // Set volume to 0 as extra precaution
           console.log('🔇 Video hidden and audio muted');
         }, 300); // Wait for fade out transition
-      }
-      
-      // Hide custom text scanlines
-      const textScanlines = document.getElementById('text-scanlines');
-      if (textScanlines) {
-        textScanlines.style.display = 'none';
-        console.log('✅ Text scanlines overlay hidden');
       }
       
       // Reset video slide protection when hiding video
@@ -1959,13 +2008,6 @@ FOR THIS, WE NEED YOUR HELP.
             // Show JA_OBIWAN video
             showVideo3Background();
             
-            // Show custom scanline overlay for text area
-            const textScanlines = document.getElementById('text-scanlines');
-            if (textScanlines) {
-              textScanlines.style.display = 'block';
-              console.log('✅ Text scanlines overlay shown');
-            }
-            
             // Enable typing for this specific animation
             shouldContinueTyping = true;
             
@@ -1980,15 +2022,16 @@ FOR THIS, WE NEED YOUR HELP.
             // Show only the FILM BY line immediately
             element.textContent = filmByLine;
             
-            // Create a separate element positioned below "A FILM BY"
+            // Create a separate element positioned above slide counter
             const bdmElement = document.createElement('div');
             bdmElement.id = 'bdm-subtitle';
+            const isMobile = window.innerWidth <= 768;
             bdmElement.style.cssText = `
               position: fixed;
-              top: 18vh;
+              bottom: ${isMobile ? '12rem' : '10.5rem'};
               left: 50%;
               transform: translateX(-50%);
-              width: 80vw;
+              width: ${isMobile ? '90vw' : '80vw'};
               z-index: 100000;
               color: #00FF00;
               font-family: var(--font-family);
@@ -2000,23 +2043,19 @@ FOR THIS, WE NEED YOUR HELP.
               pointer-events: none;
               display: block;
               white-space: pre-wrap;
-              text-shadow: 0 0 2px #00FF00, 0 0 12px #00FF00;
+              text-shadow: 0 0 2px #00FF00, 0 0 8px #00FF00, 0 0 16px #00FF00;
+              filter: saturate(1.3);
+              -webkit-filter: saturate(1.3);
             `;
-            
-            // Add mobile responsiveness
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile) {
-              bdmElement.style.width = '90vw';
-              bdmElement.style.bottom = '15vh';
-            }
             document.body.appendChild(bdmElement);
             
-            // After 22 seconds, type 6BDM in the center of the screen
-            const filmByTimeout = setTimeout(() => {
+            // Wait for video to end before typing 6BDM
+            const onVideoEnded = () => {
               if (sixBdmLine) {
+                console.log('🎬 Video ended, starting 6BDM subtitle typing...');
                 // Format the text with different font sizes (desktop vs mobile)
-                const bigSize = isMobile ? '2.5rem' : '3.3rem';
-                const smallSize = isMobile ? '0.8rem' : '0.95rem';
+                const bdmSize = isMobile ? '1.1rem' : '1.3rem';  // Much smaller for "6BDM:"
+                const subtitleSize = isMobile ? '0.8rem' : '0.95rem';  // Smaller size for subtitle
                 
                 // Typewriter effect for 6BDM text
                 const text1 = '6BDM:';
@@ -2026,16 +2065,17 @@ FOR THIS, WE NEED YOUR HELP.
                 
                 const typeInterval = setInterval(() => {
                   if (index1 < text1.length) {
-                    // Type first part (6BDM:)
-                    bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">${text1.substring(0, index1 + 1)}</span>`;
+                    // Type first part (6BDM:) - larger size
+                    bdmElement.innerHTML = `<span style="font-size: ${bdmSize}; font-weight: bold;">${text1.substring(0, index1 + 1)}</span>`;
                     index1++;
                   } else if (index2 < text2.length) {
-                    // Type second part (subtitle)
-                    bdmElement.innerHTML = `<span style="font-size: ${bigSize}; font-weight: bold;">${text1}</span><br><span style="font-size: ${smallSize};">${text2.substring(0, index2 + 1)}</span>`;
+                    // Type second part (subtitle) - smaller size
+                    bdmElement.innerHTML = `<span style="font-size: ${bdmSize}; font-weight: bold;">${text1}</span><br><span style="font-size: ${subtitleSize};">${text2.substring(0, index2 + 1)}</span>`;
                     index2++;
                   } else {
                     // Finished typing
                     clearInterval(typeInterval);
+                    document.removeEventListener('videoEnded', onVideoEnded);
                     onComplete && onComplete();
                   }
                 }, 50); // 50ms per character
@@ -2043,10 +2083,12 @@ FOR THIS, WE NEED YOUR HELP.
                 filmByTimeouts.push(typeInterval);
               } else {
                 console.log('6BDM line not found, skipping subtitle animation');
+                document.removeEventListener('videoEnded', onVideoEnded);
                 onComplete && onComplete();
               }
-            }, 22000); // 22 second delay
-            filmByTimeouts.push(filmByTimeout);
+            };
+            
+            document.addEventListener('videoEnded', onVideoEnded);
           } else {
             onComplete && onComplete();
           }
@@ -2681,14 +2723,16 @@ document.exitFullscreen();
       function apply(){
 terminals.forEach(el=>{ if(!el) return;
   el.style.color = colors[colorIndex];
-  el.style.textShadow = `0 0 2.2px ${colors[colorIndex]}, 0 0 13.2px ${colors[colorIndex]}`; // Glow always on
+  el.style.textShadow = `0 0 2px ${colors[colorIndex]}, 0 0 8px ${colors[colorIndex]}, 0 0 16px ${colors[colorIndex]}`; // Enhanced glow with 3 layers
+  el.style.filter = 'saturate(1.3)'; // Increase saturation
+  el.style.webkitFilter = 'saturate(1.3)';
 });
 
 // Update cursor color to match
 const customCursor = document.getElementById('custom-cursor');
 if (customCursor) {
   customCursor.style.background = colors[colorIndex];
-  customCursor.style.boxShadow = `0 0 2.2px ${colors[colorIndex]}, 0 0 13.2px ${colors[colorIndex]}`;
+  customCursor.style.boxShadow = `0 0 2px ${colors[colorIndex]}, 0 0 8px ${colors[colorIndex]}, 0 0 16px ${colors[colorIndex]}`;
 }
       }
       document.addEventListener('keydown', (e)=>{
