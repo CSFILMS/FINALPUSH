@@ -2328,8 +2328,11 @@ FOR THIS, WE NEED YOUR HELP.
     function safeAdvance(){ 
       if (!throttle()) return; 
       
-      // Check if we're on a video slide that requires viewing
-      if (isOnVideoSlide) {
+      // Check if current page is the video slide (FILM BY slide)
+      const currentPageText = pages[currentPage];
+      const isFilmBySlide = currentPageText && currentPageText.includes('A FILM BY EUGENE JARECKI');
+      
+      if (isFilmBySlide) {
         // Block navigation if video hasn't started or hasn't played for 3 seconds
         if (videoStartTime === null) {
           console.log(`🎬 Video slide protection: Video hasn't started yet, blocking navigation`);
@@ -2344,9 +2347,6 @@ FOR THIS, WE NEED YOUR HELP.
           return; // Block navigation
         }
         
-        // Video has played for 3+ seconds, allow navigation and reset flags
-        isOnVideoSlide = false;
-        videoStartTime = null;
         console.log('✅ Video slide protection passed, allowing navigation');
       }
       
@@ -2356,8 +2356,11 @@ FOR THIS, WE NEED YOUR HELP.
     function goBack(){ 
       if (!throttle()) return; 
       
-      // Check if we're on a video slide that requires viewing
-      if (isOnVideoSlide) {
+      // Check if current page is the video slide (FILM BY slide)
+      const currentPageText = pages[currentPage];
+      const isFilmBySlide = currentPageText && currentPageText.includes('A FILM BY EUGENE JARECKI');
+      
+      if (isFilmBySlide) {
         // Block navigation if video hasn't started or hasn't played for 3 seconds
         if (videoStartTime === null) {
           console.log(`🎬 Video slide protection: Video hasn't started yet, blocking navigation`);
@@ -2372,9 +2375,6 @@ FOR THIS, WE NEED YOUR HELP.
           return; // Block navigation
         }
         
-        // Video has played for 3+ seconds, allow navigation and reset flags
-        isOnVideoSlide = false;
-        videoStartTime = null;
         console.log('✅ Video slide protection passed, allowing navigation');
       }
       
