@@ -18,9 +18,11 @@
       height: 88vh !important;
       object-fit: contain !important;
       z-index: 1 !important;
-      display: none;
+      visibility: hidden;
+      opacity: 0;
       padding-right: 0 !important;
       filter: sepia(0.03) saturate(1.3) contrast(1.35) !important;
+      transition: opacity 0.3s ease;
     }
     
     /* Custom scanline overlay for text area only */
@@ -48,11 +50,14 @@
       .bg-video {
         width: 100vw !important;
         height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
         object-fit: cover !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         z-index: 1 !important;
+        position: fixed !important;
       }
     }
     
@@ -806,12 +811,14 @@ z-index: 2 !important;
     class="bg-video bg-video3"
     playsinline
     webkit-playsinline
+    x-webkit-airplay="allow"
     preload="auto"
     muted
+    autoplay
+    loop
     aria-hidden="true"
     tabindex="-1"
-    disablepictureinpicture
-    controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
+    style="display: block; visibility: visible;"
   >
      <source src="VIDEOS/LONGASSVIDEO.mp4" type="video/mp4" />
   </video>
@@ -1024,9 +1031,9 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
         
         // Show video as background
-        video.style.display = 'block';
         video.style.visibility = 'visible';
-        console.log('🎬 Video display set to block and visible');
+        video.style.opacity = '1';
+        console.log('🎬 Video visibility and opacity set');
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
@@ -1037,9 +1044,8 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🎬 Video paused:', video.paused);
         
         // Set video properties
-        video.muted = false; // Don't start muted
-        video.volume = 0.05; // Very quiet
-        video.loop = false; // Don't loop - freeze on last frame
+        video.loop = false; // Don't loop - will freeze at 22s
+        // Video starts muted for mobile compatibility, will unmute during play
         
         // Debug audio properties
         console.log('🔊 Video muted:', video.muted);
@@ -1100,47 +1106,31 @@ FOR THIS, WE NEED YOUR HELP.
         console.log('🔊 Video element:', video);
         console.log('🔊 Video source element:', video.querySelector('source'));
         
+        // Video has autoplay attribute, so just ensure it's playing and track start time
         setTimeout(() => {
-          // Try playing muted first (required for mobile autoplay)
-          video.play().then(() => {
-            console.log('✅ Video3 playing successfully');
-            console.log('✅ Video current time:', video.currentTime);
-            console.log('✅ Video duration:', video.duration);
-            videoStartTime = Date.now(); // Track when video started playing
+          if (!video.paused) {
+            console.log('✅ Video autoplaying via HTML attribute');
+            videoStartTime = Date.now();
             console.log('🎬 Video start time recorded:', videoStartTime);
-            
-            // Unmute after playing starts (for desktop and mobile)
-            setTimeout(() => {
-              video.muted = false;
-              video.volume = 0.05;
-              console.log('🔊 Video unmuted after playback started');
-            }, 100);
-          }).catch(err => {
-            console.log('❌ Video3 play failed:', err.message);
-            console.log('❌ Error details:', err);
-            console.log('🔧 This might require user interaction first');
-            
-            // Try again after a short delay
-            setTimeout(() => {
-              console.log('🔄 Retrying video play...');
-              video.play().then(() => {
-                console.log('✅ Video3 playing on retry');
-                videoStartTime = Date.now(); // Track when video started playing on retry
-                console.log('🎬 Video start time recorded on retry:', videoStartTime);
-                
-                // Unmute after playing starts
-                setTimeout(() => {
-                  video.muted = false;
-                  video.volume = 0.05;
-                  console.log('🔊 Video unmuted after retry');
-                }, 100);
-              }).catch(retryErr => {
-                console.log('❌ Video3 retry failed:', retryErr.message);
-                console.log('❌ Retry error details:', retryErr);
-              });
-            }, 1000);
-          });
-        }, 100); // Small delay to avoid pause conflicts
+          } else {
+            // Fallback: trigger play if autoplay didn't work
+            console.log('🔄 Autoplay didnt work, manually triggering play...');
+            video.play().then(() => {
+              console.log('✅ Video playing after manual trigger');
+              videoStartTime = Date.now();
+              console.log('🎬 Video start time recorded:', videoStartTime);
+              
+              // Unmute after playing starts (for desktop and mobile)
+              setTimeout(() => {
+                video.muted = false;
+                video.volume = 0.05;
+                console.log('🔊 Video unmuted after playback started');
+              }, 100);
+            }).catch(err => {
+              console.log('❌ Video play failed:', err.message);
+            });
+          }
+        }, 200); // Small delay to check autoplay status
         
         // Log when video loads
         video.addEventListener('loadeddata', () => {
@@ -1158,7 +1148,8 @@ FOR THIS, WE NEED YOUR HELP.
         video.pause();
         video.muted = true; // Mute audio when leaving video slide
         video.volume = 0; // Set volume to 0 as extra precaution
-        video.style.display = 'none';
+        video.style.visibility = 'hidden';
+        video.style.opacity = '0';
         console.log('🔇 Video hidden and audio muted');
       }
       
