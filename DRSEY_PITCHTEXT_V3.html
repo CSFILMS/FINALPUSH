@@ -1117,15 +1117,28 @@ FOR THIS, WE NEED YOUR HELP.
     }
 
 
-    // Video3 functions - with audio that stops when slide changes
+    // Video3 functions - EXACT COPY from working version
     function showVideo3Background() {
-      console.log('🎬 Showing video with audio...');
+      console.log('🎬 Showing JA_OBIWAN hologram video with audio...');
       const video = document.getElementById('bg-video3');
       const audio = document.getElementById('obiwan-audio');
       
+      // VISUAL DEBUG: Add text to page to confirm function is called
+      const debugDiv = document.createElement('div');
+      debugDiv.id = 'video-debug';
+      debugDiv.style.cssText = 'position:fixed;top:10px;left:10px;color:red;z-index:999999;font-size:20px;';
+      debugDiv.textContent = 'VIDEO FUNCTION CALLED';
+      document.body.appendChild(debugDiv);
+      setTimeout(() => debugDiv.remove(), 3000);
+      
       if (video) {
+        console.log('✅ Video element found');
+        
         // Show video immediately
         video.style.setProperty('display', 'block', 'important');
+        console.log('🎬 Video display set to block');
+        console.log('🎬 Video computed display:', window.getComputedStyle(video).display);
+        
         video.muted = true;   // Keep video muted
         video.loop = false;   // Don't loop - freeze at end
         video.currentTime = 0;
@@ -1143,34 +1156,18 @@ FOR THIS, WE NEED YOUR HELP.
           video.removeEventListener('error', onError);
         };
         
-        const onEnded = () => {
-          console.log('🎬 Video3 ended - freezing on last frame');
-          // Trigger the 6BDM subtitle typing when video ends
-          const videoEndedEvent = new CustomEvent('videoEnded');
-          document.dispatchEvent(videoEndedEvent);
-        };
-        
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
-        video.addEventListener('ended', onEnded);
         
+        console.log('🎬 Calling video.play()...');
         video.play().then(() => {
+          console.log('✅ Video.play() SUCCESS');
           videoStartTime = Date.now();
-          console.log('✅ Video playing');
         }).catch(err => {
-          console.log('❌ Video play blocked:', err.message);
-          // On mobile, video.play() might need user interaction
-          const playOnInteraction = () => {
-            video.play().then(() => {
-              videoStartTime = Date.now();
-              console.log('✅ Video playing after user interaction');
-            });
-            document.removeEventListener('touchstart', playOnInteraction);
-            document.removeEventListener('click', playOnInteraction);
-          };
-          document.addEventListener('touchstart', playOnInteraction, { once: true, passive: true });
-          document.addEventListener('click', playOnInteraction, { once: true });
+          console.log('❌ Video.play() FAILED:', err.message);
         });
+      } else {
+        console.log('❌ Video element NOT FOUND!');
       }
       
       if (audio) {
@@ -1278,6 +1275,12 @@ FOR THIS, WE NEED YOUR HELP.
       console.log(`📄 DETAILED Page ${index + 1} (${page.length} chars):`, page.substring(0, 200));
       if (page.includes('IN 2025, THE SIX BILLION DOLLAR MAN')) {
         console.log(`🎯 FOUND "IN 2025" content on page ${index + 1}`);
+      }
+      if (page.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH')) {
+        console.log(`🎯🎯🎯 FOUND "6BDM" VIDEO SLIDE on page ${index + 1}`);
+      }
+      if (page.includes('A FILM BY EUGENE JARECKI')) {
+        console.log(`🎯 FOUND "A FILM BY" on page ${index + 1}`);
       }
     });
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,\'"?!-—:;\n';
@@ -2387,9 +2390,13 @@ FOR THIS, WE NEED YOUR HELP.
        
        // Show video3 on 6BDM slide (content-based detection like working version)
        const pageContent = pages[pageIndex];
+       console.log(`🔍 Checking for 6BDM content on page ${pageIndex + 1}...`);
+       console.log(`🔍 Page content preview:`, pageContent ? pageContent.substring(0, 100) : 'NONE');
+       console.log(`🔍 Contains 6BDM?:`, pageContent ? pageContent.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH') : false);
        if (pageContent && pageContent.includes('6BDM: JULIAN ASSANGE AND THE PRICE OF TRUTH')) {
-         console.log('🎬 6BDM slide - Showing video3...');
+         console.log('🎬🎬🎬 6BDM SLIDE DETECTED - Calling showVideo3Background()...');
          showVideo3Background();
+         console.log('🎬🎬🎬 showVideo3Background() call completed');
        } else {
          console.log(`🎬 Not 6BDM slide, hiding video3...`);
          hideVideo3Background();
