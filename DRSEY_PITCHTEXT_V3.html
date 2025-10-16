@@ -2303,8 +2303,8 @@ FOR THIS, WE NEED YOUR HELP.
         // Clear all timeouts and intervals
         clearAllTimeouts();
         
-        // Audio control: only allow audio on trailer slide (last slide)
-        const allowedAudioSlides = [pages.length - 1]; // Trailer slide (last slide) - using 0-based index
+        // Audio control: allow audio on slide 3 (video slide) and trailer slide
+        const allowedAudioSlides = [2, pages.length - 1]; // Slide 3 (index 2) and last slide
         if (!allowedAudioSlides.includes(pageIndex)) {
           // Stop all audio when not on allowed slides
           if (currentAudio) {
