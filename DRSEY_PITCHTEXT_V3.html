@@ -1806,9 +1806,9 @@ FOR THIS, WE NEED YOUR HELP.
           
           // Show appropriate message based on page
           if (currentPage === 0) {
-            // Slide 1 - show slide counter in nav-msg location
-            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
-            navMsg.style.fontSize = '1rem';
+            // Slide 1 - show PRESS SPACEBAR message
+            navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
+            navMsg.style.fontSize = '0.9rem';
             navMsg.style.visibility='visible';
             navMsg.style.textTransform = 'uppercase';
             navMsg.style.letterSpacing = '0.1em';
@@ -1956,9 +1956,9 @@ FOR THIS, WE NEED YOUR HELP.
           
           // Show appropriate message based on page
           if (currentPage === 0) {
-            // Slide 1 - show slide counter in nav-msg location
-            navMsg.innerHTML=`SLIDE ${currentPage + 1} / ${pages.length}`;
-            navMsg.style.fontSize = '1rem';
+            // Slide 1 - show PRESS SPACEBAR message
+            navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
+            navMsg.style.fontSize = '0.9rem';
             navMsg.style.visibility='visible';
             navMsg.style.textTransform = 'uppercase';
             navMsg.style.letterSpacing = '0.1em';
@@ -2191,6 +2191,12 @@ FOR THIS, WE NEED YOUR HELP.
             el.textContent = isMobile ? wrapTextForMobile(pages[pageIndex]) : pages[pageIndex];
             // Wrap years in spans for styling
             wrapYearsInSpans(el);
+            // Show PRESS SPACEBAR message on first slide
+            navMsg.innerHTML='PRESS SPACEBAR<br>TO CONTINUE';
+            navMsg.style.fontSize = '0.9rem';
+            navMsg.style.visibility='visible';
+            navMsg.style.textTransform = 'uppercase';
+            navMsg.style.letterSpacing = '0.1em';
              // Collateral Murder slide animation removed
          } else {
            console.log(`🎯 SCRAMBLE: Displaying content for slide ${pageIndex + 1}:`, pages[pageIndex].substring(0, 100));
