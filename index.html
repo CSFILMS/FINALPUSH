@@ -1079,12 +1079,13 @@ FOR THIS, WE NEED YOUR HELP.
         video.volume = 0;
         video.defaultMuted = true;
         
-        // Reset video to beginning for sync
-        video.currentTime = 0;
+        // Skip first 2 seconds
+        video.currentTime = 2;
         
         // Set up video event listeners
         const onCanPlay = () => {
           console.log('✅ Video ready to play');
+          video.currentTime = 2; // Ensure we skip first 2 seconds
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
