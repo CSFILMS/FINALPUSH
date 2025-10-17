@@ -360,7 +360,7 @@ transparent 4px
  /* Simple image display */
      #page img {
        display: none;
-       filter: grayscale(1) brightness(0.64) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
+       filter: grayscale(1) brightness(0.8) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
        /* Grayscale + green tint: black stays black, white becomes green */
        /* Ensure all image formats including GIFs display properly */
        image-rendering: auto;
@@ -370,12 +370,12 @@ transparent 4px
       
       /* Special rule: dim only photo23 */
       #page img[id="img-23"] {
-filter: grayscale(1) brightness(0.32) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
+filter: grayscale(1) brightness(0.5) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
       }
       
       /* Special rule: make page 10 images darker */
       #page img[id^="img-10"] {
-filter: grayscale(1) brightness(0.35) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2);
+filter: grayscale(1) brightness(0.5) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4);
       }
     
     #page img.show-bg {
@@ -1448,7 +1448,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1459,10 +1459,10 @@ FOR THIS, WE NEED YOUR HELP.
       setTimeout(() => {
         img.style.opacity = '1';
         // Add brightness flash effect with intense glow
-        img.style.filter = 'brightness(1.2) sepia(1) hue-rotate(60deg) saturate(2.0)';
+        img.style.filter = 'brightness(1.2) sepia(1) hue-rotate(60deg) saturate(4.0)';
         img.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.4)';
         setTimeout(() => {
-          img.style.filter = 'brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0)';
+          img.style.filter = 'brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0)';
           img.style.boxShadow = 'none';
         }, 200);
       }, 50);
@@ -1502,7 +1502,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1548,7 +1548,7 @@ FOR THIS, WE NEED YOUR HELP.
           #collateral-photo {
             display: block !important;
             opacity: 0.35 !important;
-            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
           }
         }
         @media (max-width: 768px) {
@@ -1558,7 +1558,7 @@ FOR THIS, WE NEED YOUR HELP.
           #collateral-photo {
             display: block !important;
             opacity: 0.35 !important;
-            filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+            filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
           }
         }
         /* Override any conflicting CSS rules */
@@ -1580,7 +1580,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.5) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -1591,10 +1591,10 @@ FOR THIS, WE NEED YOUR HELP.
       setTimeout(() => {
         img.style.opacity = '1';
         // Add brightness flash effect with intense glow
-        img.style.filter = 'brightness(0.6) sepia(1) hue-rotate(60deg) saturate(2.0)';
+        img.style.filter = 'brightness(0.7) sepia(1) hue-rotate(60deg) saturate(4.0)';
         img.style.boxShadow = 'inset 0 0 50px rgba(0, 255, 0, 0.6), 0 0 30px rgba(0, 255, 0, 0.4)';
         setTimeout(() => {
-          img.style.filter = 'brightness(0.35) sepia(1) hue-rotate(60deg) saturate(2.0)';
+          img.style.filter = 'brightness(0.5) sepia(1) hue-rotate(60deg) saturate(4.0)';
           img.style.boxShadow = 'none';
         }, 200);
       }, 50);
@@ -1636,7 +1636,7 @@ FOR THIS, WE NEED YOUR HELP.
         max-width: none !important;
         max-height: none !important;
         object-fit: contain !important;
-        filter: brightness(0.7) sepia(1) hue-rotate(60deg) saturate(2.0) !important;
+        filter: brightness(0.8) sepia(1) hue-rotate(60deg) saturate(4.0) !important;
         display: block !important;
         opacity: 0 !important;
         transition: opacity 0.4s ease-in-out !important;
@@ -2635,10 +2635,10 @@ applyOverlayToImage(img, mode);
 // Check if this is photo23 (which should stay dimmed) or page 10 images (which should be darker)
 const isDimmedPhoto = img.id === 'img-23';
 const isDarkerPhoto = img.id.startsWith('img-10');
-const baseBrightness = isDarkerPhoto ? 0.35 : (isDimmedPhoto ? 0.32 : 0.64);
+const baseBrightness = isDarkerPhoto ? 0.5 : (isDimmedPhoto ? 0.5 : 0.8);
 
 if (mode === 'full') {
-  img.style.filter = `grayscale(1) brightness(${baseBrightness}) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(2)`;
+  img.style.filter = `grayscale(1) brightness(${baseBrightness}) contrast(1.2) sepia(1) hue-rotate(60deg) saturate(4)`;
 } else if (mode === 'half') {
   img.style.filter = `brightness(${baseBrightness}) grayscale(1)`;
 } else if (mode === 'off') {
