@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>PRICEOFTRUTH</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
     /* Background video - sized to show full width */
     .bg-video {
@@ -17,7 +17,7 @@
       object-position: center center;
       z-index: 2147483647;
       pointer-events: none;
-      display: block;
+      display: none;
       animation: none;
       border: none;
       margin: 0;
@@ -852,13 +852,17 @@ z-index: 2 !important;
   <video
     id="bg-video3"
     class="bg-video bg-video3"
+    autoplay
+    muted
     playsinline
+    loop
     preload="metadata"
     aria-hidden="true"
     tabindex="-1"
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
-    style="display: none;"
+    volume="0"
+    defaultMuted
   >
      <source src="VIDEOS/HAVETOENDSOMEHOW.mp4" type="video/mp4" />
   </video>
@@ -1060,116 +1064,55 @@ FOR THIS, WE NEED YOUR HELP.
 
     // Video3 functions - with audio that stops when slide changes
     function showVideo3Background() {
+      console.log('🎬 Showing video...');
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        console.log('🎬 showVideo3Background called - showing holofreeze video');
+        console.log('✅ Video element found, showing...');
         
-        // Show video
         video.style.setProperty('display', 'block', 'important');
+        console.log('🎬 Video display set to block with !important');
+        console.log('🎬 Video computed style:', window.getComputedStyle(video).display);
         
-        // Debug video source
-        console.log('🎬 Video src:', video.querySelector('source')?.src);
-        console.log('🎬 Video current src:', video.currentSrc);
-        console.log('🎬 Video ready state:', video.readyState);
-        console.log('🎬 Video network state:', video.networkState);
-        console.log('🎬 Video duration:', video.duration);
-        console.log('🎬 Video paused:', video.paused);
+        // Ensure video is completely muted
+        video.muted = true;
+        video.volume = 0;
+        video.defaultMuted = true;
         
-        // Set video properties
-        video.muted = false; // Don't start muted
-        video.volume = 0.67;
-        video.loop = false; // Don't loop - freeze on last frame
-        
-        // Debug audio properties
-        console.log('🔊 Video muted:', video.muted);
-        console.log('🔊 Video volume:', video.volume);
-        console.log('🔊 Video defaultMuted:', video.defaultMuted);
-        
-        // Unlock audio context first
-        unlockAudioContext();
+        // Reset video to beginning for sync
+        video.currentTime = 0;
         
         // Set up video event listeners
         const onCanPlay = () => {
-          console.log('✅ Video3 ready to play');
-          video.currentTime = 1; // Set start time when video is ready to play
-          console.log('🎬 Video currentTime set to 1 second on canplay');
+          console.log('✅ Video ready to play');
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
         
         const onError = (e) => {
-          console.log('❌ Video3 failed to load:', e);
-          console.log('❌ Video error code:', video.error ? video.error.code : 'unknown');
-          console.log('❌ Video error message:', video.error ? video.error.message : 'unknown');
-          console.log('❌ Video network state:', video.networkState);
-          console.log('❌ Video ready state:', video.readyState);
+          console.log('❌ Video failed to load:', e);
           video.removeEventListener('canplay', onCanPlay);
           video.removeEventListener('error', onError);
         };
         
-        const onEnded = () => {
-          console.log('🎬 Video3 ended - freezing on last frame');
-          // Video will automatically freeze on the last frame when ended
-        };
-        
         video.addEventListener('canplay', onCanPlay);
         video.addEventListener('error', onError);
-        video.addEventListener('ended', onEnded);
-        video.addEventListener('loadstart', () => {
-          console.log('🔄 Video load started');
-        });
-        video.addEventListener('loadeddata', () => {
-          console.log('📊 Video data loaded');
-          console.log('🔊 Video audio tracks:', video.audioTracks ? video.audioTracks.length : 'not supported');
-          console.log('🔊 Video has audio:', !video.muted && video.volume > 0);
-        });
         
-        // Try to play video with audio after a small delay to avoid pause conflicts
-        console.log('🔊 Attempting to play video with audio...');
-        console.log('🔊 Video element:', video);
-        console.log('🔊 Video source element:', video.querySelector('source'));
-        
-        setTimeout(() => {
-          video.play().then(() => {
-            console.log('✅ Video3 playing with audio successfully');
-            console.log('✅ Video current time:', video.currentTime);
-            console.log('✅ Video duration:', video.duration);
-            console.log('✅ Video muted after play:', video.muted);
-            videoStartTime = Date.now(); // Track when video started playing
-            console.log('🎬 Video start time recorded:', videoStartTime);
-          }).catch(err => {
-            console.log('❌ Video3 play failed:', err.message);
-            console.log('❌ Error details:', err);
-            console.log('🔧 This might require user interaction first');
-            
-            // Try again after a short delay
-            setTimeout(() => {
-              console.log('🔄 Retrying video play...');
-              video.play().then(() => {
-                console.log('✅ Video3 playing with audio on retry');
-                videoStartTime = Date.now(); // Track when video started playing on retry
-                console.log('🎬 Video start time recorded on retry:', videoStartTime);
-              }).catch(retryErr => {
-                console.log('❌ Video3 retry failed:', retryErr.message);
-                console.log('❌ Retry error details:', retryErr);
-              });
-            }, 1000);
-          });
-        }, 100); // Small delay to avoid pause conflicts
-        
-        // Ensure audio is enabled after video loads
-        video.addEventListener('loadeddata', () => {
-          console.log('🔊 Video loaded - ensuring audio is enabled');
-          video.muted = false;
-          video.volume = 0.67;
-          console.log('🔊 Video muted after load:', video.muted);
-          console.log('🔊 Video volume after load:', video.volume);
+        video.play().then(() => {
+          console.log('✅ Video playing from start (muted)');
+          console.log('🎬 Video dimensions:', video.videoWidth, 'x', video.videoHeight);
+          console.log('🎬 Video position:', video.getBoundingClientRect());
+          videoStartTime = Date.now();
+        }).catch(err => {
+          console.log('❌ Video play failed:', err.message);
         });
+      } else {
+        console.error('❌ Video element not found!');
       }
     }
 
     function hideVideo3Background() {
+      console.log('🛑 Hiding video...');
       const video = document.getElementById('bg-video3');
       
       if (video) {
