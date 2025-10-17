@@ -16,6 +16,7 @@
       object-fit: contain;
       object-position: center center;
       z-index: 1;
+      opacity: 0;
       pointer-events: none;
       display: block;
       animation: none;
@@ -25,6 +26,7 @@
       box-sizing: border-box;
       max-width: 90vw;
       max-height: 80vh;
+      transition: opacity 0.3s ease;
     }
     
     /* Mobile video - sized to show full width */
@@ -1064,8 +1066,10 @@ FOR THIS, WE NEED YOUR HELP.
       if (video) {
         console.log('🎬 showVideo3Background called - showing holofreeze video');
         
-        // Show video - now that inline style is removed, this should work
+        // Show video by setting opacity and display
         video.style.setProperty('display', 'block', 'important');
+        video.style.opacity = '1';
+        video.style.pointerEvents = 'auto';
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
@@ -1172,8 +1176,12 @@ FOR THIS, WE NEED YOUR HELP.
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        video.pause();
-        video.style.setProperty('display', 'none', 'important');
+        video.style.opacity = '0';
+        video.style.pointerEvents = 'none';
+        setTimeout(() => {
+          video.pause();
+          video.currentTime = 0;
+        }, 300); // Wait for fade out transition
       }
     }
     
