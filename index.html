@@ -79,9 +79,9 @@
     }
     
     :root { 
-      --fg:#00FF00; 
+      --fg:#00DD00; 
       --bg:#000; 
-      --accent:#00FF00; 
+      --accent:#00DD00; 
       --soft:#66FF66;
       --font-family: 'Crisp', 'Courier New', monospace;
     }
@@ -2537,7 +2537,7 @@ document.exitFullscreen();
       const navNext = document.getElementById('nav-next');
       const terminals = [document.getElementById('unscramble'), document.getElementById('prompt'), document.getElementById('nav-msg'), navPrev, navNext, document.getElementById('slide-counter')];
       let colorIndex=1; // Default to bright green (option 2)
-      const colors=['#CCCCCC','#00FF00','#66FF66'];
+      const colors=['#CCCCCC','#00DD00','#66FF66'];
       function apply(){
 terminals.forEach(el=>{ if(!el) return;
   el.style.color = colors[colorIndex];
