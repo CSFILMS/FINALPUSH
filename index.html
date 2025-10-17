@@ -15,8 +15,7 @@
       height: auto;
       object-fit: contain;
       object-position: center center;
-      z-index: 1;
-      opacity: 0;
+      z-index: 2147483647;
       pointer-events: none;
       display: block;
       animation: none;
@@ -26,7 +25,6 @@
       box-sizing: border-box;
       max-width: 90vw;
       max-height: 80vh;
-      transition: opacity 0.3s ease;
     }
     
     /* Mobile video - sized to show full width */
@@ -860,6 +858,7 @@ z-index: 2 !important;
     tabindex="-1"
     disablepictureinpicture
     controlslist="nodownload noplaybackrate noptimizequality nodatachannel"
+    style="display: none;"
   >
      <source src="VIDEOS/HAVETOENDSOMEHOW.mp4" type="video/mp4" />
   </video>
@@ -1066,10 +1065,8 @@ FOR THIS, WE NEED YOUR HELP.
       if (video) {
         console.log('🎬 showVideo3Background called - showing holofreeze video');
         
-        // Show video by setting opacity and display
+        // Show video
         video.style.setProperty('display', 'block', 'important');
-        video.style.opacity = '1';
-        video.style.pointerEvents = 'auto';
         
         // Debug video source
         console.log('🎬 Video src:', video.querySelector('source')?.src);
@@ -1176,12 +1173,8 @@ FOR THIS, WE NEED YOUR HELP.
       const video = document.getElementById('bg-video3');
       
       if (video) {
-        video.style.opacity = '0';
-        video.style.pointerEvents = 'none';
-        setTimeout(() => {
-          video.pause();
-          video.currentTime = 0;
-        }, 300); // Wait for fade out transition
+        video.pause();
+        video.style.setProperty('display', 'none', 'important');
       }
     }
     
@@ -1935,7 +1928,7 @@ FOR THIS, WE NEED YOUR HELP.
               left: 60%;
               transform: translate(-50%, -50%);
               width: 80vw;
-              z-index: 100000;
+              z-index: 2147483647;
               color: var(--soft);
               font-family: var(--font-family);
               font-size: 1.8rem;
